@@ -88,36 +88,7 @@ export default function Navbar() {
         <div className="custom-container flex items-center justify-start lg:justify-center">
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center justify-center gap-6 flex-1 ">
-            {[
-               { name: "Home", submenu: [] },
-              {
-                name: "New Arrivals",
-                submenu: [
-                  "Shop All",
-                  "New Arrivals",
-                  "Artificial & Preserved",
-                  "Coming Soon",
-                ],
-              },
-              {
-                name: "Houseplants",
-                submenu: [
-                  "Best Deals",
-                  "Pet-Friendly",
-                  "Easy Care",
-                  "Low Light",
-                ],
-              },
-              {
-                name: "Outdoor & Patio",
-                submenu: ["Small", "Medium", "Large"],
-              },
-              { name: "Orchids & Blooms", submenu: ["Bundles"] },
-              { name: "Gifts", submenu: [] },
-              { name: "Planters", submenu: [] },
-              { name: "Plant Care", submenu: [] },
-              { name: "Sale", submenu: [], className: "text-red-500" },
-            ].map((item) => (
+            {menuItems.map((item) => (
               <div key={item.name} className="group relative">
                 <Link
                   href={`/${item.name
@@ -164,36 +135,7 @@ export default function Navbar() {
               className="w-[300px] bg-white text-black pl-4"
             >
               <nav className="flex flex-col gap-2 ">
-                {[
-                  { name: "Home", submenu: [] },
-                  {
-                    name: "New Arrivals",
-                    submenu: [
-                      "Shop All",
-                      "New Arrivals",
-                      "Artificial & Preserved",
-                      "Coming Soon",
-                    ],
-                  },
-                  {
-                    name: "Houseplants",
-                    submenu: [
-                      "Best Deals",
-                      "Pet-Friendly",
-                      "Easy Care",
-                      "Low Light",
-                    ],
-                  },
-                  {
-                    name: "Outdoor & Patio",
-                    submenu: ["Small", "Medium", "Large"],
-                  },
-                  { name: "Orchids & Blooms", submenu: ["Bundles"] },
-                  { name: "Gifts", submenu: [] },
-                  { name: "Planters", submenu: [] },
-                  { name: "Plant Care", submenu: [] },
-                  { name: "Sale", submenu: [], className: "text-red-500" },
-                ].map((item) => (
+                {menuItems.map((item) => (
                   <div key={item.name}>
                     <Link
                       href={`/${item.name
@@ -234,3 +176,29 @@ export default function Navbar() {
     </div>
   );
 }
+
+const menuItems = [
+  { name: "Home", submenu: [] },
+  {
+    name: "New Arrivals",
+    submenu: [
+      "Shop All",
+      "New Arrivals",
+      "Artificial & Preserved",
+      "Coming Soon",
+    ],
+  },
+  {
+    name: "Houseplants",
+    submenu: ["Best Deals", "Pet-Friendly", "Easy Care", "Low Light"],
+  },
+  {
+    name: "Outdoor & Patio",
+    submenu: ["Small", "Medium", "Large"],
+  },
+  { name: "Orchids & Blooms", submenu: ["Bundles"] },
+  { name: "Gifts", submenu: [] },
+  { name: "Planters", submenu: [] },
+  { name: "Plant Care", submenu: [] },
+  { name: "Sale", submenu: [], className: "text-red-500" },
+];
