@@ -5,6 +5,15 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-primaryBlue: #1a1a40;
+  --color-primaryBG: #F8F5F2;
+
+
+
+
+
+
+
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -118,5 +127,50 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .card {
+    @apply container flex h-20 w-full items-center  justify-between;
+  }
+}
+
+@layer utilities {
+  .custom-container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 80rem;
+    padding-right: 1rem;
+    padding-left: 0;
+  }
+
+  @screen md {
+    .custom-container {
+      padding-right: 1.5rem;
+    }
+  }
+
+  @screen lg {
+    .custom-container {
+      padding-right: 2rem;
+    }
+  }
+
+  /* Sliding Text Animation */
+  @keyframes slide {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-slide {
+    animation: slide 10s linear infinite;
+    display: inline-block;
+    white-space: nowrap;
   }
 }
