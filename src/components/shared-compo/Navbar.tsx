@@ -13,14 +13,24 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
+const slideText = [
+  "Free Shipping Over $79 + 30-Day Guarantee",
+  "New Arrivals Just Dropped — Shop Now!",
+  "Sign Up & Get 10% Off Your First Order",
+  "Limited Time: Buy 1 Get 1 Free on Select Items",
+];
+
 export default function Navbar() {
   return (
     <div className="w-full">
       {/* Top Layer (Green with Sliding Text) */}
-      <div className="bg-primaryBlue text-white text-sm py-2 overflow-hidden">
-        <div className="custom-container flex justify-between items-center">
-          <div className="animate-slide whitespace-nowrap">
-            Free Shipping Over $79 + 30-Day Guarantee
+      <div className="bg-primaryGreen text-white text-sm py-2 overflow-hidden">
+        <div className="custom-container">
+          <div className="animate-slide flex gap-[50%] whitespace-nowrap">
+            <span>Free Shipping Over $79 + 30-Day Guarantee</span>
+            <span>New Arrivals Just Dropped — Shop Now!</span>
+            <span>Sign Up & Get 10% Off Your First Order</span>
+            <span>Limited Time: Buy 1 Get 1 Free on Select Items</span>
           </div>
         </div>
       </div>

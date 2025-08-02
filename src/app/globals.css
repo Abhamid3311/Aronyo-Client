@@ -5,14 +5,8 @@
 
 @theme inline {
   --color-background: var(--background);
-  --color-primaryBlue: #1a1a40;
-  --color-primaryBG: #F8F5F2;
-
-
-
-
-
-
+  --color-primaryGreen: #016630;
+  --color-primaryBG: #f8f5f2;
 
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -169,8 +163,8 @@
   }
 
   .animate-slide {
-    animation: slide 10s linear infinite;
-    display: inline-block;
-    white-space: nowrap;
+    animation: slide 30s linear infinite; /* increase duration for smoother scroll */
+    display: inline-flex;
+    align-items: center;
   }
 }
