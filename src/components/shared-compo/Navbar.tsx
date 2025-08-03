@@ -97,9 +97,9 @@ export default function Navbar() {
       <div className="bg-white py-2 border-t ">
         <div className="custom-container flex items-center justify-start lg:justify-center">
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center justify-center gap-6 flex-1 ">
+          <nav className="hidden lg:flex items-center justify-center gap-3 lg:gap-6 flex-1">
             {menuItems.map((item) => (
-              <div key={item.name} className="group relative">
+              <div key={item.name} className="relative group">
                 <Link
                   href={`/${item.name
                     .toLowerCase()
@@ -111,12 +111,13 @@ export default function Navbar() {
                 >
                   {item.name}
                 </Link>
+
                 {item.submenu.length > 0 && (
-                  <div className="absolute left-0 mt-2 w-48 hidden group-hover:block bg-white text-black shadow-lg rounded-md z-10 pointer-events-none">
+                  <div className="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-md z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     {item.submenu.map((subItem) => (
                       <span
                         key={subItem}
-                        className="block px-4 py-2 hover:bg-gray-100"
+                        className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
                         onClick={(e) => e.preventDefault()}
                       >
                         {subItem}
