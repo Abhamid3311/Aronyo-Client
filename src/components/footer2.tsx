@@ -1,4 +1,4 @@
-import { Logo, LogoImage, LogoText } from "../logo";
+import { Logo, LogoImage, LogoText } from "@/components/logo";
 
 interface MenuItem {
   title: string;
@@ -24,7 +24,7 @@ interface Footer2Props {
   }[];
 }
 
-const Footer = ({
+const Footer2 = ({
   logo = {
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/block-1.svg",
     alt: "blocks for shadcn/ui",
@@ -129,4 +129,4 @@ const Footer = ({
   );
 };
 
-export { Footer };
+export { Footer2 };
