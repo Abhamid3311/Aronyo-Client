@@ -27,11 +27,11 @@ interface Footer2Props {
 const Footer = ({
   logo = {
     src: "/Aronyo logo.png",
-    alt: "blocks for shadcn/ui",
-    title: "Shadcnblocks.com",
-    url: "https://www.shadcnblocks.com",
+    alt: "Aronyo Logo",
+    title: "Aronyo",
+    url: "#",
   },
-  tagline = "Components made easy.",
+  tagline = "Class. Craft. Aronyo.",
 
   menuItems = [
     {
@@ -84,10 +84,12 @@ const Footer = ({
     <section className="pt-20">
       <div className="container">
         <footer>
+
+
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
             <div className="col-span-2 mb-8 lg:mb-0">
               <div className="flex items-center gap-2 lg:justify-start">
-                <Logo url="https://shadcnblocks.com">
+                <Logo url="/">
                   <LogoImage
                     src={`/${logo.src}`}
                     alt={logo.alt}
@@ -115,6 +117,8 @@ const Footer = ({
               </div>
             ))}
           </div>
+
+
           <div className="text-muted-foreground mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium md:flex-row md:items-center">
             <p>{copyright}</p>
             <ul className="flex gap-4">
@@ -125,6 +129,7 @@ const Footer = ({
               ))}
             </ul>
           </div>
+
         </footer>
       </div>
     </section>
