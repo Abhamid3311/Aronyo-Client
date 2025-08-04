@@ -26,12 +26,13 @@ interface Footer2Props {
 
 const Footer = ({
   logo = {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/block-1.svg",
+    src: "/Aronyo logo.png",
     alt: "blocks for shadcn/ui",
     title: "Shadcnblocks.com",
     url: "https://www.shadcnblocks.com",
   },
   tagline = "Components made easy.",
+
   menuItems = [
     {
       title: "Product",
@@ -72,14 +73,15 @@ const Footer = ({
       ],
     },
   ],
-  copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
+
+  copyright = "© 2025 Aronyo. All rights reserved.",
   bottomLinks = [
     { text: "Terms and Conditions", url: "#" },
     { text: "Privacy Policy", url: "#" },
   ],
 }: Footer2Props) => {
   return (
-    <section className="py-32">
+    <section className="pt-20">
       <div className="container">
         <footer>
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
@@ -87,9 +89,9 @@ const Footer = ({
               <div className="flex items-center gap-2 lg:justify-start">
                 <Logo url="https://shadcnblocks.com">
                   <LogoImage
-                    src={logo.src}
+                    src={`/${logo.src}`}
                     alt={logo.alt}
-                    title={logo.title}
+                    // title={logo.title}
                     className="h-10"
                   />
                   <LogoText className="text-xl">{logo.title}</LogoText>
