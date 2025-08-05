@@ -12,6 +12,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1 {
+    @apply text-4xl font-bold text-primaryGreen font-[--font-playfair];
+  }
 }
 
 @layer components {
@@ -65,7 +68,7 @@
   --color-primaryBG: #f8f5f2;
 
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
 
   --color-sidebar-ring: var(--sidebar-ring);
