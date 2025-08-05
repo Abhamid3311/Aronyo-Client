@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
@@ -12,6 +11,7 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const slideText = [
   "Free Shipping Over $79 + 30-Day Guarantee",
@@ -20,7 +20,50 @@ const slideText = [
   "Limited Time: Buy 1 Get 1 Free on Select Items",
 ];
 
+const menuItems = [
+  { name: "Home", link: "/", submenu: [] },
+  {
+    name: "New Arrivals",
+    link: "/new-arrivals",
+    submenu: [
+      { name: "Shop All", link: "/new-arrivals/shop-all" },
+      { name: "New Arrivals", link: "/new-arrivals" },
+      { name: "Artificial & Preserved", link: "/new-arrivals/artificial" },
+      { name: "Coming Soon", link: "/new-arrivals/coming-soon" },
+    ],
+  },
+  {
+    name: "Houseplants",
+    link: "/house-plants",
+    submenu: [
+      { name: "Best Deals", link: "/houseplants/best-deals" },
+      { name: "Pet-Friendly", link: "/houseplants/pet-friendly" },
+      { name: "Easy Care", link: "/houseplants/easy-care" },
+      { name: "Low Light", link: "/houseplants/low-light" },
+    ],
+  },
+  {
+    name: "Outdoor & Patio",
+    link: "/outdoor-patio",
+    submenu: [
+      { name: "Small", link: "/outdoor-patio/small" },
+      { name: "Medium", link: "/outdoor-patio/medium" },
+      { name: "Large", link: "/outdoor-patio/large" },
+    ],
+  },
+  {
+    name: "Orchids & Blooms",
+    link: "/orchids-blooms",
+    submenu: [{ name: "Bundles", link: "/orchids-blooms/bundles" }],
+  },
+  { name: "Gifts", link: "/gifts", submenu: [] },
+  { name: "Planters", link: "/planters", submenu: [] },
+  { name: "Plant Care", link: "/plant-care", submenu: [] },
+  { name: "Sale", link: "/on-sale", submenu: [], className: "text-red-500" },
+];
+
 export default function Navbar() {
+  const pathname = usePathname();
   return (
     <div className="w-full">
       {/* Top Layer (Green with Sliding Text) */}
@@ -36,7 +79,7 @@ export default function Navbar() {
       </div>
 
       {/* Middle Layer */}
-      <div className="bg-white py-4 ">
+      <div className="bg-white py-3 ">
         <div className="custom-container flex items-center justify-between gap-2">
           {/* Logo on Left */}
           <Link href="/" className="text-xl font-bold text-primary">
@@ -94,42 +137,44 @@ export default function Navbar() {
       </div>
 
       {/* Bottom Layer (Menu) */}
-      <div className="bg-white py-2 border-t ">
-        <div className="custom-container flex items-center justify-start lg:justify-center">
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center justify-center gap-3 lg:gap-6 flex-1">
-            {menuItems.map((item) => (
-              <div key={item.name} className="relative group">
-                <Link
-                  href={`/${item.name
-                    .toLowerCase()
-                    .replace(" & ", "-")
-                    .replace(" ", "-")}`}
-                  className={`hover:text-green-600 ${
-                    item.className || "text-gray-700"
-                  }`}
-                >
-                  {item.name}
-                </Link>
+      <div className="py-4 border-t shadow">
+        <div className="custom-container flex items-center justify-between lg:justify-center">
 
-                {item.submenu.length > 0 && (
-                  <div className="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-md z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    {item.submenu.map((subItem) => (
-                      <span
-                        key={subItem}
-                        className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        {subItem}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+          {/* Desktop Menu */}
+          <nav className="hidden lg:flex items-center justify-center gap-10 flex-1">
+            {menuItems.map((item) => {
+              const isActive =
+                pathname === item.link || pathname.startsWith(item.link + "/");
+              return (
+                <div key={item.name} className="relative group">
+                  <Link
+                    href={item.link}
+                    className={`hover:text-green-600 ${
+                      isActive ? "text-green-600 font-medium" : "text-gray-700"
+                    } ${item.className || ""}`}
+                  >
+                    {item.name}
+                  </Link>
+
+                  {item.submenu.length > 0 && (
+                    <div className="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-md z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      {item.submenu.map((sub) => (
+                        <Link
+                          key={sub.name}
+                          href={sub.link}
+                          className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </nav>
 
-          {/* Mobile Menu Trigger */}
+          {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -138,47 +183,50 @@ export default function Navbar() {
                 className="lg:hidden text-gray-700 border-gray-300 hover:bg-gray-100"
               >
                 <MenuIcon className="h-6 w-6" />
-                <span className="sr-only">Toggle navigation menu</span>
+                <span className="sr-only">Toggle navigation</span>
               </Button>
             </SheetTrigger>
             <SheetContent
               side="right"
               className="w-[300px] bg-white text-black pl-4"
             >
-              <nav className="flex flex-col gap-2 ">
-                {menuItems.map((item) => (
-                  <div key={item.name}>
-                    <Link
-                      href={`/${item.name
-                        .toLowerCase()
-                        .replace(" & ", "-")
-                        .replace(" ", "-")}`}
-                      className={`block py-2 hover:bg-gray-100 ${
-                        item.className || "text-gray-700"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                    {item.submenu.length > 0 && (
-                      <div className="ml-4 flex flex-col gap-2">
-                        {item.submenu.map((subItem) => (
-                          <Link
-                            key={subItem}
-                            href={`/${item.name
-                              .toLowerCase()
-                              .replace(" & ", "-")
-                              .replace(" ", "-")}/${subItem
-                              .toLowerCase()
-                              .replace(" ", "-")}`}
-                            className="block py-1 pl-4 text-sm hover:bg-gray-100"
-                          >
-                            {subItem}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+              <nav className="flex flex-col gap-2 mt-4">
+                {menuItems.map((item) => {
+                  const isActive =
+                    pathname === item.link ||
+                    pathname.startsWith(item.link + "/");
+                  return (
+                    <div key={item.name}>
+                      <Link
+                        href={item.link}
+                        className={`block py-2 ${
+                          isActive
+                            ? "text-green-600 font-medium"
+                            : "text-gray-700"
+                        } ${item.className || ""}`}
+                      >
+                        {item.name}
+                      </Link>
+                      {item.submenu.length > 0 && (
+                        <div className="ml-4 flex flex-col gap-1">
+                          {item.submenu.map((sub) => (
+                            <Link
+                              key={sub.name}
+                              href={sub.link}
+                              className={`block py-1 pl-4 text-sm hover:bg-gray-100 ${
+                                pathname === sub.link
+                                  ? "text-green-600 font-medium"
+                                  : ""
+                              }`}
+                            >
+                              {sub.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </nav>
             </SheetContent>
           </Sheet>
@@ -187,29 +235,3 @@ export default function Navbar() {
     </div>
   );
 }
-
-const menuItems = [
-  { name: "Home", submenu: [] },
-  {
-    name: "New Arrivals",
-    submenu: [
-      "Shop All",
-      "New Arrivals",
-      "Artificial & Preserved",
-      "Coming Soon",
-    ],
-  },
-  {
-    name: "Houseplants",
-    submenu: ["Best Deals", "Pet-Friendly", "Easy Care", "Low Light"],
-  },
-  {
-    name: "Outdoor & Patio",
-    submenu: ["Small", "Medium", "Large"],
-  },
-  { name: "Orchids & Blooms", submenu: ["Bundles"] },
-  { name: "Gifts", submenu: [] },
-  { name: "Planters", submenu: [] },
-  { name: "Plant Care", submenu: [] },
-  { name: "Sale", submenu: [], className: "text-red-500" },
-];
