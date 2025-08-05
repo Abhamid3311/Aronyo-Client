@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { Logo, LogoImage, LogoText } from "../logo";
+import Image from "next/image";
 
 interface MenuItem {
   title: string;
@@ -81,23 +83,20 @@ const Footer = ({
   ],
 }: Footer2Props) => {
   return (
-    <section className="pt-20">
-      <div className="container">
+    <section className="pt-10 lg:pt-20 bg-primaryBG pl-5 lg:pl-0">
+      <div className="custom-container ">
         <footer>
-
-
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-8 lg:grid-cols-6 py-5">
             <div className="col-span-2 mb-8 lg:mb-0">
               <div className="flex items-center gap-2 lg:justify-start">
-                <Logo url="/">
-                  <LogoImage
-                    src={`/${logo.src}`}
-                    alt={logo.alt}
-                    // title={logo.title}
-                    className="h-10"
+                <Link href="/" className="text-xl font-bold text-primary">
+                  <Image
+                    src={"/Aronyo logo.png"}
+                    alt="Aronyo logo"
+                    width={130}
+                    height={40}
                   />
-                  <LogoText className="text-xl">{logo.title}</LogoText>
-                </Logo>
+                </Link>
               </div>
               <p className="mt-4 font-bold">{tagline}</p>
             </div>
@@ -118,8 +117,7 @@ const Footer = ({
             ))}
           </div>
 
-
-          <div className="text-muted-foreground mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium md:flex-row md:items-center">
+          <div className="text-muted-foreground flex flex-col justify-between gap-4 border-t  py-8 text-sm font-medium md:flex-row md:items-center">
             <p>{copyright}</p>
             <ul className="flex gap-4">
               {bottomLinks.map((link, linkIdx) => (
@@ -129,7 +127,6 @@ const Footer = ({
               ))}
             </ul>
           </div>
-
         </footer>
       </div>
     </section>
