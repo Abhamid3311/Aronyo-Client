@@ -6,11 +6,11 @@ import { Gift, ShieldCheck, Smile } from "lucide-react";
 const Hero = () => {
   return (
     <>
-      <div className="bg-primaryBG  h-auto lg:h-[80vh]">
+      <div className="bg-primaryBG  h-auto lg:h-[80vh] px-5">
         <div className="flex flex-col lg:flex-row items-center justify-center custom-container gap-5">
           {/* Left Column */}
           <div className="w-full lg:w-2/5  p-5">
-            <h2 className="text-4xl lg:text-7xl font-semibold font-[--font-playfair]">
+            <h2 className="text-4xl md:text-5xl lg:text-7xl text-center md:text-left  font-semibold font-[--font-playfair]">
               More Plants, More Colors
             </h2>
 
@@ -29,12 +29,12 @@ const Hero = () => {
 
           {/* Right Column */}
           <div className="w-full lg:w-3/5">
-            <div className="relative w-full h-auto lg:h-[80vh]">
+            <div className="relative w-full h-80 lg:h-[80vh]">
               <Image
                 src="/Improved-Meyer-Lemon-Hero-Isabella.png"
                 alt="Meyer-Lemon-Hero-Isabella"
                 fill
-                className="object-cover w-full"
+                className="object-cover w-full h-full"
               />
             </div>
           </div>
@@ -75,7 +75,7 @@ const ServiceSection = () => {
   ];
 
   return (
-    <div className="bg-secondaryBG">
+    <div className="bg-secondaryBG px-5">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-5 custom-container py-10 ">
         {services.map((item) => (
           <div key={item.id} className="flex items-start gap-2">

@@ -1,4 +1,5 @@
 import Category from "@/components/Home/Category";
+import Help from "@/components/Home/Help";
 import Hero from "@/components/Home/Hero";
 import { BASE_API_URL } from "@/config/api";
 
@@ -13,7 +14,9 @@ export default async function Home() {
   return (
     <div>
       <Hero />
+
       <Category data={categories?.data} />
+      <Help />
     </div>
   );
 }
