@@ -21,10 +21,10 @@ interface CategoryProps {
 const Category: React.FC<CategoryProps> = ({ data }) => {
   console.log(data);
   return (
-    <div className="min-h-screen custom-container my-10 px-5 lg:px-10">
-      <h1 className="">Plants For Everyone</h1>
+    <div className="min-h-screen custom-container my-10">
+      <h1 className="px-5 lg:px-0">Plants For Everyone</h1>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-5 ">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5 my-5 px-5 lg:px-0">
         {data
           .map((item) => <PlantCard key={item._id} plant={item} />)
           .slice(0, 8)}
