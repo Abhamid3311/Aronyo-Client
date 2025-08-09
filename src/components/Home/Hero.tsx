@@ -14,13 +14,13 @@ const Hero = () => {
               More Plants, More Colors
             </h2>
 
-            <div className="flex flex-col lg:flex-row items-center gap-3 mt-3">
-              <Button className="bg-primaryGreen hover:bg-green-500 px-5 py-6 rounded-md text-lg font-bold font-[--font-playfair]">
+            <div className="flex flex-col lg:flex-row items-center gap-2 mt-3">
+              <Button className="bg-primaryGreen hover:bg-green-500 px-3 py-6 rounded-md text-lg font-bold font-[--font-playfair]">
                 Shop New Collections{" "}
                 <span className="ml-1 inline-block text-xl">→</span>
               </Button>
 
-              <Button className="bg-primaryBG text-primaryGreen hover:bg-white px-5 py-6 rounded-md text-lg font-bold font-[--font-playfair]">
+              <Button className="bg-primaryBG text-primaryGreen hover:bg-white px-3 py-6 rounded-md text-lg font-bold font-[--font-playfair]">
                 Shop Mayer Lemon{" "}
                 <span className="ml-1 inline-block text-xl">→</span>
               </Button>
@@ -92,3 +92,5 @@ const ServiceSection = () => {
     </div>
   );
 };
+
+
