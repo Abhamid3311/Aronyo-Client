@@ -6,7 +6,7 @@ import { Gift, ShieldCheck, Smile } from "lucide-react";
 const Hero = () => {
   return (
     <>
-      <div className="bg-primaryBG  h-auto lg:min-h-screen">
+      <div className="bg-primaryBG  h-auto lg:h-[80vh]">
         <div className="flex flex-col lg:flex-row items-center justify-center custom-container gap-5">
           {/* Left Column */}
           <div className="w-full lg:w-2/5  p-5">
@@ -29,7 +29,7 @@ const Hero = () => {
 
           {/* Right Column */}
           <div className="w-full lg:w-3/5">
-            <div className="relative w-full h-screen">
+            <div className="relative w-full h-auto lg:h-[80vh]">
               <Image
                 src="/Improved-Meyer-Lemon-Hero-Isabella.png"
                 alt="Meyer-Lemon-Hero-Isabella"
@@ -75,8 +75,8 @@ const ServiceSection = () => {
   ];
 
   return (
-    <div>
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-5 custom-container py-10">
+    <div className="bg-secondaryBG">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-5 custom-container py-10 ">
         {services.map((item) => (
           <div key={item.id} className="flex items-start gap-2">
             <div>{item.icon}</div>

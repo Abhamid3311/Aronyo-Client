@@ -69,6 +69,7 @@
   --color-background: var(--background);
   --color-primaryGreen: #007b5f;
   --color-primaryBG: #f8f5f2;
+  --color-secondaryBG: #F9F8F7;
 
   --color-foreground: var(--foreground);
   --font-sans: var(--font-playfair);
