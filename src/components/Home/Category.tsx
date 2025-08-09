@@ -1,23 +1,34 @@
 import React from "react";
+import PlantCard from "../Cards/PlantCard";
 
 export interface ICategory {
+  _id: string;
   name: string;
   slug: string;
-  description?: string;
-  image?: string;
+  description: string;
+  image: string;
   isActive: boolean;
+  createdAt: string; // or Date if you want to parse it
+  updatedAt: string; // or Date
+  createdBy: string;
+  __v: number;
 }
 
-type CategoryProps = {
-  categoriesData: ICategory[];
-};
+interface CategoryProps {
+  data: ICategory[];
+}
 
-const Category = () => {
+const Category: React.FC<CategoryProps> = ({ data }) => {
+  console.log(data);
   return (
-    <div className="min-h-screen custom-container">
-      <h1 className="text-3xl">Plants For Everyone</h1>
+    <div className="min-h-screen custom-container my-10 px-5 lg:px-10">
+      <h1 className="">Plants For Everyone</h1>
 
-      <div></div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-5 ">
+        {data
+          .map((item) => <PlantCard key={item._id} plant={item} />)
+          .slice(0, 8)}
+      </div>
     </div>
   );
 };

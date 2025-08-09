@@ -13,9 +13,9 @@ export default async function Home() {
 
   return (
     <div>
-      <h1>Number: {categories?.data?.length}</h1>
+      {/* <h1>Number: {categories?.data?.length}</h1> */}
       <Hero />
-      <Category  />
+      <Category data={categories?.data}  />
     </div>
   );
 }
