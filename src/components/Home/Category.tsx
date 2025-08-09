@@ -1,5 +1,5 @@
 import React from "react";
-import PlantCard from "../Cards/PlantCard";
+import PlantCard from "../Cards/categoryCard";
 
 export interface ICategory {
   _id: string;

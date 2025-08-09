@@ -32,8 +32,11 @@
     padding-right: 1rem;
     padding-left: 0;
   }
+  .primaryButton {
+    @apply bg-primaryGreen hover:bg-green-500 px-5 py-6 rounded-md text-lg font-bold font-[--font-playfair];
+  }
 
-  /* @screen md {
+  @screen md {
     .custom-container {
       padding-right: 1.5rem;
     }
@@ -43,7 +46,7 @@
     .custom-container {
       padding-right: 2rem;
     }
-  } */
+  }
 
   /* Sliding Text Animation */
   @keyframes slide {
@@ -64,7 +67,7 @@
 
 @theme inline {
   --color-background: var(--background);
-  --color-primaryGreen: #016630;
+  --color-primaryGreen: #007b5f;
   --color-primaryBG: #f8f5f2;
 
   --color-foreground: var(--foreground);
