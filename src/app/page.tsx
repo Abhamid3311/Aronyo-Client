@@ -2,6 +2,7 @@ import Category from "@/components/Home/Category";
 import Help from "@/components/Home/Help";
 import Hero from "@/components/Home/Hero";
 import LargePlants from "@/components/Home/LargePlant";
+import NewArrivals from "@/components/Home/NewArrivals";
 import PopularPlants from "@/components/Home/PopularPlants";
 import { getCategories, getProducts } from "@/lib/api";
 
@@ -20,6 +21,7 @@ export default async function Home() {
       <Help />
       <Category category={categories?.data} />
       <LargePlants popProducts={popularPro?.data} />
+      <NewArrivals popProducts={popularPro?.data} />
     </div>
   );
 }
