@@ -1,22 +1,23 @@
 import Category from "@/components/Home/Category";
 import Help from "@/components/Home/Help";
 import Hero from "@/components/Home/Hero";
-import { BASE_API_URL } from "@/config/api";
+import PopularPlants from "@/components/Home/PopularPlants";
+import { getCategories, getProducts } from "@/lib/api";
 
 export default async function Home() {
-  const res = await fetch(`${BASE_API_URL}/category`, {
-    cache: "no-store",
-  });
-  const categories = await res.json();
+  const [categories, popularPro] = await Promise.all([
+    getCategories(),
+    getProducts(),
+  ]);
 
-  // console.log(categories);
+  console.log(popularPro);
 
   return (
     <div>
       <Hero />
-
-      <Category data={categories?.data} />
+      <PopularPlants popProducts={popularPro?.data} />
       <Help />
+      <Category category={categories?.data} />
     </div>
   );
 }
