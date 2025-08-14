@@ -6,8 +6,12 @@ export async function getCategories() {
   return res.json();
 }
 
-export async function getProducts() {
-  const res = await fetch(`${BASE_API_URL}/products`, { cache: "no-store" });
+export async function getProducts(category?: string) {
+  const url = category
+    ? `${BASE_API_URL}/products?category=${category}`
+    : `${BASE_API_URL}/products`;
+
+  const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch products");
   return res.json();
 }

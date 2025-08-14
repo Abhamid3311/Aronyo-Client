@@ -9,7 +9,6 @@ const HousePlants = async () => {
 
   return (
     <div className="min-h-screen custom-container ">
-
       <div className="py-10 text-center ">
         <h1 className="text-5xl font-semibold mb-3 text-textClr">
           Plants Make People Happy
@@ -22,7 +21,7 @@ const HousePlants = async () => {
 
       <div>
         <div className="flex items-center justify-between gap-1">
-          <h1 className="px-5 ">Most Popular</h1>
+          <h1 className="px-5 text-textClr">Most Popular</h1>
           <Link
             href={"#"}
             className="bg-ghost text-textClr  px-2 py-3 rounded-md text-lg font-bold font-[--font-playfair]"
@@ -34,16 +33,48 @@ const HousePlants = async () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5 my-5 px-5 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-5 my-5 px-5 ">
           {popularPro.data
             .map((item: IProduct) => (
               <ProductCard key={item._id} product={item} />
             ))
-            .slice(0, 8)}
+            .slice(0, 6)}
         </div>
       </div>
+
+      <PetFriendly />
     </div>
   );
 };
 
 export default HousePlants;
+
+const PetFriendly = async () => {
+  const [petFriendly] = await Promise.all([getProducts("pet-friendly-plants")]);
+  return (
+    <>
+      <div className="py-10">
+        <div className="flex items-center justify-between gap-1">
+          <h1 className="px-5 text-textClr">Pet-Friendly Picks</h1>
+          <Link
+            href={"#"}
+            className="bg-ghost text-textClr  px-2 py-3 rounded-md text-lg font-bold font-[--font-playfair]"
+          >
+            <p className="tracking-normal hover:tracking-wider ease-linear duration-500 text-lg">
+              Shop all Pet-Friendly
+              <span className="ml-1 inline-block text-xl">→</span>
+            </p>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 lg:gap-5 my-5 px-5 ">
+          {petFriendly.data
+            .map((item: IProduct) => (
+              <ProductCard key={item._id} product={item} />
+            ))
+            .slice(0, 6)}
+        </div>
+      </div>
+    </>
+  );
+};
