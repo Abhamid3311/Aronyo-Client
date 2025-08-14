@@ -12,7 +12,7 @@ export default async function Home() {
     getProducts(),
   ]);
 
-  console.log(popularPro);
+  // console.log(popularPro);
 
   return (
     <div>
