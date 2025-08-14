@@ -24,9 +24,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {product.title} <span className="ml-1 inline-block text-xl">→</span>
       </h3>
       <p className="text-xs lg:text-sm">{product.description}</p>
-      <div className="flex items-center gap-2 text-base ">
+      <div className="flex items-center gap-2 text-sm lg:text-base ">
         Price:
-        <p className="text-bold text-primaryGreen font-bold text-lg">
+        <p className="text-bold text-primaryGreen font-bold text-base lg:text-lg">
           {product.discountPrice} Bdt
         </p>
       </div>
