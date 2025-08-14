@@ -5,8 +5,6 @@ import Link from "next/link";
 import React from "react";
 
 const HousePlants = async () => {
-  const [popularPro] = await Promise.all([getProducts()]);
-
   return (
     <div className="min-h-screen custom-container ">
       <div className="py-10 text-center ">
@@ -19,6 +17,19 @@ const HousePlants = async () => {
         </p>
       </div>
 
+      <PopularPro />
+      <PetFriendly />
+      <IndorPlant />
+    </div>
+  );
+};
+
+export default HousePlants;
+
+const PopularPro = async () => {
+  const [popularPro] = await Promise.all([getProducts()]);
+  return (
+    <>
       <div>
         <div className="flex items-center justify-between gap-1">
           <h1 className="px-5 text-textClr">Most Popular</h1>
@@ -41,14 +52,9 @@ const HousePlants = async () => {
             .slice(0, 6)}
         </div>
       </div>
-
-      <PetFriendly />
-      <IndorPlant />
-    </div>
+    </>
   );
 };
-
-export default HousePlants;
 
 const PetFriendly = async () => {
   const [petFriendly] = await Promise.all([getProducts("pet-friendly-plants")]);
