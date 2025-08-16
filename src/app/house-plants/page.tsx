@@ -3,12 +3,15 @@ import { ProductSection } from "@/components/Shared/ProductSection";
 import { getProducts } from "@/lib/api";
 
 const HousePlants = async () => {
-  const [popularPro, petFriendly, indoorPlant, airPurify] = await Promise.all([
-    getProducts(),
-    getProducts("pet-friendly-plants"),
-    getProducts("indoor-plants"),
-    getProducts("air-purifying-plants"),
-  ]);
+  const [popularPro, petFriendly, indoorPlant, airPurify, lowLight, easyCare] =
+    await Promise.all([
+      getProducts(),
+      getProducts("pet-friendly-plants"),
+      getProducts("indoor-plants"),
+      getProducts("air-purifying-plants"),
+      getProducts("low-light-plants"),
+      getProducts("easy-care-plants"),
+    ]);
 
   return (
     <div className="min-h-screen custom-container">
@@ -22,6 +25,20 @@ const HousePlants = async () => {
         link="#"
         buttonText="Shop all best sellers"
         products={popularPro.data}
+      />
+
+      <ProductSection
+        title="Air Purifying Plants"
+        link="#"
+        buttonText="Shop all Air Purifying Plants"
+        products={airPurify.data}
+      />
+
+      <ProductSection
+        title="Easy To Care Plants"
+        link="#"
+        buttonText="Shop all easy Care"
+        products={easyCare.data}
       />
 
       <ProductSection
@@ -39,10 +56,10 @@ const HousePlants = async () => {
       />
 
       <ProductSection
-        title="Air Purifying Plants"
+        title="Low-light Plants"
         link="#"
-        buttonText="Shop all Air Purifying Plants"
-        products={airPurify.data}
+        buttonText="Shop all low-light Plants"
+        products={lowLight.data}
       />
     </div>
   );

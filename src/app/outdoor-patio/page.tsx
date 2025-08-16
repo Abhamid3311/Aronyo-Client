@@ -1,10 +1,42 @@
+import PageHeader from "@/components/Shared/PageHeader";
+import { ProductSection } from "@/components/Shared/ProductSection";
+import { getProducts } from "@/lib/api";
 import React from "react";
 
-const Outdoors = () => {
+const Outdoors = async () => {
+  const [largePlant, outdoorPlant, flower] = await Promise.all([
+    getProducts("large-plants"),
+    getProducts("outdoor-plants"),
+    getProducts("flowering-plants"),
+  ]);
+
   return (
-    <div className="min-h-screen bg-primaryBG">
-      <h1 className="text-4xl font-bold bg-primary">Outdoors & Patio</h1>
-      <h3>Coming Soon</h3>
+    <div className="min-h-screen custom-container">
+      <PageHeader
+        title="Outdoor & Patio Plants"
+        para="The Aronyo is taking you outdoors!"
+      />
+
+      <ProductSection
+        title="Fruit Trees & Berry Bushes"
+        link="#"
+        buttonText="Shop all Fruit"
+        products={outdoorPlant.data}
+      />
+
+      <ProductSection
+        title="Patio Plants"
+        link="#"
+        buttonText="Shop all Indoor Plants"
+        products={largePlant.data}
+      />
+
+      <ProductSection
+        title="Flowering Trees & Shrubs"
+        link="#"
+        buttonText="Shop all Flowering Plants"
+        products={flower.data}
+      />
     </div>
   );
 };
