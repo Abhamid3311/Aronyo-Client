@@ -3,7 +3,7 @@ import React from "react";
 
 interface HeadlinesProps {
   title: string;
-  link: string;
+  link : string;
   buttonText: string;
 }
 
