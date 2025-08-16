@@ -1,7 +1,13 @@
 import ProductCard from "@/components/Cards/ProductCard";
-import Headlines from "@/components/Shared/Headlines";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { getProducts } from "@/lib/api";
+import { OrchidData } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
 import Image from "next/image";
 import React from "react";
@@ -9,7 +15,7 @@ import React from "react";
 const Orchids = () => {
   return (
     <div>
-      <div className="min-h-screen bg-primaryBG">
+      <div className="min-h-screen ">
         <div className="flex flex-col lg:flex-row items-center justify-center custom-container gap-5">
           <div className="w-full lg:w-3/5">
             <div className="relative w-full h-80 lg:h-[80vh]">
@@ -71,6 +77,7 @@ const Orchids = () => {
       </div>
 
       <OrchidProducts />
+      <OrchidFAQ />
     </div>
   );
 };
@@ -81,7 +88,7 @@ const OrchidProducts = async () => {
   const [orchids] = await Promise.all([getProducts("orchids")]);
 
   return (
-    <div className="custom-container px-5">
+    <div className="custom-container">
       <div className="py-10">
         <h1 className="px-5 text-textClr">Hand Selected Orchids</h1>
 
@@ -94,3 +101,30 @@ const OrchidProducts = async () => {
     </div>
   );
 };
+
+export function OrchidFAQ() {
+  return (
+    <div className="custom-container py-10">
+      <div className="text-center mb-10">
+        <p >Questions about orchid care? We&apos;ve got you.</p>
+        <h1 className="px-5 text-textClr"> Orchid Care FAQs</h1>
+      </div>
+
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full"
+        defaultValue="item-1"
+      >
+        {OrchidData.map((item) => (
+          <AccordionItem value={`item-${item.id}`} key={item.id}>
+            <AccordionTrigger>{item.title}</AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <p>{item.details}</p>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
+  );
+}
