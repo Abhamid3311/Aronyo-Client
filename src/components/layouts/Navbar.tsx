@@ -28,28 +28,28 @@ const menuItems = [
     submenu: [
       { name: "Shop All", link: "/all-plants" },
       { name: "New Arrivals", link: "/new-arrivals" },
+      { name: "Best Deals", link: "/houseplants/best-deals" },
     ],
   },
   {
     name: "Houseplants",
     link: "/house-plants",
     submenu: [
-      { name: "Best Deals", link: "/houseplants/best-deals" },
-      { name: "Pet-Friendly", link: "/houseplants/pet-friendly" },
-      { name: "Easy Care", link: "/houseplants/easy-care" },
-      { name: "Low Light", link: "/houseplants/low-light" },
-      { name: "Air Purifying ", link: "/houseplants/low-light" },
+      { name: "Pet-Friendly", link: "/house-plants/pet-friendly-plants" },
+      { name: "Easy Care", link: "/house-plants/easy-care-plants" },
+      { name: "Low Light", link: "/house-plants/low-light-plants" },
+      { name: "Air Purifying ", link: "/house-plants/air-purifying-plants" },
     ],
   },
   {
     name: "Outdoor & Patio",
     link: "/outdoor-patio",
     submenu: [
-      { name: "Fruit & Berry", link: "/outdoor-patio/small" },
-      { name: "Bonsai & Miniatures", link: "/outdoor-patio/large" },
-      { name: "Succulents", link: "/outdoor-patio/large" },
-      { name: "Patio Plants", link: "/outdoor-patio/medium" },
-      { name: "Flowering Trees", link: "/outdoor-patio/large" },
+      { name: "Fruit & Berry", link: "/outdoor-patio/outdoor-plants" },
+      { name: "Bonsai & Miniatures", link: "/outdoor-patio/bonsai-miniatures" },
+      { name: "Succulents", link: "/outdoor-patio/succulents" },
+      { name: "Patio Plants", link: "/outdoor-patio/large-plants" },
+      { name: "Flowering Trees", link: "/outdoor-patio/flowering-plants" },
     ],
   },
   {

@@ -1,0 +1,100 @@
+import ProductCard from "@/components/Cards/ProductCard";
+import PageHeader from "@/components/Shared/PageHeader";
+import { getProductsWithFilters } from "@/lib/api";
+import { IProduct } from "@/lib/types";
+
+const HOUSEPLANTS_CONFIG = {
+  "pet-friendly-plants": {
+    title: "Pet-Friendly Plants",
+    description: "Plants that are safe for your pets and family.",
+    apiParam: "pet-friendly-plants",
+  },
+  "easy-care-plants": {
+    title: "Easy Care Plants",
+    description: "Low-maintenance houseplants perfect for beginners.",
+    apiParam: "easy-care-plants",
+  },
+  "low-light-plants": {
+    title: "Low Light Plants",
+    description: "Houseplants that thrive in low light conditions.",
+    apiParam: "low-light-plants",
+  },
+  "air-purifying-plants": {
+    title: "Air Purifying Plants",
+    description: "Houseplants that help clean and purify your indoor air.",
+    apiParam: "air-purifying-plants",
+  },
+};
+
+interface HouseplantsPageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function HouseplantsPage({
+  params,
+}: HouseplantsPageProps) {
+  const { slug } = await params;
+
+  const categoryConfig =
+    HOUSEPLANTS_CONFIG[slug as keyof typeof HOUSEPLANTS_CONFIG];
+
+  if (!categoryConfig) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1>Houseplant Category Not Found</h1>
+        <p>The houseplant category &quot;{slug}&quot; does not exist.</p>
+      </div>
+    );
+  }
+
+  // Fetch products using your dynamic function
+  const products = await getProductsWithFilters({
+    category: categoryConfig.apiParam,
+  });
+
+  return (
+    <div className="custom-container  px-4 py-8">
+      <PageHeader
+        title={categoryConfig.title}
+        para={categoryConfig.description}
+      />
+
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-3">
+        {products.data.map((product: IProduct) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
+      </div>
+
+      {/* Empty state */}
+      {(!products || products.length === 0) && (
+        <div className="text-center py-12">
+          <h3 className="text-xl font-semibold mb-4">No products found</h3>
+          <p className="text-gray-600">
+            We don&lsquo;t have any products in this category yet.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Generate metadata dynamically
+export async function generateMetadata({ params }: HouseplantsPageProps) {
+  const { slug } = await params;
+  const categoryConfig =
+    HOUSEPLANTS_CONFIG[slug as keyof typeof HOUSEPLANTS_CONFIG];
+
+  return {
+    title: categoryConfig?.title || "Houseplants",
+    description:
+      categoryConfig?.description || "Browse our houseplant collection",
+  };
+}
+
+// Generate static params for better performance
+export async function generateStaticParams() {
+  return Object.keys(HOUSEPLANTS_CONFIG).map((slug) => ({
+    slug,
+  }));
+}
