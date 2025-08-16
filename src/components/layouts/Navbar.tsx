@@ -26,10 +26,8 @@ const menuItems = [
     name: "New Arrivals",
     link: "/new-arrivals",
     submenu: [
-      { name: "Shop All", link: "/new-arrivals/shop-all" },
+      { name: "Shop All", link: "/all-plants" },
       { name: "New Arrivals", link: "/new-arrivals" },
-      { name: "Artificial & Preserved", link: "/new-arrivals/artificial" },
-      { name: "Coming Soon", link: "/new-arrivals/coming-soon" },
     ],
   },
   {
