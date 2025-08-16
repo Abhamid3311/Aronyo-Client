@@ -3,10 +3,11 @@ import { ProductSection } from "@/components/Shared/ProductSection";
 import { getProducts } from "@/lib/api";
 
 const HousePlants = async () => {
-  const [popularPro, petFriendly, indoorPlant] = await Promise.all([
+  const [popularPro, petFriendly, indoorPlant, airPurify] = await Promise.all([
     getProducts(),
     getProducts("pet-friendly-plants"),
     getProducts("indoor-plants"),
+    getProducts("air-purifying-plants"),
   ]);
 
   return (
@@ -35,6 +36,13 @@ const HousePlants = async () => {
         link="#"
         buttonText="Shop all Indoor Plants"
         products={indoorPlant.data}
+      />
+
+      <ProductSection
+        title="Air Purifying Plants"
+        link="#"
+        buttonText="Shop all Air Purifying Plants"
+        products={airPurify.data}
       />
     </div>
   );
