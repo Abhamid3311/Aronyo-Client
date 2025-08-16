@@ -24,3 +24,10 @@ export const OrchidData = [
       "Orchids are elegant flowers with a unique asymmetrical design. While they look like complicated flowers to care for, they are easy to keep alive and thriving. Some orchids only bloom for a short time, so their limited flowering time makes them special to those who enjoy them.People who live in chilly climates, but vacation in tropical ones, tend to consider orchids pleasant reminders of their time away from home. Whatever the reason, orchids tend to bring a sense of joy to the spaces they occupy.",
   },
 ];
+
+/* https://i.ibb.co.com/KjYDQQyW/Terrazzo-Banjo-Planter.jpg
+https://i.ibb.co.com/SXTq8jGC/Balboa-Planter.jpg
+https://i.ibb.co.com/3m7xpBR1/Small-Medium-Grant-Planter-Duo.jpg
+https://i.ibb.co.com/sdbd3N0D/Solid-Goods-Planter-with-Stand.jpg
+https://i.ibb.co.com/Cd0nBWc/Isabella-Planter.jpg
+https://i.ibb.co.com/SDpxhXXQ/Evie-Planter.jpg */
