@@ -40,15 +40,18 @@ const menuItems = [
       { name: "Pet-Friendly", link: "/houseplants/pet-friendly" },
       { name: "Easy Care", link: "/houseplants/easy-care" },
       { name: "Low Light", link: "/houseplants/low-light" },
+      { name: "Air Purifying ", link: "/houseplants/low-light" },
     ],
   },
   {
     name: "Outdoor & Patio",
     link: "/outdoor-patio",
     submenu: [
-      { name: "Small", link: "/outdoor-patio/small" },
-      { name: "Medium", link: "/outdoor-patio/medium" },
-      { name: "Large", link: "/outdoor-patio/large" },
+      { name: "Fruit & Berry", link: "/outdoor-patio/small" },
+      { name: "Bonsai & Miniatures", link: "/outdoor-patio/large" },
+      { name: "Succulents", link: "/outdoor-patio/large" },
+      { name: "Patio Plants", link: "/outdoor-patio/medium" },
+      { name: "Flowering Trees", link: "/outdoor-patio/large" },
     ],
   },
   {
@@ -139,7 +142,6 @@ export default function Navbar() {
       {/* Bottom Layer (Menu) */}
       <div className="py-4 border-t ">
         <div className="custom-container flex items-center justify-between lg:justify-center">
-
           {/* Desktop Menu */}
           <nav className="hidden lg:flex items-center justify-center gap-10 flex-1">
             {menuItems.map((item) => {

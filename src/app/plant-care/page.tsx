@@ -1,12 +1,36 @@
+import ProductCard from "@/components/Cards/ProductCard";
+import PageHeader from "@/components/Shared/PageHeader";
+import { getProducts } from "@/lib/api";
+import { IProduct } from "@/lib/types";
 import React from "react";
 
-const PlantCare = () => {
+const PlantCare = async () => {
   return (
-    <div className="min-h-screen bg-primaryBG">
-      <h1 className="text-4xl font-bold bg-primary">Plant Care</h1>
-      <h3>Coming Soon</h3>
+    <div className="min-h-screen custom-container">
+      <PageHeader
+        title="Plant Care"
+        para="One-stop-shop for plant care essentials from organic potting mix to all-natural fertilizer and more."
+      />
+
+      <OrchidProducts />
     </div>
   );
 };
 
 export default PlantCare;
+
+const OrchidProducts = async () => {
+  const [plantCare] = await Promise.all([getProducts("plant-care")]);
+
+  return (
+    <div className="custom-container">
+      <div className="py-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 lg:gap-5 my-5 px-5">
+          {plantCare.data.map((item: IProduct) => (
+            <ProductCard key={item._id} product={item} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};

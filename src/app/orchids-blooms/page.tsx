@@ -102,11 +102,11 @@ const OrchidProducts = async () => {
   );
 };
 
-export function OrchidFAQ() {
+function OrchidFAQ() {
   return (
     <div className="custom-container py-10">
       <div className="text-center mb-10">
-        <p >Questions about orchid care? We&apos;ve got you.</p>
+        <p>Questions about orchid care? We&apos;ve got you.</p>
         <h1 className="px-5 text-textClr"> Orchid Care FAQs</h1>
       </div>
 
