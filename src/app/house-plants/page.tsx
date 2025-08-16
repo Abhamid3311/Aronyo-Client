@@ -1,16 +1,16 @@
 import PageHeader from "@/components/Shared/PageHeader";
 import { ProductSection } from "@/components/Shared/ProductSection";
-import { getProducts } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/api";
 
 const HousePlants = async () => {
   const [popularPro, petFriendly, indoorPlant, airPurify, lowLight, easyCare] =
     await Promise.all([
-      getProducts(),
-      getProducts("pet-friendly-plants"),
-      getProducts("indoor-plants"),
-      getProducts("air-purifying-plants"),
-      getProducts("low-light-plants"),
-      getProducts("easy-care-plants"),
+      getProductsWithFilters(),
+      getProductsWithFilters({ category: "pet-friendly-plants" }),
+      getProductsWithFilters({ category: "indoor-plants" }),
+      getProductsWithFilters({ category: "air-purifying-plants" }),
+      getProductsWithFilters({ category: "low-light-plants" }),
+      getProductsWithFilters({ category: "easy-care-plants" }),
     ]);
 
   return (

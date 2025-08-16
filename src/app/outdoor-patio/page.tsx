@@ -1,13 +1,13 @@
 import PageHeader from "@/components/Shared/PageHeader";
 import { ProductSection } from "@/components/Shared/ProductSection";
-import { getProducts } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/api";
 import React from "react";
 
 const Outdoors = async () => {
   const [largePlant, outdoorPlant, flower] = await Promise.all([
-    getProducts("large-plants"),
-    getProducts("outdoor-plants"),
-    getProducts("flowering-plants"),
+    getProductsWithFilters({ category: "large-plants" }),
+    getProductsWithFilters({ category: "outdoor-plants" }),
+    getProductsWithFilters({ category: "flowering-plants" }),
   ]);
 
   return (

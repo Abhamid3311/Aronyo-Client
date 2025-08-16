@@ -4,12 +4,14 @@ import Hero from "@/components/Home/Hero";
 import LargePlants from "@/components/Home/LargePlant";
 import NewArrivals from "@/components/Home/NewArrivals";
 import PopularPlants from "@/components/Home/PopularPlants";
-import { getCategories, getProducts } from "@/lib/api";
+import { getCategories, getProductsWithFilters } from "@/lib/api";
 
 export default async function Home() {
-  const [categories, popularPro] = await Promise.all([
+  const [categories, popularPro, largePlant, newArrival] = await Promise.all([
     getCategories(),
-    getProducts(),
+    getProductsWithFilters(),
+    getProductsWithFilters({ category: "large-plants" }),
+    getProductsWithFilters({ tag: "new-arrivals" }),
   ]);
 
   // console.log(popularPro);
@@ -19,9 +21,9 @@ export default async function Home() {
       <Hero />
       <PopularPlants popProducts={popularPro?.data} />
       <Help />
-      <Category category={categories?.data} />
-      <LargePlants popProducts={popularPro?.data} />
-      <NewArrivals popProducts={popularPro?.data} />
+      <Category category={categories.data} />
+      <LargePlants popProducts={largePlant.data} />
+      <NewArrivals popProducts={newArrival.data} />
     </div>
   );
 }

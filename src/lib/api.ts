@@ -6,10 +6,13 @@ export async function getCategories() {
   return res.json();
 }
 
-export async function getProducts(category?: string) {
-  const url = category
-    ? `${BASE_API_URL}/products?category=${category}`
-    : `${BASE_API_URL}/products`;
+export async function getProductsWithFilters(filters?: Record<string, string>) {
+  let url = `${BASE_API_URL}/products`;
+
+  if (filters && Object.keys(filters).length > 0) {
+    const searchParams = new URLSearchParams(filters);
+    url += `?${searchParams.toString()}`;
+  }
 
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch products");

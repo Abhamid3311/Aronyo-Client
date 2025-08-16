@@ -4,6 +4,7 @@ import ProductCard from "../Cards/ProductCard";
 import Headlines from "../Shared/Headlines";
 
 const LargePlants: React.FC<ProductsProps> = ({ popProducts }) => {
+  // console.log(popProducts)
   return (
     <div className="py-10 custom-container my-10 px-5">
       <Headlines
@@ -15,7 +16,7 @@ const LargePlants: React.FC<ProductsProps> = ({ popProducts }) => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5 my-5 px-5 ">
         {popProducts
           .map((item) => <ProductCard key={item._id} product={item} />)
-          .slice(4, 8)}
+          .slice(0, 4)}
       </div>
     </div>
   );

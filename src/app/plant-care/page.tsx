@@ -1,6 +1,6 @@
 import ProductCard from "@/components/Cards/ProductCard";
 import PageHeader from "@/components/Shared/PageHeader";
-import { getProducts } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/api";
 import { IProduct } from "@/lib/types";
 import React from "react";
 
@@ -20,7 +20,9 @@ const PlantCare = async () => {
 export default PlantCare;
 
 const OrchidProducts = async () => {
-  const [plantCare] = await Promise.all([getProducts("plant-care")]);
+  const [plantCare] = await Promise.all([
+    getProductsWithFilters({ category: "plant-care" }),
+  ]);
 
   return (
     <div className="custom-container">

@@ -15,7 +15,7 @@ const NewArrivals: React.FC<ProductsProps> = ({ popProducts }) => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5 my-5 px-5 ">
         {popProducts
           .map((item) => <ProductCard key={item._id} product={item} />)
-          .slice(6, 10)}
+          .slice(0, 4)}
       </div>
     </div>
   );

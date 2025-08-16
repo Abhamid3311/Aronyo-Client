@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { getProducts } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/api";
 import { OrchidData } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
 import Image from "next/image";
@@ -85,7 +85,9 @@ const Orchids = () => {
 export default Orchids;
 
 const OrchidProducts = async () => {
-  const [orchids] = await Promise.all([getProducts("orchids")]);
+  const [orchids] = await Promise.all([
+    getProductsWithFilters({ category: "orchids" }),
+  ]);
 
   return (
     <div className="custom-container">
