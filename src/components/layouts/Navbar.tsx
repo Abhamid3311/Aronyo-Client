@@ -28,7 +28,7 @@ const menuItems = [
     submenu: [
       { name: "Shop All", link: "/all-plants" },
       { name: "New Arrivals", link: "/new-arrivals" },
-      { name: "Best Deals", link: "/houseplants/best-deals" },
+      // { name: "Best Deals", link: "/best-deals" },
     ],
   },
   {

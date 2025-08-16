@@ -1,5 +1,3 @@
-// File: app/outdoor-patio/[slug]/page.tsx
-
 import ProductCard from "@/components/Cards/ProductCard";
 import PageHeader from "@/components/Shared/PageHeader";
 import { getProductsWithFilters } from "@/lib/api";
