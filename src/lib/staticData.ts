@@ -1,3 +1,45 @@
+export const menuItems = [
+  { name: "Home", link: "/", submenu: [] },
+  {
+    name: "Shop All",
+    link: "/all-plants",
+    submenu: [
+      { name: "New Arrivals", link: "/new-arrivals" },
+      // { name: "Best Deals", link: "/best-deals" },
+    ],
+  },
+  {
+    name: "Houseplants",
+    link: "/house-plants",
+    submenu: [
+      { name: "Pet-Friendly", link: "/house-plants/pet-friendly-plants" },
+      { name: "Easy Care", link: "/house-plants/easy-care-plants" },
+      { name: "Low Light", link: "/house-plants/low-light-plants" },
+      { name: "Air Purifying ", link: "/house-plants/air-purifying-plants" },
+    ],
+  },
+  {
+    name: "Outdoor & Patio",
+    link: "/outdoor-patio",
+    submenu: [
+      { name: "Fruit & Berry", link: "/outdoor-patio/outdoor-plants" },
+      { name: "Bonsai & Miniatures", link: "/outdoor-patio/bonsai-miniatures" },
+      { name: "Succulents", link: "/outdoor-patio/succulents" },
+      { name: "Patio Plants", link: "/outdoor-patio/large-plants" },
+      { name: "Flowering Trees", link: "/outdoor-patio/flowering-plants" },
+    ],
+  },
+  {
+    name: "Orchids & Blooms",
+    link: "/orchids-blooms",
+    submenu: [{ name: "Bundles", link: "/orchids-blooms/bundles" }],
+  },
+  { name: "Gifts", link: "/gifts", submenu: [] },
+  { name: "Planters", link: "/planters", submenu: [] },
+  { name: "Plant Care", link: "/plant-care", submenu: [] },
+  { name: "Sale", link: "/on-sale", submenu: [], className: "text-red-500" },
+];
+
 export const OrchidData = [
   {
     id: 1,
@@ -24,10 +66,3 @@ export const OrchidData = [
       "Orchids are elegant flowers with a unique asymmetrical design. While they look like complicated flowers to care for, they are easy to keep alive and thriving. Some orchids only bloom for a short time, so their limited flowering time makes them special to those who enjoy them.People who live in chilly climates, but vacation in tropical ones, tend to consider orchids pleasant reminders of their time away from home. Whatever the reason, orchids tend to bring a sense of joy to the spaces they occupy.",
   },
 ];
-
-/* https://i.ibb.co.com/KjYDQQyW/Terrazzo-Banjo-Planter.jpg
-https://i.ibb.co.com/SXTq8jGC/Balboa-Planter.jpg
-https://i.ibb.co.com/3m7xpBR1/Small-Medium-Grant-Planter-Duo.jpg
-https://i.ibb.co.com/sdbd3N0D/Solid-Goods-Planter-with-Stand.jpg
-https://i.ibb.co.com/Cd0nBWc/Isabella-Planter.jpg
-https://i.ibb.co.com/SDpxhXXQ/Evie-Planter.jpg */

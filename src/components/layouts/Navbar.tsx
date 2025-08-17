@@ -12,56 +12,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
-const slideText = [
-  "Free Shipping Over $79 + 30-Day Guarantee",
-  "New Arrivals Just Dropped — Shop Now!",
-  "Sign Up & Get 10% Off Your First Order",
-  "Limited Time: Buy 1 Get 1 Free on Select Items",
-];
-
-const menuItems = [
-  { name: "Home", link: "/", submenu: [] },
-  {
-    name: "New Arrivals",
-    link: "/new-arrivals",
-    submenu: [
-      { name: "Shop All", link: "/all-plants" },
-      { name: "New Arrivals", link: "/new-arrivals" },
-      // { name: "Best Deals", link: "/best-deals" },
-    ],
-  },
-  {
-    name: "Houseplants",
-    link: "/house-plants",
-    submenu: [
-      { name: "Pet-Friendly", link: "/house-plants/pet-friendly-plants" },
-      { name: "Easy Care", link: "/house-plants/easy-care-plants" },
-      { name: "Low Light", link: "/house-plants/low-light-plants" },
-      { name: "Air Purifying ", link: "/house-plants/air-purifying-plants" },
-    ],
-  },
-  {
-    name: "Outdoor & Patio",
-    link: "/outdoor-patio",
-    submenu: [
-      { name: "Fruit & Berry", link: "/outdoor-patio/outdoor-plants" },
-      { name: "Bonsai & Miniatures", link: "/outdoor-patio/bonsai-miniatures" },
-      { name: "Succulents", link: "/outdoor-patio/succulents" },
-      { name: "Patio Plants", link: "/outdoor-patio/large-plants" },
-      { name: "Flowering Trees", link: "/outdoor-patio/flowering-plants" },
-    ],
-  },
-  {
-    name: "Orchids & Blooms",
-    link: "/orchids-blooms",
-    submenu: [{ name: "Bundles", link: "/orchids-blooms/bundles" }],
-  },
-  { name: "Gifts", link: "/gifts", submenu: [] },
-  { name: "Planters", link: "/planters", submenu: [] },
-  { name: "Plant Care", link: "/plant-care", submenu: [] },
-  { name: "Sale", link: "/on-sale", submenu: [], className: "text-red-500" },
-];
+import { menuItems } from "@/lib/staticData";
 
 export default function Navbar() {
   const pathname = usePathname();
