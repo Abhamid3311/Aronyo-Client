@@ -66,3 +66,58 @@ export const OrchidData = [
       "Orchids are elegant flowers with a unique asymmetrical design. While they look like complicated flowers to care for, they are easy to keep alive and thriving. Some orchids only bloom for a short time, so their limited flowering time makes them special to those who enjoy them.People who live in chilly climates, but vacation in tropical ones, tend to consider orchids pleasant reminders of their time away from home. Whatever the reason, orchids tend to bring a sense of joy to the spaces they occupy.",
   },
 ];
+
+export const HOUSEPLANTS_CONFIG = {
+  "pet-friendly-plants": {
+    title: "Pet-Friendly Plants",
+    description: "Plants that are safe for your pets and family.",
+    apiParam: "pet-friendly-plants",
+  },
+  "easy-care-plants": {
+    title: "Easy Care Plants",
+    description: "Low-maintenance houseplants perfect for beginners.",
+    apiParam: "easy-care-plants",
+  },
+  "low-light-plants": {
+    title: "Low Light Plants",
+    description: "Houseplants that thrive in low light conditions.",
+    apiParam: "low-light-plants",
+  },
+  "air-purifying-plants": {
+    title: "Air Purifying Plants",
+    description: "Houseplants that help clean and purify your indoor air.",
+    apiParam: "air-purifying-plants",
+  },
+};
+
+export const OUTDOOR_PATIO_CONFIG = {
+  "outdoor-plants": {
+    title: "Fruit & Berry",
+    description:
+      "Delicious fruit and berry plants perfect for your outdoor garden.",
+    apiParam: "outdoor-plants",
+  },
+  "bonsai-miniatures": {
+    title: "Bonsai & Miniatures",
+    description: "Beautiful miniature and bonsai plants for your patio space.",
+    apiParam: "bonsai-miniatures",
+  },
+  succulents: {
+    title: "Succulents",
+    description:
+      "Hardy and beautiful succulent plants perfect for outdoor conditions.",
+    apiParam: "succulents",
+  },
+  "large-plants": {
+    title: "Patio Plants",
+    description:
+      "Perfect large plants for your patio, deck, and outdoor spaces.",
+    apiParam: "large-plants",
+  },
+  "flowering-plants": {
+    title: "Flowering Trees",
+    description:
+      "Beautiful flowering trees and plants to enhance your outdoor landscape.",
+    apiParam: "flowering-plants",
+  },
+};

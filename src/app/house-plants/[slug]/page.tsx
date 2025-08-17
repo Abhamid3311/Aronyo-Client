@@ -1,30 +1,8 @@
 import ProductCard from "@/components/Cards/ProductCard";
 import PageHeader from "@/components/Shared/PageHeader";
 import { getProductsWithFilters } from "@/lib/api";
+import { HOUSEPLANTS_CONFIG } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
-
-const HOUSEPLANTS_CONFIG = {
-  "pet-friendly-plants": {
-    title: "Pet-Friendly Plants",
-    description: "Plants that are safe for your pets and family.",
-    apiParam: "pet-friendly-plants",
-  },
-  "easy-care-plants": {
-    title: "Easy Care Plants",
-    description: "Low-maintenance houseplants perfect for beginners.",
-    apiParam: "easy-care-plants",
-  },
-  "low-light-plants": {
-    title: "Low Light Plants",
-    description: "Houseplants that thrive in low light conditions.",
-    apiParam: "low-light-plants",
-  },
-  "air-purifying-plants": {
-    title: "Air Purifying Plants",
-    description: "Houseplants that help clean and purify your indoor air.",
-    apiParam: "air-purifying-plants",
-  },
-};
 
 interface HouseplantsPageProps {
   params: Promise<{ slug: string }>;
@@ -67,7 +45,7 @@ export default async function HouseplantsPage({
       </div>
 
       {/* Empty state */}
-      {(!products || products.length === 0) && (
+      {(!products.data || products.data.length === 0) && (
         <div className="text-center py-12">
           <h3 className="text-xl font-semibold mb-4">No products found</h3>
           <p className="text-gray-600">

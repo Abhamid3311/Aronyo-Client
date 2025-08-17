@@ -1,39 +1,8 @@
 import ProductCard from "@/components/Cards/ProductCard";
 import PageHeader from "@/components/Shared/PageHeader";
 import { getProductsWithFilters } from "@/lib/api";
+import { OUTDOOR_PATIO_CONFIG } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
-
-const OUTDOOR_PATIO_CONFIG = {
-  "outdoor-plants": {
-    title: "Fruit & Berry",
-    description:
-      "Delicious fruit and berry plants perfect for your outdoor garden.",
-    apiParam: "outdoor-plants",
-  },
-  "bonsai-miniatures": {
-    title: "Bonsai & Miniatures",
-    description: "Beautiful miniature and bonsai plants for your patio space.",
-    apiParam: "bonsai-miniatures",
-  },
-  succulents: {
-    title: "Succulents",
-    description:
-      "Hardy and beautiful succulent plants perfect for outdoor conditions.",
-    apiParam: "succulents",
-  },
-  "large-plants": {
-    title: "Patio Plants",
-    description:
-      "Perfect large plants for your patio, deck, and outdoor spaces.",
-    apiParam: "large-plants",
-  },
-  "flowering-plants": {
-    title: "Flowering Trees",
-    description:
-      "Beautiful flowering trees and plants to enhance your outdoor landscape.",
-    apiParam: "flowering-plants",
-  },
-};
 
 interface OutdoorPatioPageProps {
   params: Promise<{ slug: string }>;
