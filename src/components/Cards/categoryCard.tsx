@@ -7,13 +7,38 @@ interface PlantCardProps {
   plant: ICategory;
 }
 
+const houseplantDomains = [
+  "pet-friendly-plants",
+  "easy-care-plants",
+  "low-light-plants",
+  "air-purifying-plants",
+  "indoor-plants",
+];
+
+const outdoorDomains = [
+  "outdoor-plants",
+  "bonsai-miniatures",
+  "succulents",
+  "large-plants",
+  "flowering-plants",
+];
+
 const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
+  const getCategoryLink = (slug: string) => {
+    if (houseplantDomains.includes(slug)) {
+      return `/house-plants/${slug}`;
+    }
+    if (outdoorDomains.includes(slug)) {
+      return `/outdoor-patio/${slug}`;
+    }
+    return `/${slug}`;
+  };
+
+  const link = getCategoryLink(plant.slug);
+
   return (
-    <Link
-      href={`/category/${plant.slug}`}
-      className="group block overflow-hidden rounded-xl "
-    >
-      <div className="relative w-full h-48 lg:h-[420px] overflow-hidden rounded-xl  ">
+    <Link href={link} className="group block overflow-hidden rounded-xl ">
+      <div className="relative w-full h-48 lg:h-[420px] overflow-hidden rounded-xl">
         <Image
           src={plant.image}
           alt={plant.name}

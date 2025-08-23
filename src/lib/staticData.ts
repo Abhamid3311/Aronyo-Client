@@ -12,6 +12,7 @@ export const menuItems = [
     name: "Houseplants",
     link: "/house-plants",
     submenu: [
+      { name: "House Decor", link: "/house-plants/indoor-plants" },
       { name: "Pet-Friendly", link: "/house-plants/pet-friendly-plants" },
       { name: "Easy Care", link: "/house-plants/easy-care-plants" },
       { name: "Low Light", link: "/house-plants/low-light-plants" },
@@ -88,6 +89,12 @@ export const HOUSEPLANTS_CONFIG = {
     title: "Air Purifying Plants",
     description: "Houseplants that help clean and purify your indoor air.",
     apiParam: "air-purifying-plants",
+  },
+  "indoor-plants": {
+    title: "Stylish House Décor Plants",
+    description:
+      "Beautiful indoor plants that enhance your home décor with greenery and elegance.",
+    apiParam: "indoor-plants",
   },
 };
 
