@@ -67,15 +67,6 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="text-green-800 hover:text-green-600 "
-            >
-              <User className="h-10 w-10" />
-              <span className="sr-only">Wishlist</span>
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
               className="text-green-800 hover:text-green-600 relative"
             >
               <ShoppingCartIcon className="h-8 w-8" />
@@ -84,6 +75,17 @@ export default function Navbar() {
                 2
               </span>
             </Button>
+
+            <Link href={"/dashboard"} className="cursor-pointer">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-green-800 hover:text-green-600 "
+              >
+                <User className="h-10 w-10" />
+                <span className="sr-only">User</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
