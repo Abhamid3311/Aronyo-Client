@@ -32,7 +32,8 @@ export const menuItems = [
   {
     name: "Orchids & Blooms",
     link: "/orchids-blooms",
-    submenu: [{ name: "Bundles", link: "/orchids-blooms/bundles" }],
+    // submenu: [{ name: "Bundles", link: "/orchids-blooms/bundles" }],
+    submenu: [],
   },
   { name: "Gifts", link: "/gifts", submenu: [] },
   { name: "Planters", link: "/planters", submenu: [] },
