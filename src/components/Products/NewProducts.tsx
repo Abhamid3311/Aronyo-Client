@@ -1,6 +1,6 @@
 // components/products/NewProducts.tsx
 import { Suspense } from "react";
-import { getProductsWithFilters } from "@/lib/api"; // Adjust import path
+import { getProductsWithFilters } from "@/lib/services/Products/productsApi"; // Adjust import path
 import { IProduct } from "@/lib/types";
 import ProductCard from "../Cards/ProductCard";
 import Pagination from "../Shared/Pagination";

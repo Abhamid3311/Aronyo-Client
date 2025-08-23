@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { getProductsWithFilters } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import { OrchidData } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
 import Image from "next/image";

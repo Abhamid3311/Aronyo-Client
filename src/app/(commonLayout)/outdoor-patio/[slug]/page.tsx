@@ -1,6 +1,6 @@
 import ProductCard from "@/components/Cards/ProductCard";
 import PageHeader from "@/components/Shared/PageHeader";
-import { getProductsWithFilters } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import { OUTDOOR_PATIO_CONFIG } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
 

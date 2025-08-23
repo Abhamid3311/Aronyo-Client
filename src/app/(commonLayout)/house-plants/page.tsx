@@ -1,6 +1,6 @@
 import PageHeader from "@/components/Shared/PageHeader";
 import { ProductSection } from "@/components/Shared/ProductSection";
-import { getProductsWithFilters } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 
 const HousePlants = async () => {
   const [popularPro, petFriendly, indoorPlant, airPurify, lowLight, easyCare] =

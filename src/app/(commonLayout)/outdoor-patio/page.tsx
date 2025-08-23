@@ -1,6 +1,6 @@
 import PageHeader from "@/components/Shared/PageHeader";
 import { ProductSection } from "@/components/Shared/ProductSection";
-import { getProductsWithFilters } from "@/lib/api";
+import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import React from "react";
 
 const Outdoors = async () => {
