@@ -4,13 +4,6 @@ import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 interface PaginationProps {
@@ -67,13 +60,8 @@ const PaginationEllipsis = ({ className }: { className?: string }) => (
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
-  totalItems,
-  itemsPerPage,
   className,
-  showItemsPerPage = true,
-  itemsPerPageOptions = [10, 20, 50, 100],
   onPageChange,
-  onItemsPerPageChange,
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -94,15 +82,6 @@ const Pagination: React.FC<PaginationProps> = ({
       } else {
         router.push(createPageURL(page));
       }
-    }
-  };
-
-  const handleItemsPerPageChange = (newItemsPerPage: string) => {
-    const itemsPerPageNum = parseInt(newItemsPerPage);
-    if (onItemsPerPageChange) {
-      onItemsPerPageChange(itemsPerPageNum);
-    } else {
-      router.push(createPageURL(1, itemsPerPageNum));
     }
   };
 
@@ -148,9 +127,6 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   const pageNumbers = generatePageNumbers();
-  const startItem = (currentPage - 1) * itemsPerPage + 1;
-  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
-
   if (totalPages <= 1) return null;
 
   return (
@@ -166,7 +142,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <Button
             disabled={currentPage === 1}
             onClick={() => handlePageChange(currentPage - 1)}
-            className="gap-1 pl-2.5 bg-primaryBG text-primaryGreen"
+            className="gap-1 pl-2.5 bg-white shadow text-primaryGreen"
           >
             <ChevronLeft className="h-4 w-6" />
             <span className="hidden sm:inline">Previous</span>
@@ -195,35 +171,13 @@ const Pagination: React.FC<PaginationProps> = ({
           <Button
             disabled={currentPage === totalPages}
             onClick={() => handlePageChange(currentPage + 1)}
-            className="gap-1 pr-2.5 bg-primaryBG text-primaryGreen"
+            className="gap-1 pr-2.5 bg-white shadow text-primaryGreen"
           >
             <span className="hidden sm:inline">Next</span>
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </nav>
-
-      {/* Items per page selector */}
-     {/*  {showItemsPerPage && (
-        <div className="flex items-center space-x-2 text-sm">
-          <span className="text-muted-foreground">Items per page:</span>
-          <Select
-            value={itemsPerPage.toString()}
-            onValueChange={handleItemsPerPageChange}
-          >
-            <SelectTrigger className="h-8 w-20">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {itemsPerPageOptions.map((option) => (
-                <SelectItem key={option} value={option.toString()}>
-                  {option}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )} */}
     </div>
   );
 };
