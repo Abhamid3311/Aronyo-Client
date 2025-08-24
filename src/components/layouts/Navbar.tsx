@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import {
@@ -13,9 +13,21 @@ import {
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { menuItems } from "@/lib/staticData";
+import { useAuth } from "@/Context/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { user, logout } = useAuth();
+  const [open, setOpen] = useState(false);
+
+
+
   return (
     <div className="w-full">
       {/* Top Layer (Green with Sliding Text) */}
@@ -76,16 +88,36 @@ export default function Navbar() {
               </span>
             </Button>
 
-            <Link href={"/dashboard"} className="cursor-pointer">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-green-800 hover:text-green-600 "
+            {user ? (
+              <div
+                onMouseEnter={() => setOpen(true)}
+                onMouseLeave={() => setOpen(false)}
               >
-                <User className="h-10 w-10" />
-                <span className="sr-only">User</span>
-              </Button>
-            </Link>
+                <DropdownMenu open={open} onOpenChange={setOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-green-800 hover:text-green-600"
+                    >
+                      <User className="h-10 w-10" />
+                      <span className="sr-only">User</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <Link href={"/login"}>
+                <Button className="bg-primaryGreen text-white hover:bg-green-800">Login</Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
