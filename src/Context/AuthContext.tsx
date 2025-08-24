@@ -1,13 +1,6 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
-
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { IUser, LoginCredentials, RegisterCredentials } from "@/lib/types";
 import {
@@ -16,6 +9,9 @@ import {
   logout as apiLogout,
   getCurrentUser,
   getAccessToken,
+  refreshAccessToken,
+  removeAccessToken,
+  wasLoggedIn,
 } from "@/lib/services/Auth/auth";
 
 interface AuthContextType {
@@ -33,65 +29,116 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
-  const fetchUser = useCallback(async () => {
-    try {
-      const token = getAccessToken();
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
-      const userData = await getCurrentUser();
-      setUser(userData);
-    } catch (error) {
-      console.error("Failed to fetch user:", error);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
+  // Initialize auth only once
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    if (initialized) return;
+
+    const initAuth = async () => {
+      try {
+        if (!wasLoggedIn()) {
+          console.log("❌ User was never logged in");
+          setLoading(false);
+          setInitialized(true);
+          return;
+        }
+
+        // Check if we have a valid access token
+        const token = getAccessToken();
+
+        if (token) {
+          try {
+            console.log("✅ Trying existing token");
+            const userData = await getCurrentUser();
+            setUser(userData);
+            setLoading(false);
+            setInitialized(true);
+            return;
+          } catch (error) {
+            console.log(" Token expired, trying refresh...");
+          }
+        }
+
+        // Try refresh token
+        try {
+          console.log("🔄 Refreshing token...");
+          const newToken = await refreshAccessToken();
+          const userData = await getCurrentUser();
+          console.log("🎉 User authenticated after refresh:", userData);
+          setUser(userData);
+        } catch (refreshError) {
+          console.log("❌ Refresh failed, clearing auth");
+          removeAccessToken();
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("💥 Auth init failed:", error);
+        removeAccessToken();
+        setUser(null);
+      } finally {
+        setLoading(false);
+        setInitialized(true);
+      }
+    };
+
+    initAuth();
+  }, [initialized]);
 
   const login = async (credentials: LoginCredentials) => {
     try {
+      setLoading(true);
       const response = await apiLogin(credentials);
-      console.log("Auth Context:", response);
       setUser(response.data.user);
       router.push("/dashboard");
     } catch (error) {
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const register = async (credentials: RegisterCredentials) => {
     try {
+      setLoading(true);
       const response = await apiRegister(credentials);
       setUser(response.data.user);
       router.push("/dashboard");
     } catch (error) {
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = async () => {
     try {
+      setLoading(true);
       await apiLogout();
       setUser(null);
+      setInitialized(false); // Reset for next login
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
       setUser(null);
+      setInitialized(false);
       router.push("/login");
+    } finally {
+      setLoading(false);
     }
   };
 
   const refreshUser = async () => {
-    await fetchUser();
+    try {
+      const token = getAccessToken();
+      if (!token) return;
+      const userData = await getCurrentUser();
+      setUser(userData);
+    } catch (error) {
+      console.error("Failed to refresh user:", error);
+      setUser(null);
+    }
   };
 
   const value = {
