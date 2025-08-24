@@ -1,6 +1,6 @@
 import React from "react";
-import PlantCard from "../Cards/categoryCard";
 import { CategoryProps } from "@/lib/types";
+import PlantCard from "../Cards/categoryCard";
 
 const Category: React.FC<CategoryProps> = ({ category }) => {
   // console.log(category);

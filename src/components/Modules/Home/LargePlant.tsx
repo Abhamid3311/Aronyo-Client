@@ -1,7 +1,7 @@
 import React from "react";
 import { ProductsProps } from "@/lib/types";
-import ProductCard from "../Cards/ProductCard";
 import Headlines from "../Shared/Headlines";
+import ProductCard from "../Cards/ProductCard";
 
 const LargePlants: React.FC<ProductsProps> = ({ popProducts }) => {
   // console.log(popProducts)

@@ -1,9 +1,9 @@
-import Category from "@/components/Home/Category";
-import Help from "@/components/Home/Help";
-import Hero from "@/components/Home/Hero";
-import LargePlants from "@/components/Home/LargePlant";
-import NewArrivals from "@/components/Home/NewArrivals";
-import PopularPlants from "@/components/Home/PopularPlants";
+import Help from "@/components/Modules/Home/Help";
+import Hero from "@/components/Modules/Home/Hero";
+import LargePlants from "@/components/Modules/Home/LargePlant";
+import NewArrivals from "@/components/Modules/Home/NewArrivals";
+import PopularPlants from "@/components/Modules/Home/PopularPlants";
+import Category from "@/components/Modules/Home/Category";
 import {
   getCategories,
   getProductsWithFilters,

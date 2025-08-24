@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Playfair_Display } from "next/font/google";
+import { AuthProvider } from "@/Context/AuthContext";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -34,7 +35,7 @@ export default function RootLayout({
       <body
         className={` ${geistMono.variable} ${playfairDisplay.variable} antialiased `}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

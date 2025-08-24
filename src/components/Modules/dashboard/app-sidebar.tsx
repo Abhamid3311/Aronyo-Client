@@ -14,9 +14,9 @@ import {
   SquareTerminal,
 } from "lucide-react";
 
-import { NavMain } from "@/components/dashboard/nav-main";
-import { NavProjects } from "@/components/dashboard/nav-projects";
-import { NavUser } from "@/components/dashboard/nav-user";
+import { NavMain } from "@/components/Modules/dashboard/nav-main";
+import { NavProjects } from "@/components/Modules/dashboard/nav-projects";
+import { NavUser } from "@/components/Modules/dashboard/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -152,7 +152,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-      
+
       <SidebarRail />
     </Sidebar>
   );

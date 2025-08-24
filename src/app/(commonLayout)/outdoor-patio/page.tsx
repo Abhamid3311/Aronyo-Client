@@ -1,5 +1,5 @@
-import PageHeader from "@/components/Shared/PageHeader";
-import { ProductSection } from "@/components/Shared/ProductSection";
+import PageHeader from "@/components/Modules/Shared/PageHeader";
+import { ProductSection } from "@/components/Modules/Shared/ProductSection";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import React from "react";
 

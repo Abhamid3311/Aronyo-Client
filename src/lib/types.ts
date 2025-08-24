@@ -37,3 +37,43 @@ export interface IProduct {
 export interface ProductsProps {
   popProducts: IProduct[];
 }
+
+export type TUserRole = "user" | "admin" | "staff";
+export type TUserStatus = "active" | "inactive" | "banned";
+
+export interface IUser {
+  _id?: string;
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  address?: string;
+  image?: string;
+  role: TUserRole;
+  status: TUserStatus;
+  isDeleted: boolean;
+  createdAt?: Date;
+}
+
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken?: string; // Optional since it's in cookies
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterCredentials {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface AuthResponse {
+  user: IUser;
+  accessToken: string;
+  message?: string;
+}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import { Button } from "../ui/button";
 import { Gift, ShieldCheck, Smile } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
@@ -49,7 +49,6 @@ const Hero = () => {
 export default Hero;
 
 const ServiceSection = () => {
-
   const services = [
     {
       id: 1,
@@ -85,12 +84,9 @@ const ServiceSection = () => {
               <h3 className="text-lg font-semibold">{item.name}</h3>
               <p>{item.details}</p>
             </div>
-
           </div>
         ))}
       </div>
     </div>
   );
 };
-
-

@@ -1,5 +1,5 @@
-import NewProducts from "@/components/Products/NewProducts";
-import PageHeader from "@/components/Shared/PageHeader";
+import NewProducts from "@/components/Modules/Products/NewProducts";
+import PageHeader from "@/components/Modules/Shared/PageHeader";
 import React from "react";
 
 interface AllPlantsPageProps {

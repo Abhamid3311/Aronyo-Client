@@ -1,4 +1,4 @@
-import ProductCard from "@/components/Cards/ProductCard";
+import ProductCard from "@/components/Modules/Cards/ProductCard";
 import {
   Accordion,
   AccordionContent,

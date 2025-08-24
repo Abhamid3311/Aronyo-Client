@@ -129,3 +129,6 @@ export const OUTDOOR_PATIO_CONFIG = {
     apiParam: "flowering-plants",
   },
 };
+
+
+
