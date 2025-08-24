@@ -60,7 +60,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (credentials: LoginCredentials) => {
     try {
       const response = await apiLogin(credentials);
-      setUser(response.user);
+      console.log("Auth Context:", response);
+      setUser(response.data.user);
       router.push("/dashboard");
     } catch (error) {
       throw error;
@@ -70,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (credentials: RegisterCredentials) => {
     try {
       const response = await apiRegister(credentials);
-      setUser(response.user);
+      setUser(response.data.user);
       router.push("/dashboard");
     } catch (error) {
       throw error;

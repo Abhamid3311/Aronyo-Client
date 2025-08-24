@@ -33,7 +33,9 @@ export const login = async (
   credentials: LoginCredentials
 ): Promise<AuthResponse> => {
   const response = await axiosInstance.post("/auth/login", credentials);
-  const { accessToken, user } = response.data;
+  console.log(response);
+  const { accessToken, user } = response.data.data;
+  console.log(accessToken, user);
   setAccessToken(accessToken);
   return response.data;
 };
@@ -58,7 +60,8 @@ export const logout = async () => {
 };
 
 export const getCurrentUser = async (): Promise<IUser> => {
-  const response = await axiosInstance.get("/auth/me");
+  const response = await axiosInstance.get("/users/me");
+  console.log(response);
   return response.data;
 };
 

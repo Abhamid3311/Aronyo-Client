@@ -73,7 +73,9 @@ export interface RegisterCredentials {
 }
 
 export interface AuthResponse {
-  user: IUser;
-  accessToken: string;
-  message?: string;
+  data: {
+    user: IUser;
+    accessToken: string;
+  };
+  success?: boolean;
 }

@@ -12,6 +12,7 @@ interface AuthGuardProps {
 
 export function AuthGuard({ children, fallback = "/login" }: AuthGuardProps) {
   const { isAuthenticated, loading } = useAuth();
+  console.log(isAuthenticated)
   const router = useRouter();
 
   useEffect(() => {
