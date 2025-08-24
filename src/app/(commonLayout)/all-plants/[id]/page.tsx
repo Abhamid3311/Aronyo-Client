@@ -1,7 +1,6 @@
 import { getProductById } from "@/lib/services/Products/productsApi";
 import { IProduct } from "@/lib/types";
-import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import {
   Star,
   Heart,
