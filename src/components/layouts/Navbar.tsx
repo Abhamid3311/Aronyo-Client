@@ -115,7 +115,7 @@ export default function Navbar() {
               </div>
             ) : (
               <Link href={"/login"}>
-                <Button className="bg-primaryGreen text-white hover:bg-green-800">Login</Button>
+                <Button className="bg-primaryGreen text-white hover:bg-green-800 ">Login</Button>
               </Link>
             )}
           </div>

@@ -63,18 +63,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         // Try refresh token
         try {
-          console.log("🔄 Refreshing token...");
           const newToken = await refreshAccessToken();
           const userData = await getCurrentUser();
-          console.log("🎉 User authenticated after refresh:", userData);
+          // console.log("🎉 User authenticated after refresh:", userData);
           setUser(userData);
         } catch (refreshError) {
-          console.log("❌ Refresh failed, clearing auth");
+          console.log(" Refresh failed, clearing auth");
           removeAccessToken();
           setUser(null);
         }
       } catch (error) {
-        console.error("💥 Auth init failed:", error);
+        console.error("Auth init failed:", error);
         removeAccessToken();
         setUser(null);
       } finally {

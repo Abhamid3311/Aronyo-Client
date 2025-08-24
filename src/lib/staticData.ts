@@ -1,3 +1,16 @@
+import {
+  SquareTerminal,
+  ShoppingCart,
+  Heart,
+  History,
+  Boxes,
+  ClipboardList,
+  FolderTree,
+  BookOpen,
+  Users,
+  Star,
+} from "lucide-react";
+
 export const menuItems = [
   { name: "Home", link: "/", submenu: [] },
   {
@@ -130,5 +143,68 @@ export const OUTDOOR_PATIO_CONFIG = {
   },
 };
 
-
-
+export const roleMenus = {
+  common: [
+    {
+      title: "Profile",
+      url: "/dashboard",
+      icon: History,
+    },
+  ],
+  user: [
+    {
+      title: "Order History",
+      url: "/dashboard/order-history",
+      icon: ClipboardList,
+    },
+    {
+      title: "Cart",
+      url: "/dashboard/cart",
+      icon: ShoppingCart,
+    },
+    {
+      title: "Wishlist",
+      url: "/dashboard/wishlist",
+      icon: Heart,
+    },
+  ],
+  staffAdmin: [
+    {
+      title: "Overview",
+      url: "/dashboard/overview",
+      icon: SquareTerminal,
+    },
+    {
+      title: "Product Management",
+      url: "/dashboard/product-managment",
+      icon: Boxes,
+    },
+    {
+      title: "Order Management",
+      url: "/dashboard/order-managment",
+      icon: ClipboardList,
+    },
+    {
+      title: "Category Management",
+      url: "/dashboard/category-managment",
+      icon: FolderTree,
+    },
+    {
+      title: "Blog Management",
+      url: "/dashboard/blog-managment",
+      icon: BookOpen,
+    },
+  ],
+  admin: [
+    {
+      title: "User Management",
+      url: "/dashboard/user-managment",
+      icon: Users,
+    },
+    {
+      title: "Reviews",
+      url: "/dashboard/reviews",
+      icon: Star,
+    },
+  ],
+};
