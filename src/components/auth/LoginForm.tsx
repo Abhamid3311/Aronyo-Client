@@ -57,9 +57,11 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Login</CardTitle>
+    <Card className="w-full max-w-lg">
+      <CardHeader className="text-center text-textClr">
+        <CardTitle className="font-bold text-primaryGreen text-3xl">
+          Login
+        </CardTitle>
         <CardDescription>
           Enter your credentials to access your account
         </CardDescription>
@@ -71,7 +73,6 @@ export function LoginForm() {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -91,6 +92,7 @@ export function LoginForm() {
             <Input
               id="password"
               type="password"
+              placeholder="*******"
               {...register("password")}
               disabled={isLoading}
             />
@@ -99,7 +101,11 @@ export function LoginForm() {
             )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full font-bold text-lg text-white bg-primaryGreen hover:text-primaryGreen"
+            disabled={isLoading}
+          >
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -112,9 +118,9 @@ export function LoginForm() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-center">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-textClr">
           Don&lsquo;t have an account?{" "}
-          <Link href="/register" className="text-primary hover:underline">
+          <Link href="/register" className="text-primaryGreen hover:underline">
             Register
           </Link>
         </p>
