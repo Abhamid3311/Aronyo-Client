@@ -2,8 +2,8 @@ import React from "react";
 
 const Overview = () => {
   return (
-    <div className="bg-white p-6 rounded shadow">
-      Welcome to Admin Dashboard
+    <div>
+      <h1>This is Overview Page</h1>
     </div>
   );
 };

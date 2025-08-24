@@ -168,42 +168,43 @@ export const roleMenus = {
       icon: Heart,
     },
   ],
+
   staffAdmin: [
     {
       title: "Overview",
-      url: "/dashboard/overview",
+      url: "/dashboard/admin/overview",
       icon: SquareTerminal,
     },
     {
       title: "Product Management",
-      url: "/dashboard/product-managment",
+      url: "/dashboard/admin/product-managment",
       icon: Boxes,
     },
     {
       title: "Order Management",
-      url: "/dashboard/order-managment",
+      url: "/dashboard/admin/order-managment",
       icon: ClipboardList,
     },
     {
       title: "Category Management",
-      url: "/dashboard/category-managment",
+      url: "/dashboard/admin/category-managment",
       icon: FolderTree,
     },
     {
       title: "Blog Management",
-      url: "/dashboard/blog-managment",
+      url: "/dashboard/admin/blog-managment",
       icon: BookOpen,
     },
   ],
   admin: [
     {
       title: "User Management",
-      url: "/dashboard/user-managment",
+      url: "/dashboard/admin/user-managment",
       icon: Users,
     },
     {
       title: "Reviews",
-      url: "/dashboard/reviews",
+      url: "/dashboard/admin/reviews",
       icon: Star,
     },
   ],
