@@ -1,4 +1,4 @@
-import { BASE_API_URL } from "@/config/api";
+import { BASE_API_URL, ENDPOINTS } from "@/config/api";
 
 export async function getCategories() {
   const res = await fetch(`${BASE_API_URL}/category`, { cache: "no-store" });
@@ -17,4 +17,13 @@ export async function getProductsWithFilters(filters?: Record<string, string>) {
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch products");
   return res.json();
+}
+
+export async function getProductById(id: string) {
+  const res = await fetch(`${BASE_API_URL}/products/${id}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Failed to fetch Product");
+  const result = await res.json();
+  return result.data;
 }

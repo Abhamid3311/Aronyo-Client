@@ -9,7 +9,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Link
-      href={`/product/${product.slug}`}
+      href={`/all-plants/${product._id}`}
       className="group block overflow-hidden rounded-xl "
     >
       <div className="relative w-full h-40 lg:h-[350px] overflow-hidden rounded-xl  ">
