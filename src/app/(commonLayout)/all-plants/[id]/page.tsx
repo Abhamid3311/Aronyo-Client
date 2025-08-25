@@ -54,11 +54,11 @@ export default async function ProductPage({ params }: PageProps) {
           Home
         </Link>
         <span className="mx-2">/</span>
-        <a href="/all-plants" className="hover:text-green-600">
+        <Link href="/all-plants" className="hover:text-green-600">
           Products
-        </a>
+        </Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">{product.title}</span>
+        <span className="text-primaryGreen">{product.title}</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
@@ -204,6 +204,7 @@ export default async function ProductPage({ params }: PageProps) {
               <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700">
                 Buy Now
               </button>
+
               <button className="flex-1 border-2 border-green-600 text-green-600 py-3 px-6 rounded-lg font-medium hover:bg-green-50 flex items-center justify-center space-x-2">
                 <ShoppingCart className="w-5 h-5" />
                 <span>Add to Cart</span>
