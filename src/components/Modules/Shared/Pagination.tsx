@@ -135,7 +135,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <nav
         role="navigation"
         aria-label="pagination"
-        className="mx-auto flex w-full justify-center"
+        className="mx-auto flex w-full justify-center py-5"
       >
         <div className="flex flex-row items-center space-x-1">
           {/* Previous button */}

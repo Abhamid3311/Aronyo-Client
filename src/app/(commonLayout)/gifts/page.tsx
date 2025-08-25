@@ -1,10 +1,12 @@
-import ProductCard from "@/components/Modules/Cards/ProductCard";
+import ProductExplorer from "@/components/Modules/Products/ProductExplorer";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
-import { IProduct } from "@/lib/types";
 import React from "react";
 
-const Gifts = () => {
+const Gifts = async () => {
+  const [giftProducts] = await Promise.all([
+    getProductsWithFilters({ tag: "gift" }),
+  ]);
   return (
     <div className="min-h-screen custom-container">
       <PageHeader
@@ -12,27 +14,9 @@ const Gifts = () => {
         para="From birthdays to housewarmings and every holiday – shop our favorite gift-able greens for all occasions."
       />
 
-      <GiftProducts />
+      <ProductExplorer initialData={giftProducts} />
     </div>
   );
 };
 
 export default Gifts;
-
-const GiftProducts = async () => {
-  const [giftProducts] = await Promise.all([
-    getProductsWithFilters({ tag: "gift" }),
-  ]);
-
-  return (
-    <div className="custom-container">
-      <div className="py-5">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 lg:gap-5 my-5 px-5">
-          {giftProducts.data.map((item: IProduct) => (
-            <ProductCard key={item._id} product={item} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};

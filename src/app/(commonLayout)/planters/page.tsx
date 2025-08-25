@@ -4,7 +4,7 @@ import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import React from "react";
 
 const Planters = async () => {
-  const [plantCare] = await Promise.all([
+  const [planters] = await Promise.all([
     getProductsWithFilters({ category: "planters" }),
   ]);
 
@@ -15,7 +15,7 @@ const Planters = async () => {
         para="Meet your new favorite planter. Discover planters, cachepots, propagation vessels, and more in a wide range of styles, sizes, & colors."
       />
 
-      <ProductExplorer initialData={plantCare} category="planters" />
+      <ProductExplorer initialData={planters} category="planters" />
     </div>
   );
 };

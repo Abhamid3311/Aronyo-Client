@@ -53,7 +53,7 @@ export default function FiltersSidebar({
   };
 
   return (
-    <Card className="h-full">
+    <Card className="h-full lg:h-auto">
       <CardContent className="p-4 space-y-6 overflow-y-auto">
         {/* Search */}
         <Input
