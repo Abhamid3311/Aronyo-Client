@@ -20,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           className="object-cover transform duration-300 group-hover:scale-105"
         />
       </div>
-      <h3 className="mt-2 mb-1 text-md lg:text-lg font-medium text-start group-hover:text-primaryGreen">
+      <h3 className="mt-2 mb-1 text-sm lg:text-lg font-medium text-start group-hover:text-primaryGreen">
         {product.title} <span className="ml-1 inline-block text-xl">→</span>
       </h3>
       <p className="text-xs lg:text-sm">{product.description}</p>

@@ -7,7 +7,7 @@ interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, para }) => {
   return (
-    <div className="py-10 text-center ">
+    <div className="py-5 text-center px-5">
       <h1 className="text-3xl lg:text-5xl font-semibold mb-3 text-textClr">
         {title}
       </h1>
