@@ -1,4 +1,4 @@
-import ProductExplorer from "@/components/Modules/Products/SearchFilter";
+import ProductExplorer from "@/components/Modules/Products/ProductExplorer";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import React from "react";
