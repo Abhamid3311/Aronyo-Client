@@ -3,6 +3,7 @@ import { useCart } from "@/Context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash } from "lucide-react";
 import { CartItem } from "@/lib/types";
+import Link from "next/link";
 
 interface CartCardProps {
   item: CartItem;
@@ -27,8 +28,10 @@ export default function CartCard({ item }: CartCardProps) {
           />
         </div>
         <div className="flex flex-col flex-wrap">
-          <h2 className="text-lg font-medium whitespace-normal">
-            {item.productId?.title}
+          <h2 className="text-lg font-medium whitespace-normal hover:text-primaryGreen hover:underline">
+            <Link href={`/all-plants/${item.productId?._id}`}>
+              {item.productId?.title}
+            </Link>
           </h2>
           <p className="text-muted-foreground">
             Price: ৳{item.productId?.discountPrice || item.productId?.price}
