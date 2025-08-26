@@ -7,21 +7,16 @@ import {
   useState,
   ReactNode,
   useEffect,
+  useRef,
 } from "react";
-
-// Use your existing interfaces
 import { IProduct, CartItem, ICart } from "@/lib/types";
 
 interface CartContextType {
   cart: CartItem[];
   loading: boolean;
-  refreshCart: () => Promise<void>;
   addToCart: (productId: string, quantity?: number) => Promise<void>;
   removeFromCart: (productId: string | IProduct) => Promise<void>;
-  updateQuantity: (
-    productId: string | IProduct,
-    quantity: number
-  ) => Promise<void>;
+  updateQuantity: (productId: string | IProduct, quantity: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -31,25 +26,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Helper function to extract productId from either string or IProduct object
+  // Refs for debouncing quantity updates
+  const quantityTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
+
   const getProductId = (productId: string | IProduct): string => {
     return typeof productId === "string" ? productId : productId._id;
   };
 
-  // ✅ Fetch cart from database
+  // Initial cart fetch
   const refreshCart = async () => {
     try {
       setLoading(true);
-      const response = await get<ICart>("/cart");
-
-      // Based on your console.log, the response directly contains the items array
-      if (response.data?.data.items) {
-        console.log("Cart items:", response.data);
-        setCart(response.data.data.items);
-      } else {
-        console.warn("No items found in cart response:", response);
-        setCart([]);
-      }
+      const res = await get<ICart>("/cart");
+      if (res.data?.data.items) setCart(res.data.data.items);
+      else setCart([]);
     } catch (err) {
       console.error("❌ Failed to fetch cart:", err);
       setCart([]);
@@ -62,74 +52,82 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     refreshCart();
   }, []);
 
-  //  Add to cart
+  // Optimistic Add to Cart
   const addToCart = async (productId: string, quantity: number = 1) => {
-    try {
-      // First, make the API call
-      await post("/cart/add", { productId, quantity });
+    const previousCart = [...cart];
+    const id = getProductId(productId);
 
-      // Then refresh the cart to get updated data with populated product
-      await refreshCart();
+    const existingItem = cart.find(
+      (item) => getProductId(item.productId) === id
+    );
+
+    if (existingItem) {
+      setCart((prev) =>
+        prev.map((item) =>
+          getProductId(item.productId) === id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        )
+      );
+    } else {
+      setCart((prev) => [...prev, { productId: { _id: id }, quantity }]);
+    }
+
+    try {
+      await post("/cart/add", { productId: id, quantity });
     } catch (err) {
+      setCart(previousCart); // rollback
       console.error("❌ Add to cart failed:", err);
-      // You might want to show a toast notification here
-      throw err; // Re-throw to let the calling component handle the error
     }
   };
 
-  //  Remove 1 Item from cart
+  // Optimistic Remove
   const removeFromCart = async (productId: string | IProduct) => {
     const id = getProductId(productId);
-
-    // Optimistic update
     const previousCart = [...cart];
+
     setCart((prev) =>
       prev.filter((item) => getProductId(item.productId) !== id)
     );
 
     try {
-      await del(`/cart/remove`, { data: { productId: id } });
-      // Refresh to ensure consistency
-      await refreshCart();
+      await del("/cart/remove", { data: { productId: id } });
     } catch (err) {
+      setCart(previousCart); // rollback
       console.error("❌ Remove from cart failed:", err);
-      // Rollback on error
-      setCart(previousCart);
-      throw err;
     }
   };
 
-  //  Update quantity
-  const updateQuantity = async (
-    productId: string | IProduct,
-    quantity: number
-  ) => {
+  // Optimistic Quantity Update with Debounce
+  const updateQuantity = (productId: string | IProduct, quantity: number) => {
     const id = getProductId(productId);
 
-    // If quantity is 0 or less, remove the item
-    if (quantity <= 0) {
-      await removeFromCart(id);
-      return;
-    }
-
-    // Optimistic update
-    const previousCart = [...cart];
+    // Immediate local update
     setCart((prev) =>
       prev.map((item) =>
         getProductId(item.productId) === id ? { ...item, quantity } : item
       )
     );
 
-    try {
-      await put(`/cart/update`, { productId: id, quantity });
-      // Refresh to ensure consistency
-      await refreshCart();
-    } catch (err) {
-      console.error("❌ Update quantity failed:", err);
-      // Rollback on error
-      setCart(previousCart);
-      throw err;
+    // If quantity <= 0, remove the item immediately
+    if (quantity <= 0) {
+      removeFromCart(id);
+      return;
     }
+
+    // Clear previous timer
+    if (quantityTimers.current[id]) clearTimeout(quantityTimers.current[id]);
+
+    // Debounce API call by 300ms
+    quantityTimers.current[id] = setTimeout(async () => {
+      try {
+        await put("/cart/update", { productId: id, quantity });
+      } catch (err) {
+        console.error("❌ Update quantity failed:", err);
+        // Optionally, refetch cart or rollback
+        refreshCart();
+      }
+    }, 300);
   };
 
   return (
@@ -137,7 +135,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       value={{
         cart,
         loading,
-        refreshCart,
         addToCart,
         removeFromCart,
         updateQuantity,
@@ -150,8 +147,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
+  if (!context) throw new Error("useCart must be used within a CartProvider");
   return context;
 };
