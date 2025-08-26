@@ -82,7 +82,7 @@ export default function Navbar() {
               className="text-green-800 hover:text-green-600 relative cursor-pointer"
             >
               <Link href={"/cart"}>
-                <ShoppingCartIcon className="h-8 w-8" />
+                <ShoppingCartIcon className="h-10 w-10" />
                 <span className="sr-only">Cart</span>
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
                   2
