@@ -38,6 +38,18 @@ export interface ProductsProps {
   popProducts: IProduct[];
 }
 
+export interface CartItem {
+  productId: IProduct;
+  quantity: number;
+  _id: string;
+}
+
+export interface ICart {
+  data: {
+    items: CartItem[];
+  };
+}
+
 export type TUserRole = "user" | "admin" | "staff";
 export type TUserStatus = "active" | "inactive" | "banned";
 

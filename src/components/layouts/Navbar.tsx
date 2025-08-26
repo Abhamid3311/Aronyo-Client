@@ -20,11 +20,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCart } from "@/Context/CartContext";
 
 export default function Navbar() {
+  const { cart, loading } = useCart();
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+
+  const totalProduct = cart.reduce((sum, items) => sum + items.quantity, 0);
+
+  // console.log(cart, totalProduct);
 
   return (
     <div className="w-full">
@@ -84,8 +90,8 @@ export default function Navbar() {
               <Link href={"/cart"}>
                 <ShoppingCartIcon className="h-10 w-10" />
                 <span className="sr-only">Cart</span>
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                  2
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalProduct || 0}
                 </span>
               </Link>
             </Button>
