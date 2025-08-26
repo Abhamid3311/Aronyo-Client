@@ -26,8 +26,6 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
 
-
-
   return (
     <div className="w-full">
       {/* Top Layer (Green with Sliding Text) */}
@@ -70,22 +68,26 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="text-green-800 hover:text-green-600"
+              className="text-green-800 hover:text-green-600 cursor-pointer"
             >
-              <HeartIcon className="h-10 w-10" />
-              <span className="sr-only">Wishlist</span>
+              <Link href={"/wishlist"}>
+                <HeartIcon className="h-10 w-10" />
+                <span className="sr-only">Wishlist</span>
+              </Link>
             </Button>
 
             <Button
               variant="ghost"
               size="icon"
-              className="text-green-800 hover:text-green-600 relative"
+              className="text-green-800 hover:text-green-600 relative cursor-pointer"
             >
-              <ShoppingCartIcon className="h-8 w-8" />
-              <span className="sr-only">Cart</span>
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                2
-              </span>
+              <Link href={"/cart"}>
+                <ShoppingCartIcon className="h-8 w-8" />
+                <span className="sr-only">Cart</span>
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                  2
+                </span>
+              </Link>
             </Button>
 
             {user ? (
@@ -98,7 +100,7 @@ export default function Navbar() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-green-800 hover:text-green-600"
+                      className="text-green-800 hover:text-green-600 cursor-pointer"
                     >
                       <User className="h-10 w-10" />
                       <span className="sr-only">User</span>
@@ -115,7 +117,9 @@ export default function Navbar() {
               </div>
             ) : (
               <Link href={"/login"}>
-                <Button className="bg-primaryGreen text-white hover:bg-green-800 ">Login</Button>
+                <Button className="bg-primaryGreen text-white hover:bg-green-800 cursor-pointer">
+                  Login
+                </Button>
               </Link>
             )}
           </div>

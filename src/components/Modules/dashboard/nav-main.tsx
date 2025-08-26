@@ -24,7 +24,7 @@ export function NavMain({ items }: { items: NavItem[] }) {
             key={item.title}
             href={item.url}
             className={cn(
-              "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              "flex items-center gap-2  px-3 py-2 text-sm font-medium transition-colors",
               isActive
                 ? "bg-green-600 text-white"
                 : "text-gray-700 hover:bg-green-100 hover:text-green-700"
