@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import ProductImages from "@/components/Modules/Products/ProductDetailsImage";
+import ProductActions from "@/components/Modules/Products/ProductActions";
 
 interface PageProps {
   params: { id: string };
@@ -184,33 +185,7 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Quantity Selector */}
-          <div className="flex items-center space-x-4">
-            <span className="font-medium">Quantity:</span>
-            <div className="flex items-center border rounded-lg">
-              <button className="p-2 hover:bg-gray-100">
-                <Minus className="w-4 h-4" />
-              </button>
-              <span className="px-4 py-2 font-medium">1</span>
-              <button className="p-2 hover:bg-gray-100">
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="space-y-4">
-            <div className="flex space-x-4">
-              <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700">
-                Buy Now
-              </button>
-
-              <button className="flex-1 border-2 border-green-600 text-green-600 py-3 px-6 rounded-lg font-medium hover:bg-green-50 flex items-center justify-center space-x-2">
-                <ShoppingCart className="w-5 h-5" />
-                <span>Add to Cart</span>
-              </button>
-            </div>
-          </div>
+          <ProductActions product={product} />
 
           {/* Features */}
           <div className="border-t pt-6 space-y-4">

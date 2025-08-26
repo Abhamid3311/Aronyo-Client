@@ -36,8 +36,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         }
         return [...prev, { productId, quantity }];
       });
+
+      // ✅ Basic alert instead of toast
+      alert("Product added to cart!");
     } catch (error) {
       console.error("Add to cart failed", error);
+      alert("Failed to add product to cart!");
     }
   };
 
