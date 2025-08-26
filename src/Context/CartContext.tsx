@@ -62,7 +62,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     refreshCart();
   }, []);
 
-  // ➕ Add to cart (Optimistic update)
+  //  Add to cart
   const addToCart = async (productId: string, quantity: number = 1) => {
     try {
       // First, make the API call
@@ -77,7 +77,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // ❌ Remove from cart (Optimistic update)
+  //  Remove 1 Item from cart
   const removeFromCart = async (productId: string | IProduct) => {
     const id = getProductId(productId);
 
@@ -88,7 +88,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
 
     try {
-      await del(`/cart/${id}`);
+      await del(`/cart/remove`, { data: { productId: id } });
       // Refresh to ensure consistency
       await refreshCart();
     } catch (err) {
@@ -99,7 +99,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // 🔄 Update quantity (Optimistic update)
+  //  Update quantity
   const updateQuantity = async (
     productId: string | IProduct,
     quantity: number
@@ -121,7 +121,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
 
     try {
-      await put(`/cart/${id}`, { quantity });
+      await put(`/cart/update`, { productId: id, quantity });
       // Refresh to ensure consistency
       await refreshCart();
     } catch (err) {

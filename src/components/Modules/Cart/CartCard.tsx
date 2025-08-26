@@ -47,7 +47,7 @@ export default function CartCard({ item }: CartCardProps) {
             variant="outline"
             size="icon"
             onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-            disabled={item.quantity <= 1}
+            // disabled={item.quantity <= 1}
             className="rounded-none border-0"
           >
             <Minus className="h-4 w-4" />
@@ -55,6 +55,7 @@ export default function CartCard({ item }: CartCardProps) {
           <span className="px-3 py-2 border-x min-w-[3rem] text-center">
             {item.quantity}
           </span>
+
           <Button
             variant="outline"
             size="icon"
@@ -73,7 +74,7 @@ export default function CartCard({ item }: CartCardProps) {
           variant="ghost"
           size="icon"
           className="text-red-600 hover:bg-red-100 hover:text-red-700 rounded-full ml-2"
-          onClick={() => removeFromCart(item.productId)}
+          onClick={() => removeFromCart(item.productId._id)}
         >
           <Trash className="h-5 w-5" />
         </Button>
