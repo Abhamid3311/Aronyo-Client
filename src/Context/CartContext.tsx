@@ -70,11 +70,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         )
       );
     } else {
-      setCart((prev) => [...prev, { productId: { _id: id }, quantity }]);
+      setCart((prev) => [
+        ...prev,
+        { productId: { _id: id }, quantity } as CartItem,
+      ]);
     }
 
     try {
       await post("/cart/add", { productId: id, quantity });
+      await refreshCart();
     } catch (err) {
       setCart(previousCart); // rollback
       console.error("❌ Add to cart failed:", err);
