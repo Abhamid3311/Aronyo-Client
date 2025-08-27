@@ -1,11 +1,13 @@
 "use client";
 
 import { useCart } from "@/Context/CartContext";
+import { useWishlist } from "@/Context/WishlistContext";
 import { IProduct } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
 import { Heart, ShoppingCart, Eye } from "lucide-react";
+import { successAlert } from "@/lib/alert";
 
 interface ProductCardProps {
   product: IProduct;
@@ -13,6 +15,23 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+
+  // Check if product already in wishlist
+  const isWishlisted = useMemo(
+    () => wishlist.some((p) => p._id === product._id),
+    [wishlist, product._id]
+  );
+
+  const handleWishlistToggle = async () => {
+    if (isWishlisted) {
+      await removeFromWishlist(product._id);
+      successAlert("Removed from your wishlist!");
+    } else {
+      await addToWishlist(product._id);
+      successAlert("Added to your wishlist!");
+    }
+  };
 
   return (
     <div className="group relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
@@ -38,15 +57,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Heart Icon -> Wishlist */}
           <button
             className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
-            onClick={() => console.log("Add to wishlist:", product._id)}
+            onClick={handleWishlistToggle}
           >
-            <Heart size={20} className="text-red-500" />
+            <Heart
+              size={20}
+              className="text-red-500"
+              fill={isWishlisted ? "red" : "none"}
+            />
           </button>
 
           {/* Cart Icon -> Add to Cart */}
           <button
             className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
-            onClick={() => addToCart(product._id)}
+            onClick={() => {
+              addToCart(product._id);
+              successAlert("Added to your wishlist!");
+            }}
           >
             <ShoppingCart size={20} className="text-green-600" />
           </button>

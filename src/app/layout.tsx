@@ -4,6 +4,7 @@ import "./globals.css";
 import { Playfair_Display } from "next/font/google";
 import { AuthProvider } from "@/Context/AuthContext";
 import { CartProvider } from "@/Context/CartContext";
+import { WishlistProvider } from "@/Context/WishlistContext";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -37,7 +38,9 @@ export default function RootLayout({
         className={` ${geistMono.variable} ${playfairDisplay.variable} antialiased `}
       >
         <AuthProvider>
-          <CartProvider>{children}</CartProvider>
+          <WishlistProvider>
+            <CartProvider>{children}</CartProvider>
+          </WishlistProvider>
         </AuthProvider>
       </body>
     </html>
