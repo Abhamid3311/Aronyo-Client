@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { useWishlist } from "@/Context/WishlistContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, Loader2 } from "lucide-react";
-import Image from "next/image";
 import WishlistCard from "./WishlistCard";
 import { useCart } from "@/Context/CartContext";
 

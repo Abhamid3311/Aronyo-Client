@@ -1,8 +1,9 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import { IProduct } from "@/lib/types";
+import Link from "next/link";
 
 interface WishlistCardProps {
   product: IProduct;
@@ -17,7 +18,7 @@ export default function WishlistCard({
 }: WishlistCardProps) {
   return (
     <div key={product._id} className="shadow rounded-xl max-w-md">
-      <CardContent className="flex items-center justify-between gap-4 p-4">
+      <div className="flex items-center justify-between gap-4 p-4">
         {/* Product Image */}
         <div className="flex items-center gap-4">
           <Image
@@ -28,7 +29,10 @@ export default function WishlistCard({
             className="w-16 h-16 object-cover rounded-lg"
           />
           <div>
-            <h3 className="font-semibold">{product.title}</h3>
+            <Link href={`/all-plants/${product._id}`}>
+              {" "}
+              <h3 className="font-semibold hover:text-primaryGreen hover:underline">{product.title}</h3>
+            </Link>
             <p className="text-gray-600">
               ৳{product.discountPrice ?? product.price}
             </p>
@@ -53,7 +57,7 @@ export default function WishlistCard({
             <Trash2 className="h-5 w-5" />
           </Button>
         </div>
-      </CardContent>
+      </div>
     </div>
   );
 }
