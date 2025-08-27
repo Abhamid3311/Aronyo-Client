@@ -6,9 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, Loader2 } from "lucide-react";
 import Image from "next/image";
+import WishlistCard from "./WishlistCard";
+import { useCart } from "@/Context/CartContext";
 
 export default function WishlistPage() {
   const { wishlist, loading, removeFromWishlist } = useWishlist();
+  const { addToCart } = useCart();
 
   if (loading) {
     return (
@@ -50,37 +53,14 @@ export default function WishlistPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="">
         {wishlist.map((product) => (
-          <Card key={product._id} className="flex flex-col">
-            <CardHeader>
-              <Image
-                src={product.images?.[0] || "/placeholder.png"}
-                alt={product.title}
-                width={300}
-                height={200}
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <CardTitle className="mt-2 text-lg">{product.title}</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-2 flex-grow justify-between">
-              <p className="text-green-600 font-semibold">
-                ৳{product.discountPrice ? product.discountPrice : product.price}
-              </p>
-              <div className="flex gap-2 mt-2">
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => removeFromWishlist(product._id)}
-                >
-                  Remove
-                </Button>
-                <Link href={`/products/${product._id}`} className="flex-1">
-                  <Button className="w-full">View</Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+          <WishlistCard
+          key={product._id}
+          product={product}
+          addToCart={addToCart}
+          removeFromWishlist={removeFromWishlist}
+        />
         ))}
       </div>
     </div>
