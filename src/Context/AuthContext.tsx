@@ -59,6 +59,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           } catch (error) {
             console.log(" Token expired, trying refresh...");
           }
+        } else {
+          return;
         }
 
         // Try refresh token
