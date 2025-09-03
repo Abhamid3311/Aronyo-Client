@@ -33,20 +33,8 @@
     padding-left: 0;
   }
   .primaryButton {
-    @apply bg-primaryGreen hover:bg-green-500 px-5 py-6 rounded-md text-lg font-bold font-[--font-playfair];
+    @apply bg-primaryGreen hover:bg-green-800 px-5 py-6 rounded-md text-lg font-bold font-[--font-playfair];
   }
-
-  /*  @screen md {
-    .custom-container {
-      padding-right: 1.5rem;
-    }
-  }
-
-  @screen lg {
-    .custom-container {
-      padding-right: 2rem;
-    }
-  } */
 
   /* Sliding Text Animation */
   @keyframes slide {

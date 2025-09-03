@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <div className="group relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
+    <div className="group relative bg-white rounded-xl overflow-hidden hover:shadow-md transition-all duration-300">
       {/* Product Image */}
       <div className="relative w-full h-40 lg:h-60 overflow-hidden">
         <Image
@@ -71,7 +71,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
             onClick={() => {
               addToCart(product._id);
-              successAlert("Added to your wishlist!");
             }}
           >
             <ShoppingCart size={20} className="text-green-600" />

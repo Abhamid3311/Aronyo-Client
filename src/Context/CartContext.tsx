@@ -10,6 +10,7 @@ import {
   useRef,
 } from "react";
 import { IProduct, CartItem, ICart } from "@/lib/types";
+import { errorAlert, successAlert } from "@/lib/alert";
 
 interface CartContextType {
   cart: CartItem[];
@@ -41,7 +42,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       if (res.data?.data.items) setCart(res.data.data.items);
       else setCart([]);
     } catch (err) {
-      console.error("❌ Failed to fetch cart:", err);
+      console.error("Failed to fetch cart:", err);
       setCart([]);
     } finally {
       setLoading(false);
@@ -52,7 +53,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     refreshCart();
   }, []);
 
-  // Optimistic Add to Cart
+  // Add to Cart
   const addToCart = async (productId: string, quantity: number = 1) => {
     const previousCart = [...cart];
     const id = getProductId(productId);
@@ -78,14 +79,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       await post("/cart/add", { productId: id, quantity });
+      successAlert("Item added to your cart!");
       await refreshCart();
     } catch (err) {
       setCart(previousCart); // rollback
       console.error("❌ Add to cart failed:", err);
+      errorAlert("Item added failed!");
     }
   };
 
-  // Optimistic Remove
+  // Remove
   const removeFromCart = async (productId: string | IProduct) => {
     const id = getProductId(productId);
     const previousCart = [...cart];
@@ -96,13 +99,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       await del("/cart/remove", { data: { productId: id } });
+      successAlert("Item Removed!");
     } catch (err) {
       setCart(previousCart); // rollback
-      console.error("❌ Remove from cart failed:", err);
+      console.error(" Remove from cart failed:", err);
+      errorAlert("Item Remove failed!");
     }
   };
 
-  // Optimistic Quantity Update with Debounce
+  // Quantity Update with Debounce
   const updateQuantity = (productId: string | IProduct, quantity: number) => {
     const id = getProductId(productId);
 
