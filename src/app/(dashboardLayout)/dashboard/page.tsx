@@ -23,7 +23,9 @@ import {
   User,
   Settings,
   LogOut,
+  Home,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function UserProfilePage() {
   const { user, logout } = useAuth();
@@ -98,7 +100,7 @@ export default function UserProfilePage() {
 
   if (!user) {
     return (
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-6 w-full">
         <Card>
           <CardContent className="flex items-center justify-center h-32">
             <p>No user data available</p>
@@ -111,16 +113,8 @@ export default function UserProfilePage() {
   return (
     <div className="  p-6 max-w-7xl">
       {/* Header */}
-      <div className="mb-6 flex justify-between items-center">
+      <div className="mb-6">
         <h1 className="text-3xl font-bold">User Profile</h1>
-        <Button
-          onClick={logout}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <LogOut className="h-4 w-4" />
-          Logout
-        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -187,9 +181,7 @@ export default function UserProfilePage() {
                       <p className="text-sm text-muted-foreground">
                         Phone Number
                       </p>
-                      <p className="font-medium">
-                        {user.phone || "Not provided"}
-                      </p>
+                      <p className="font-medium">{user.phone || "N/A"}</p>
                     </div>
                   </div>
 
@@ -286,6 +278,13 @@ export default function UserProfilePage() {
                 <Key className="h-4 w-4 mr-2" />
                 Change Password
               </Button>
+
+              <Link href={"/"}>
+                <Button className="w-full justify-start" variant="outline">
+                  <Home className="h-4 w-4 mr-2" />
+                  Back To Home
+                </Button>
+              </Link>
 
               <Separator />
 

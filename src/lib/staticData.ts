@@ -9,6 +9,7 @@ import {
   BookOpen,
   Users,
   Star,
+  User,
 } from "lucide-react";
 
 export const menuItems = [
@@ -148,7 +149,7 @@ export const roleMenus = {
     {
       title: "Profile",
       url: "/dashboard",
-      icon: History,
+      icon: User,
     },
   ],
   user: [
