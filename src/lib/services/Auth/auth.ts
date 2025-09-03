@@ -35,9 +35,7 @@ export const login = async (
   credentials: LoginCredentials
 ): Promise<AuthResponse> => {
   const response = await axiosInstance.post("/auth/login", credentials);
-  // console.log(response);
   const { accessToken, user } = response.data.data;
-  // console.log(accessToken, user);
   setAccessToken(accessToken);
   // Set login flag
   if (typeof window !== "undefined") {

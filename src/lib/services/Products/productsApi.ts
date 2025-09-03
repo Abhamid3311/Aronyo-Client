@@ -1,4 +1,5 @@
-import { BASE_API_URL, ENDPOINTS } from "@/config/api";
+import { BASE_API_URL } from "@/config/api";
+import axiosInstance from "@/lib/axios";
 
 export async function getCategories() {
   const res = await fetch(`${BASE_API_URL}/category`, { cache: "no-store" });
@@ -6,6 +7,15 @@ export async function getCategories() {
   return res.json();
 }
 
+// Get All Products for Admin
+export async function getProductsForAdmin() {
+  const res = await axiosInstance.get("/products/admin/");
+  console.log(res);
+  // if (!res.ok) throw new Error("Failed to fetch products");
+  return res;
+}
+
+// Get All Products for User
 export async function getProductsWithFilters(filters?: Record<string, string>) {
   let url = `${BASE_API_URL}/products`;
 
@@ -19,6 +29,7 @@ export async function getProductsWithFilters(filters?: Record<string, string>) {
   return res.json();
 }
 
+// Get Single Product for User
 export async function getProductById(id: string) {
   const res = await fetch(`${BASE_API_URL}/products/${id}`, {
     cache: "no-store",

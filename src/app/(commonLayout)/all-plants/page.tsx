@@ -1,12 +1,7 @@
-import NewProducts from "@/components/Modules/Products/NewProducts";
 import ProductExplorer from "@/components/Modules/Products/ProductExplorer";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import React from "react";
-
-/* interface AllPlantsPageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
-} */
 
 const AllPlants = async () => {
   const [allProducts] = await Promise.all([getProductsWithFilters()]);
