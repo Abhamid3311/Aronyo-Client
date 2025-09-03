@@ -3,12 +3,7 @@ import { getAccessToken, setAccessToken, logout } from "./services/Auth/auth";
 import Cookies from "js-cookie";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const protectedRules = [
-  "/wishlist", // exact match
-  "/cart", // exact match
-  "/dashboard/*", // all dashboard routes
-  // "/orders/*",
-];
+const protectedRules = ["/dashboard/*"];
 
 export function isProtectedRoute(path: string) {
   return protectedRules.some((rule) => {

@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart, Loader2 } from "lucide-react";
 import CartCard from "./CartCard";
+import { useAuth } from "@/Context/AuthContext";
 
 export default function CartPage() {
   const { cart, loading } = useCart();
+  const { isAuthenticated } = useAuth();
 
   // Calculate total price
   const totalPrice = cart.reduce((sum, item) => {
@@ -20,6 +22,23 @@ export default function CartPage() {
   }, 0);
 
   // console.log(cart);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 text-center">
+        <div className="flex flex-col items-center gap-4 py-12">
+          <ShoppingCart className="h-16 w-16 text-muted-foreground" />
+          <h2 className="text-2xl font-bold mb-2">You&apos;re Not Logged in</h2>
+          <p className="text-muted-foreground mb-4">
+            Please login first for view cart
+          </p>
+          <Link href="/login">
+            <Button>Login </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   // Loading state
   if (loading) {

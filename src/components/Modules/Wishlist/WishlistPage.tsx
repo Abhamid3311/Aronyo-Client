@@ -6,10 +6,29 @@ import { Button } from "@/components/ui/button";
 import { Heart, Loader2 } from "lucide-react";
 import WishlistCard from "./WishlistCard";
 import { useCart } from "@/Context/CartContext";
+import { useAuth } from "@/Context/AuthContext";
 
 export default function WishlistPage() {
+  const { isAuthenticated } = useAuth();
   const { wishlist, loading, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
+
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 text-center">
+        <div className="flex flex-col items-center gap-4 py-12">
+          <Heart className="h-16 w-16 text-muted-foreground" />
+          <h2 className="text-2xl font-bold mb-2">You&apos;re Not Logged in</h2>
+          <p className="text-muted-foreground mb-4">
+            Please login first for view Wishlist
+          </p>
+          <Link href="/login">
+            <Button>Login </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -54,11 +73,11 @@ export default function WishlistPage() {
       <div className="">
         {wishlist.map((product) => (
           <WishlistCard
-          key={product._id}
-          product={product}
-          addToCart={addToCart}
-          removeFromWishlist={removeFromWishlist}
-        />
+            key={product._id}
+            product={product}
+            addToCart={addToCart}
+            removeFromWishlist={removeFromWishlist}
+          />
         ))}
       </div>
     </div>

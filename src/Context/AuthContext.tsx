@@ -13,6 +13,7 @@ import {
   removeAccessToken,
   wasLoggedIn,
 } from "@/lib/services/Auth/auth";
+import { confirmAlert, errorAlert, successAlert } from "@/lib/alert";
 
 interface AuthContextType {
   user: IUser | null;
@@ -92,8 +93,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       const response = await apiLogin(credentials);
       setUser(response.data.user);
+      successAlert("Logged in Successfully!");
       router.push("/dashboard");
     } catch (error) {
+      errorAlert("Login failed");
       throw error;
     } finally {
       setLoading(false);
@@ -105,8 +108,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       const response = await apiRegister(credentials);
       setUser(response.data.user);
+      successAlert("Registration Successfully Done!");
       router.push("/dashboard");
     } catch (error) {
+      errorAlert("Registration failed");
       throw error;
     } finally {
       setLoading(false);
@@ -114,16 +119,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
+    const confirmed = await confirmAlert("Do you really want to logout?");
+    if (!confirmed) return;
+
     try {
       setLoading(true);
       await apiLogout();
       setUser(null);
-      setInitialized(false); // Reset for next login
+      setInitialized(false);
+      successAlert("Logged out successfully!");
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
       setUser(null);
       setInitialized(false);
+      errorAlert("Logout failed. Please try again.");
       router.push("/login");
     } finally {
       setLoading(false);
