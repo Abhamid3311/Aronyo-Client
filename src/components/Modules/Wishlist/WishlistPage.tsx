@@ -12,7 +12,6 @@ export default function WishlistPage() {
   const { isAuthenticated } = useAuth();
   const { wishlist, loading, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
-  
 
   if (!isAuthenticated) {
     return (
@@ -71,7 +70,7 @@ export default function WishlistPage() {
         </p>
       </div>
 
-      <div className="">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-5">
         {wishlist.map((product) => (
           <WishlistCard
             key={product._id}
