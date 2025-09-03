@@ -1,9 +1,10 @@
+import WishlistPage from "@/components/Modules/Wishlist/WishlistPage";
 import React from "react";
 
 const Wishlist = () => {
   return (
     <div>
-      <h1>This is Wishlist Page</h1>
+      <WishlistPage />
     </div>
   );
 };

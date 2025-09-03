@@ -108,8 +108,10 @@ export default function Navbar() {
                       size="icon"
                       className="text-green-800 hover:text-green-600 cursor-pointer"
                     >
-                      <User className="h-10 w-10" />
-                      <span className="sr-only">User</span>
+                      <Link href="/dashboard">
+                        <User className="h-10 w-10" />
+                        <span className="sr-only">User</span>
+                      </Link>
                     </Button>
                   </DropdownMenuTrigger>
 
