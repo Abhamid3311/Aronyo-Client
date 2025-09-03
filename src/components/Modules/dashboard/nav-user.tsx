@@ -5,6 +5,7 @@ import {
   Bell,
   ChevronsUpDown,
   CreditCard,
+  Home,
   LogOut,
   Sparkles,
 } from "lucide-react";
@@ -27,6 +28,7 @@ import {
 } from "@/components/ui/sidebar";
 import { IUser } from "@/lib/types";
 import { useAuth } from "@/Context/AuthContext";
+import Link from "next/link";
 
 export function NavUser({ user }: { user: IUser | null }) {
   const { isMobile } = useSidebar();
@@ -78,6 +80,12 @@ export function NavUser({ user }: { user: IUser | null }) {
               <LogOut />
               Log out
             </DropdownMenuItem>
+            <Link href={"/"}>
+              <DropdownMenuItem>
+                <Home />
+                Back To Home
+              </DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
