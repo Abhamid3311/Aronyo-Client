@@ -3,6 +3,22 @@ import { getAccessToken, setAccessToken, logout } from "./services/Auth/auth";
 import Cookies from "js-cookie";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const protectedRules = [
+  "/wishlist", // exact match
+  "/cart", // exact match
+  "/dashboard/*", // all dashboard routes
+  // "/orders/*",
+];
+
+export function isProtectedRoute(path: string) {
+  return protectedRules.some((rule) => {
+    if (rule.endsWith("/*")) {
+      const prefix = rule.replace("/*", "");
+      return path.startsWith(prefix);
+    }
+    return path === rule;
+  });
+}
 
 // Create axios instance
 const axiosInstance = axios.create({
@@ -35,27 +51,26 @@ axiosInstance.interceptors.response.use(
       _retry?: boolean;
     };
 
-    // Only handle 401 once per request
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const accessToken = getAccessToken();
-      // If access token exists, this means it expired → try refresh
+
       if (!accessToken) {
-        // Check if refresh token exists in cookie
         const refreshToken = Cookies.get("refreshToken");
 
         if (!refreshToken) {
-          // User not logged in → stop requests
           logout();
-          if (window.location.pathname !== "/login") {
+
+          const currentPath = window.location.pathname;
+          if (isProtectedRoute(currentPath)) {
             window.location.href = "/login";
           }
+
           return Promise.reject(error);
         }
 
         try {
-          // Call refresh token endpoint
           const response = await axios.post(
             `${API_URL}/auth/refresh`,
             {},
@@ -65,17 +80,19 @@ axiosInstance.interceptors.response.use(
           const { accessToken: newAccessToken } = response.data;
           setAccessToken(newAccessToken);
 
-          // Retry original request with new token
           if (originalRequest.headers) {
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           }
+
           return axiosInstance(originalRequest);
         } catch (refreshError) {
-          // Refresh failed → logout
           logout();
-          if (window.location.pathname !== "/login") {
+
+          const currentPath = window.location.pathname;
+          if (isProtectedRoute(currentPath)) {
             window.location.href = "/login";
           }
+
           return Promise.reject(refreshError);
         }
       }
