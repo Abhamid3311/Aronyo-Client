@@ -12,6 +12,7 @@ export default function WishlistPage() {
   const { isAuthenticated } = useAuth();
   const { wishlist, loading, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
+  
 
   if (!isAuthenticated) {
     return (
