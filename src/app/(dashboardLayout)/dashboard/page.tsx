@@ -21,7 +21,6 @@ import {
   MapPin,
   Calendar,
   User,
-  Settings,
   LogOut,
   Home,
 } from "lucide-react";
@@ -86,16 +85,6 @@ export default function UserProfilePage() {
   const handleChangePassword = () => {
     // Navigate to change password page or open modal
     console.log("Change password clicked");
-  };
-
-  const handleAccountSettings = () => {
-    // Navigate to account settings page
-    console.log("Account settings clicked");
-  };
-
-  const handleSecuritySettings = () => {
-    // Navigate to security settings page
-    console.log("Security settings clicked");
   };
 
   if (!user) {
