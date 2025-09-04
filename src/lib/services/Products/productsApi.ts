@@ -53,6 +53,7 @@ export async function getAdminProducts() {
   return res.json();
 }
 
+// Get All Users for Admin
 export async function getUsersForAdmin() {
   const cookieStore = cookies(); // ✅ Read cookies on server
   const cookieHeader = cookieStore.toString();
@@ -71,7 +72,7 @@ export async function getUsersForAdmin() {
 
   return res.json();
 }
-
+// Get All Category for Admin
 export async function getCategoriesForAdmin() {
   const cookieStore = cookies(); // ✅ Read cookies on server
   const cookieHeader = cookieStore.toString();
