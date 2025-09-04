@@ -1,4 +1,4 @@
-// auth.ts - Simplified and fixed
+// auth.ts - Updated for cookie-based accessToken
 import axiosInstance from "@/lib/axios";
 import {
   AuthResponse,
@@ -7,79 +7,70 @@ import {
   IUser,
 } from "@/lib/types";
 
-let accessToken: string | null = null;
-
-export const getAccessToken = () => {
-  if (typeof window !== "undefined") {
-    return accessToken || localStorage.getItem("accessToken");
-  }
-  return null;
-};
-
-export const setAccessToken = (token: string) => {
-  accessToken = token;
-  if (typeof window !== "undefined") {
-    localStorage.setItem("accessToken", token);
-  }
-};
-
-export const removeAccessToken = () => {
-  accessToken = null;
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("isLoggedIn"); // Add this flag
-  }
-};
-
+// Login
 export const login = async (
   credentials: LoginCredentials
 ): Promise<AuthResponse> => {
-  const response = await axiosInstance.post("/auth/login", credentials);
-  const { accessToken, user } = response.data.data;
-  setAccessToken(accessToken);
-  // Set login flag
+  const response = await axiosInstance.post("/auth/login", credentials, {
+    withCredentials: true, // ✅ send cookies
+  });
+
+  // Backend sets accessToken + refreshToken cookies
   if (typeof window !== "undefined") {
-    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("isLoggedIn", "true"); // optional flag
   }
+
   return response.data;
 };
 
+// Register
 export const register = async (
   credentials: RegisterCredentials
 ): Promise<AuthResponse> => {
-  const response = await axiosInstance.post("/auth/register", credentials);
-  const { accessToken } = response.data.data;
-  setAccessToken(accessToken);
+  const response = await axiosInstance.post("/auth/register", credentials, {
+    withCredentials: true,
+  });
+
   if (typeof window !== "undefined") {
     localStorage.setItem("isLoggedIn", "true");
   }
+
   return response.data;
 };
 
-export const logout = async () => {
+// Logout
+export const logout = async (): Promise<void> => {
   try {
-    await axiosInstance.post("/auth/logout");
+    await axiosInstance.post("/auth/logout", {}, { withCredentials: true });
   } catch (error) {
     console.error("Logout error:", error);
   } finally {
-    removeAccessToken();
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("isLoggedIn");
+    }
   }
 };
 
+// Get current user
 export const getCurrentUser = async (): Promise<IUser> => {
-  const response = await axiosInstance.get("/users/me");
-  // console.log(response.data.data);
+  const response = await axiosInstance.get("/users/me", {
+    withCredentials: true,
+  });
   return response.data.data;
 };
 
-export const refreshAccessToken = async (): Promise<string> => {
-  const response = await axiosInstance.post("/auth/refresh");
-  const { accessToken } = response.data.data;
-  setAccessToken(accessToken);
-  return accessToken;
+// Refresh accessToken manually (rarely needed)
+export const refreshAccessToken = async (): Promise<void> => {
+  try {
+    await axiosInstance.post("/auth/refresh", {}, { withCredentials: true });
+    // Backend sets new accessToken cookie automatically
+  } catch (error) {
+    console.error("Failed to refresh access token:", error);
+    await logout();
+  }
 };
 
-// Simple function to check if user was previously logged in
+// Check if previously logged in
 export const wasLoggedIn = (): boolean => {
   if (typeof window !== "undefined") {
     return localStorage.getItem("isLoggedIn") === "true";

@@ -1,16 +1,15 @@
 import { ProductsTableClient } from "@/components/Modules/dashboard/tables/ProductsTable";
-import { getProductsForAdmin } from "@/lib/services/Products/productsApi";
+import { adminApi } from "@/lib/serverApiClient";
 import React from "react";
 
-const Product = async () => {
-  const allProducts = await getProductsForAdmin(); // already returns data
-  console.log(allProducts);
-  
+const ProductManagement = async () => {
+  const products = await adminApi.getProducts();
+  console.log(products);
   return (
     <div>
-      <ProductsTableClient initialData={allProducts.data} />
+      <ProductsTableClient initialData={products.data} />
     </div>
   );
 };
 
-export default Product;
+export default ProductManagement;

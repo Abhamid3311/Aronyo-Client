@@ -8,10 +8,7 @@ import {
   register as apiRegister,
   logout as apiLogout,
   getCurrentUser,
-  getAccessToken,
   refreshAccessToken,
-  removeAccessToken,
-  wasLoggedIn,
 } from "@/lib/services/Auth/auth";
 import { confirmAlert, errorAlert, successAlert } from "@/lib/alert";
 
@@ -30,70 +27,33 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
-  // Initialize auth only once
+  // Initialize auth
   useEffect(() => {
-    if (initialized) return;
-
     const initAuth = async () => {
       try {
-        if (!wasLoggedIn()) {
-          console.log("❌ User was never logged in");
-          setLoading(false);
-          setInitialized(true);
-          return;
-        }
-
-        // Check if we have a valid access token
-        const token = getAccessToken();
-
-        if (token) {
-          try {
-            console.log("✅ Trying existing token");
-            const userData = await getCurrentUser();
-            setUser(userData);
-            setLoading(false);
-            setInitialized(true);
-            return;
-          } catch (error) {
-            console.log(" Token expired, trying refresh...");
-          }
-        } else {
-          return;
-        }
-
-        // Try refresh token
-        try {
-          const newToken = await refreshAccessToken();
-          const userData = await getCurrentUser();
-          // console.log("🎉 User authenticated after refresh:", userData);
-          setUser(userData);
-        } catch (refreshError) {
-          console.log(" Refresh failed, clearing auth");
-          removeAccessToken();
-          setUser(null);
-        }
+        // Always try refresh token
+        await refreshAccessToken(); // no need to store return value
+        const userData = await getCurrentUser();
+        setUser(userData);
       } catch (error) {
-        console.error("Auth init failed:", error);
-        removeAccessToken();
+        console.log("User not authenticated or refresh failed");
         setUser(null);
       } finally {
         setLoading(false);
-        setInitialized(true);
       }
     };
 
     initAuth();
-  }, [initialized]);
+  }, []);
 
   const login = async (credentials: LoginCredentials) => {
     try {
       setLoading(true);
       const response = await apiLogin(credentials);
       setUser(response.data.user);
-      successAlert("Logged in Successfully!");
+      successAlert("Logged in successfully!");
       router.push("/dashboard");
     } catch (error) {
       errorAlert("Login failed");
@@ -108,7 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       const response = await apiRegister(credentials);
       setUser(response.data.user);
-      successAlert("Registration Successfully Done!");
+      successAlert("Registration successful!");
       router.push("/dashboard");
     } catch (error) {
       errorAlert("Registration failed");
@@ -126,13 +86,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       await apiLogout();
       setUser(null);
-      setInitialized(false);
       successAlert("Logged out successfully!");
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
       setUser(null);
-      setInitialized(false);
       errorAlert("Logout failed. Please try again.");
       router.push("/login");
     } finally {
@@ -142,8 +100,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const refreshUser = async () => {
     try {
-      const token = getAccessToken();
-      if (!token) return;
       const userData = await getCurrentUser();
       setUser(userData);
     } catch (error) {
