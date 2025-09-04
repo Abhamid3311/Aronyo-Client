@@ -4,7 +4,7 @@ import React from "react";
 
 const ProductManagement = async () => {
   const products = await getAdminProducts();
-  console.log(products);
+  // console.log(products);
   return (
     <div>
       <ProductsTableClient initialData={products.data} />

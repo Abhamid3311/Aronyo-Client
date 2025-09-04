@@ -38,7 +38,45 @@ export async function getAdminProducts() {
   const cookieStore = cookies(); // ✅ Read cookies on server
   const cookieHeader = cookieStore.toString();
 
-  const res = await fetch(`${BASE_API_URL}/products/admin`, {
+  const res = await fetch(`${BASE_API_URL}/products/admin/all-products`, {
+    method: "GET",
+    headers: {
+      Cookie: cookieHeader,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function getUsersForAdmin() {
+  const cookieStore = cookies(); // ✅ Read cookies on server
+  const cookieHeader = cookieStore.toString();
+
+  const res = await fetch(`${BASE_API_URL}/users/admin/all-users`, {
+    method: "GET",
+    headers: {
+      Cookie: cookieHeader,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function getCategoriesForAdmin() {
+  const cookieStore = cookies(); // ✅ Read cookies on server
+  const cookieHeader = cookieStore.toString();
+
+  const res = await fetch(`${BASE_API_URL}/category/admin/all-categories`, {
     method: "GET",
     headers: {
       Cookie: cookieHeader,

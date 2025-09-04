@@ -1,132 +1,55 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* "use server";
+
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
-import { setAccessToken } from "./services/Auth/auth";
-import axios from "axios";
-import { API_URL } from "./axios";
+import { API_URL } from "@/lib/axios"; // reuse your base config
 
-export async function getAccessToken(): Promise<string | null> {
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get("refreshToken")?.value;
+export function getServerAxios() {
+  const cookieStore = cookies();
+  const cookieHeader = cookieStore.toString();
 
-  if (!refreshToken) {
-    console.warn("❌ No refresh token in cookies");
-    return null;
-  }
+  const serverAxios = axios.create({
+    baseURL: API_URL,
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: cookieHeader, // ✅ forward cookies for SSR
+    },
+  });
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/refresh`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `refreshToken=${refreshToken}`,
-      },
-      cache: "no-store",
+  // Response interceptor for SSR
+  serverAxios.interceptors.response.use(
+    (response) => response,
+    async (error: AxiosError) => {
+      const originalRequest = error.config as InternalAxiosRequestConfig & {
+        _retry?: boolean;
+      };
+
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
+        try {
+          // Call refresh endpoint (backend sets new accessToken cookie)
+          await serverAxios.post(
+            "/auth/refresh",
+            {},
+            { withCredentials: true }
+          );
+
+          // Retry the original request
+          return serverAxios(originalRequest);
+        } catch (refreshError) {
+          console.error("SSR refresh failed:", refreshError);
+          // ❌ Don't use window.location here (no window in SSR)
+          // Instead: let the calling page decide what to do (redirect, throw, etc.)
+          throw refreshError;
+        }
+      }
+
+      throw error;
     }
   );
 
-  if (!response.ok) {
-    console.error("❌ Token refresh failed:", response.status);
-    return null;
-  }
-
-  const { data } = await response.json();
-  const { accessToken } = data;
-
-  setAccessToken(accessToken);
-  return accessToken;
+  return serverAxios;
 }
-
-export async function ssrApiCall<T = any>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const accessToken = await getAccessToken();
-
-  if (!accessToken) {
-    throw new Error("No access token available for SSR API call");
-  }
-
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${endpoint}`;
-
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${accessToken}`, // ✅ backend expects this
-      "Content-Type": "application/json",
-    },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(
-      `SSR API call failed: ${response.status} ${response.statusText}`
-    );
-  }
-
-  return response.json();
-}
-
-// HTTP method helpers
-export const ssrApi = {
-  get: async <T = any>(
-    endpoint: string,
-    params?: Record<string, any>
-  ): Promise<T> => {
-    const queryString = params
-      ? `?${new URLSearchParams(params).toString()}`
-      : "";
-    return ssrApiCall<T>(`${endpoint}${queryString}`);
-  },
-
-  post: async <T = any>(endpoint: string, data?: any): Promise<T> => {
-    return ssrApiCall<T>(endpoint, {
-      method: "POST",
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  },
-
-  put: async <T = any>(endpoint: string, data?: any): Promise<T> => {
-    return ssrApiCall<T>(endpoint, {
-      method: "PUT",
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  },
-
-  delete: async <T = any>(endpoint: string): Promise<T> => {
-    return ssrApiCall<T>(endpoint, {
-      method: "DELETE",
-    });
-  },
-
-  patch: async <T = any>(endpoint: string, data?: any): Promise<T> => {
-    return ssrApiCall<T>(endpoint, {
-      method: "PATCH",
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  },
-};
-
-// Pre-built admin API functions
-export const adminApi = {
-  // Products
-  getProducts: () => ssrApi.get("/products/admin/"),
-
-  getProduct: (id: string) => ssrApi.get(`/products/admin/${id}`),
-
-  // Users
-  getUsers: (params?: { page?: number; limit?: number; search?: string }) =>
-    ssrApi.get("/users/admin/", params),
-
-  getUser: (id: string) => ssrApi.get(`/users/admin/${id}`),
-
-  // Orders
-  getOrders: (params?: { page?: number; limit?: number; status?: string }) =>
-    ssrApi.get("/orders/admin/", params),
-
-  getOrder: (id: string) => ssrApi.get(`/orders/admin/${id}`),
-
-  // Dashboard
-  getDashboardStats: () => ssrApi.get("/admin/dashboard/stats"),
-};
+ */

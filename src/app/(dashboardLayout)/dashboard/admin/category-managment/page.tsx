@@ -1,11 +1,15 @@
+import { CategoriesTableClient } from "@/components/Modules/dashboard/tables/CategoryTable";
+import { getCategoriesForAdmin } from "@/lib/services/Products/productsApi";
 import React from "react";
 
-const Category = () => {
+const AllCategory = async () => {
+  const Categories = await getCategoriesForAdmin();
+  console.log(Categories);
   return (
     <div>
-      <h1>This is Category Page</h1>
+      <CategoriesTableClient initialData={Categories.data} />
     </div>
   );
 };
 
-export default Category;
+export default AllCategory;
