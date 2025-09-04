@@ -1,18 +1,12 @@
+"use server";
+
 import { BASE_API_URL } from "@/config/api";
-import axiosInstance from "@/lib/axios";
+import { cookies } from "next/headers";
 
 export async function getCategories() {
   const res = await fetch(`${BASE_API_URL}/category`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch categories");
   return res.json();
-}
-
-// Get All Products for Admin
-export async function getProductsForAdmin() {
-  const res = await axiosInstance.get("/products/admin/");
-  console.log(res);
-  // if (!res.ok) throw new Error("Failed to fetch products");
-  return res;
 }
 
 // Get All Products for User
@@ -37,4 +31,24 @@ export async function getProductById(id: string) {
   if (!res.ok) throw new Error("Failed to fetch Product");
   const result = await res.json();
   return result.data;
+}
+
+// Get All Products for Admin
+export async function getAdminProducts() {
+  const cookieStore = cookies(); // ✅ Read cookies on server
+  const cookieHeader = cookieStore.toString();
+
+  const res = await fetch(`${BASE_API_URL}/products/admin`, {
+    method: "GET",
+    headers: {
+      Cookie: cookieHeader,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed: ${res.status}`);
+  }
+
+  return res.json();
 }

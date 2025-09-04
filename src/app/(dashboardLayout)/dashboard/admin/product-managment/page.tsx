@@ -1,9 +1,9 @@
 import { ProductsTableClient } from "@/components/Modules/dashboard/tables/ProductsTable";
-import { adminApi } from "@/lib/serverApiClient";
+import { getAdminProducts } from "@/lib/services/Products/productsApi";
 import React from "react";
 
 const ProductManagement = async () => {
-  const products = await adminApi.getProducts();
+  const products = await getAdminProducts();
   console.log(products);
   return (
     <div>
