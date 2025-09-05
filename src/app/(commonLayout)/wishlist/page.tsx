@@ -1,10 +1,13 @@
+import WishlistSkeleton from "@/components/Modules/skeletons/WishlistSkeleton";
 import WishlistPage from "@/components/Modules/Wishlist/WishlistPage";
-import React from "react";
+import React, { Suspense } from "react";
 
 const Wishlist = () => {
   return (
     <div>
-      <WishlistPage />
+      <Suspense fallback={<WishlistSkeleton />}>
+        <WishlistPage />
+      </Suspense>
     </div>
   );
 };
