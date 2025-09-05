@@ -11,15 +11,9 @@ export const login = async (
   credentials: LoginCredentials
 ): Promise<AuthResponse> => {
   const response = await axiosInstance.post("/auth/login", credentials, {
-    withCredentials: true, // ✅ send cookies
+    withCredentials: true, // send cookies automatically
   });
-
-  // Backend sets accessToken + refreshToken cookies
-  if (typeof window !== "undefined") {
-    localStorage.setItem("isLoggedIn", "true"); // optional flag
-  }
-
-  return response.data;
+  return response.data; // backend sets access + refresh cookies
 };
 
 // Register
@@ -29,11 +23,6 @@ export const register = async (
   const response = await axiosInstance.post("/auth/register", credentials, {
     withCredentials: true,
   });
-
-  if (typeof window !== "undefined") {
-    localStorage.setItem("isLoggedIn", "true");
-  }
-
   return response.data;
 };
 
@@ -41,38 +30,30 @@ export const register = async (
 export const logout = async (): Promise<void> => {
   try {
     await axiosInstance.post("/auth/logout", {}, { withCredentials: true });
-  } catch (error) {
-    console.error("Logout error:", error);
-  } finally {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("isLoggedIn");
-    }
+  } catch (err) {
+    console.error("Logout error:", err);
   }
 };
 
 // Get current user
-export const getCurrentUser = async (): Promise<IUser> => {
-  const response = await axiosInstance.get("/users/me", {
-    withCredentials: true,
-  });
-  return response.data.data;
+export const getCurrentUser = async (): Promise<IUser | null> => {
+  try {
+    const response = await axiosInstance.get("/users/me", {
+      withCredentials: true,
+    });
+    return response.data.data;
+  } catch (err) {
+    return null; // not logged in
+  }
 };
 
-// Refresh accessToken manually (rarely needed)
+// Refresh access token
 export const refreshAccessToken = async (): Promise<void> => {
   try {
     await axiosInstance.post("/auth/refresh", {}, { withCredentials: true });
-    // Backend sets new accessToken cookie automatically
-  } catch (error) {
-    console.error("Failed to refresh access token:", error);
-    await logout();
+    // backend sets new accessToken cookie automatically
+  } catch (err) {
+    console.error("Failed to refresh access token:", err);
+    await logout(); // force logout if refresh fails
   }
-};
-
-// Check if previously logged in
-export const wasLoggedIn = (): boolean => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("isLoggedIn") === "true";
-  }
-  return false;
 };

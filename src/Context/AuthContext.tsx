@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IUser, LoginCredentials, RegisterCredentials } from "@/lib/types";
 import {
@@ -10,7 +10,6 @@ import {
   getCurrentUser,
   refreshAccessToken,
 } from "@/lib/services/Auth/auth";
-import { confirmAlert, errorAlert, successAlert } from "@/lib/alert";
 
 interface AuthContextType {
   user: IUser | null;
@@ -24,40 +23,38 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hydrated, setHydrated] = useState(false);
   const router = useRouter();
 
-  // Initialize auth
   useEffect(() => {
     const initAuth = async () => {
       try {
-        // Always try refresh token
-        await refreshAccessToken(); // no need to store return value
+        await refreshAccessToken(); // refresh access token if expired
         const userData = await getCurrentUser();
         setUser(userData);
-      } catch (error) {
-        console.log("User not authenticated or refresh failed");
+      } catch (err) {
         setUser(null);
       } finally {
         setLoading(false);
+        setHydrated(true);
       }
     };
-
     initAuth();
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
     try {
       setLoading(true);
-      const response = await apiLogin(credentials);
-      setUser(response.data.user);
-      successAlert("Logged in successfully!");
+      const res = await apiLogin(credentials);
+      console.log(res);
+      setUser(res.data.user);
       router.push("/dashboard");
-    } catch (error) {
-      errorAlert("Login failed");
-      throw error;
+    } catch (err) {
+      setUser(null);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -66,32 +63,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (credentials: RegisterCredentials) => {
     try {
       setLoading(true);
-      const response = await apiRegister(credentials);
-      setUser(response.data.user);
-      successAlert("Registration successful!");
+      const res = await apiRegister(credentials);
+      setUser(res.data.user);
       router.push("/dashboard");
-    } catch (error) {
-      errorAlert("Registration failed");
-      throw error;
+    } catch (err) {
+      setUser(null);
+      throw err;
     } finally {
       setLoading(false);
     }
   };
 
   const logout = async () => {
-    const confirmed = await confirmAlert("Do you really want to logout?");
-    if (!confirmed) return;
-
+    setLoading(true);
     try {
-      setLoading(true);
       await apiLogout();
       setUser(null);
-      successAlert("Logged out successfully!");
       router.push("/login");
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch (err) {
+      console.error(err);
       setUser(null);
-      errorAlert("Logout failed. Please try again.");
       router.push("/login");
     } finally {
       setLoading(false);
@@ -102,13 +93,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const userData = await getCurrentUser();
       setUser(userData);
-    } catch (error) {
-      console.error("Failed to refresh user:", error);
+    } catch (err) {
       setUser(null);
     }
   };
 
-  const value = {
+  const value: AuthContextType = {
     user,
     loading,
     isAuthenticated: !!user,
@@ -118,13 +108,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshUser,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
+  return (
+    <AuthContext.Provider value={value}>
+      {hydrated ? (
+        children
+      ) : (
+        <div className="flex h-screen items-center justify-center">
+          Loading...
+        </div>
+      )}
+    </AuthContext.Provider>
+  );
+};
 
-export function useAuth() {
+export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
   return context;
-}
+};
