@@ -9,6 +9,8 @@ import {
   useEffect,
 } from "react";
 import { IProduct } from "@/lib/types";
+import { useAuth } from "./AuthContext";
+import { errorAlert, successAlert } from "@/lib/alert";
 
 interface WishlistContextType {
   wishlist: IProduct[];
@@ -23,12 +25,20 @@ const WishlistContext = createContext<WishlistContextType | undefined>(
 );
 
 export const WishlistProvider = ({ children }: { children: ReactNode }) => {
-  const { get, post, delete: del } = useAxios();
+  const { get, post } = useAxios();
   const [wishlist, setWishlist] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch wishlist from backend
+  const { isAuthenticated, loading: authLoading } = useAuth();
+
+  // ✅ Fetch wishlist only when logged in
   const refreshWishlist = async () => {
+    if (!isAuthenticated) {
+      setWishlist([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await get<{ data: { products: IProduct[] } }>("/wishlist");
@@ -46,26 +56,45 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    refreshWishlist();
-  }, []);
+    if (!authLoading && isAuthenticated) {
+      refreshWishlist();
+    } else if (!authLoading && !isAuthenticated) {
+      setWishlist([]);
+      setLoading(false);
+    }
+  }, [isAuthenticated, authLoading]);
 
-  // Add product to wishlist
+  // Add product
   const addToWishlist = async (productId: string) => {
+    if (!isAuthenticated) {
+      errorAlert("Please log in to add items to your wishlist!");
+      return;
+    }
+
     try {
       await post("/wishlist/add", { productId });
+      successAlert("Added to wishlist!");
       await refreshWishlist();
     } catch (err) {
       console.error("❌ Add to wishlist failed:", err);
+      errorAlert("Failed to add item!");
     }
   };
 
-  // Remove product from wishlist
+  // Remove product
   const removeFromWishlist = async (productId: string) => {
+    if (!isAuthenticated) {
+      errorAlert("Please log in to remove items from your wishlist!");
+      return;
+    }
+
     try {
       await post("/wishlist/remove", { productId });
       setWishlist((prev) => prev.filter((p) => p._id !== productId));
+      successAlert("Removed from wishlist!");
     } catch (err) {
       console.error("❌ Remove from wishlist failed:", err);
+      errorAlert("Failed to remove item!");
     }
   };
 

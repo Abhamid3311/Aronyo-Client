@@ -11,6 +11,7 @@ import {
 } from "react";
 import { IProduct, CartItem, ICart } from "@/lib/types";
 import { errorAlert, successAlert } from "@/lib/alert";
+import { useAuth } from "./AuthContext";
 
 interface CartContextType {
   cart: CartItem[];
@@ -27,15 +28,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Refs for debouncing quantity updates
+  const { isAuthenticated, loading: authLoading } = useAuth();
+
   const quantityTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
   const getProductId = (productId: string | IProduct): string => {
     return typeof productId === "string" ? productId : productId._id;
   };
 
-  // Initial cart fetch
+  // ✅ Only fetch cart when user is authenticated
   const refreshCart = async () => {
+    if (!isAuthenticated) {
+      setCart([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await get<ICart>("/cart");
@@ -50,11 +58,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    refreshCart();
-  }, []);
+    if (!authLoading && isAuthenticated) {
+      refreshCart();
+    } else if (!authLoading && !isAuthenticated) {
+      // User not logged in → clear cart
+      setCart([]);
+      setLoading(false);
+    }
+  }, [isAuthenticated, authLoading]);
 
   // Add to Cart
   const addToCart = async (productId: string, quantity: number = 1) => {
+    if (!isAuthenticated) {
+      errorAlert("Please log in to add items to your cart!");
+      return;
+    }
+
     const previousCart = [...cart];
     const id = getProductId(productId);
 
@@ -84,12 +103,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     } catch (err) {
       setCart(previousCart); // rollback
       console.error("❌ Add to cart failed:", err);
-      errorAlert("Item added failed!");
+      errorAlert("Item add failed!");
     }
   };
 
   // Remove
   const removeFromCart = async (productId: string | IProduct) => {
+    if (!isAuthenticated) {
+      errorAlert("Please log in to remove items from your cart!");
+      return;
+    }
+
     const id = getProductId(productId);
     const previousCart = [...cart];
 
@@ -99,16 +123,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       await del("/cart/remove", { data: { productId: id } });
-      successAlert("Item Removed!");
+      successAlert("Item removed!");
     } catch (err) {
       setCart(previousCart); // rollback
-      console.error(" Remove from cart failed:", err);
-      errorAlert("Item Remove failed!");
+      console.error("❌ Remove from cart failed:", err);
+      errorAlert("Item remove failed!");
     }
   };
 
   // Quantity Update with Debounce
   const updateQuantity = (productId: string | IProduct, quantity: number) => {
+    if (!isAuthenticated) {
+      errorAlert("Please log in to update cart!");
+      return;
+    }
+
     const id = getProductId(productId);
 
     // Immediate local update
@@ -118,22 +147,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       )
     );
 
-    // If quantity <= 0, remove the item immediately
     if (quantity <= 0) {
       removeFromCart(id);
       return;
     }
 
-    // Clear previous timer
     if (quantityTimers.current[id]) clearTimeout(quantityTimers.current[id]);
 
-    // Debounce API call by 300ms
     quantityTimers.current[id] = setTimeout(async () => {
       try {
         await put("/cart/update", { productId: id, quantity });
       } catch (err) {
         console.error("❌ Update quantity failed:", err);
-        // Optionally, refetch cart or rollback
         refreshCart();
       }
     }, 300);
