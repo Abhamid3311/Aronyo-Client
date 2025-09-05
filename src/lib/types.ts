@@ -1,3 +1,5 @@
+import { ColumnDef } from "@tanstack/react-table";
+
 export interface ICategory {
   _id: string;
   name: string;
@@ -92,4 +94,55 @@ export interface AuthResponse {
   success?: boolean;
 }
 
+export interface AdvancedTableProps<T> {
+  // Required props
+  title: string;
+  columns: ColumnDef<T>[];
+  data: T[];
 
+  // Optional configuration
+  subtitle?: string;
+  loading?: boolean;
+  error?: string;
+  config?: TableConfig;
+
+  // Pagination options
+  pageSizeOptions?: number[];
+  defaultPageSize?: number;
+
+  // Export options
+  exportFileName?: string;
+  exportSheetName?: string;
+
+  // Actions
+  rowActions?: TableAction<T>[];
+  bulkActions?: TableAction<T[]>[];
+
+  // Custom components
+  emptyState?: React.ReactNode;
+  loadingState?: React.ReactNode;
+  errorState?: React.ReactNode;
+
+  // Event handlers
+  onRowClick?: (row: T) => void;
+  onDataChange?: (data: T[]) => void;
+}
+
+export interface TableAction<T> {
+  label?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  onClick: (row: T) => void;
+  variant?: "default" | "destructive" | "outline" | "secondary";
+  disabled?: (row: T) => boolean;
+}
+
+export interface TableConfig {
+  enableSorting?: boolean;
+  enableFiltering?: boolean;
+  enablePagination?: boolean;
+  enableColumnVisibility?: boolean;
+  enableExport?: boolean;
+  enableRowSelection?: boolean;
+  showTableInfo?: boolean;
+  stickyHeader?: boolean;
+}

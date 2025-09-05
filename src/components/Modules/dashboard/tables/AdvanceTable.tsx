@@ -61,60 +61,9 @@ import {
   FileSpreadsheet,
 } from "lucide-react";
 import * as XLSX from "xlsx";
+import { AdvancedTableProps, TableConfig } from "@/lib/types";
 
 // Enhanced interfaces
-export interface TableAction<T> {
-  label?: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  onClick: (row: T) => void;
-  variant?: "default" | "destructive" | "outline" | "secondary";
-  disabled?: (row: T) => boolean;
-}
-
-export interface TableConfig {
-  enableSorting?: boolean;
-  enableFiltering?: boolean;
-  enablePagination?: boolean;
-  enableColumnVisibility?: boolean;
-  enableExport?: boolean;
-  enableRowSelection?: boolean;
-  showTableInfo?: boolean;
-  stickyHeader?: boolean;
-}
-
-export interface AdvancedTableProps<T> {
-  // Required props
-  title: string;
-  columns: ColumnDef<T>[];
-  data: T[];
-
-  // Optional configuration
-  subtitle?: string;
-  loading?: boolean;
-  error?: string;
-  config?: TableConfig;
-
-  // Pagination options
-  pageSizeOptions?: number[];
-  defaultPageSize?: number;
-
-  // Export options
-  exportFileName?: string;
-  exportSheetName?: string;
-
-  // Actions
-  rowActions?: TableAction<T>[];
-  bulkActions?: TableAction<T[]>[];
-
-  // Custom components
-  emptyState?: React.ReactNode;
-  loadingState?: React.ReactNode;
-  errorState?: React.ReactNode;
-
-  // Event handlers
-  onRowClick?: (row: T) => void;
-  onDataChange?: (data: T[]) => void;
-}
 
 // Default configuration
 const defaultConfig: TableConfig = {
@@ -160,13 +109,12 @@ export function AdvancedTable<T extends Record<string, any>>({
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: defaultPageSize, // whatever default you want
+    pageSize: defaultPageSize,
   });
 
   // Enhanced columns with actions
   const enhancedColumns = useMemo<ColumnDef<T>[]>(() => {
-    // eslint-disable-next-line prefer-const
-    let cols = [...columns];
+    const cols = [...columns];
 
     // Add row selection column if enabled
     if (tableConfig.enableRowSelection) {
@@ -235,9 +183,14 @@ export function AdvancedTable<T extends Record<string, any>>({
       columnVisibility,
       rowSelection,
       globalFilter,
-      pagination, // ✅ always defined
+      pagination,
     },
-    onPaginationChange: setPagination, // ✅ updates React state
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: tableConfig.enablePagination
       ? getPaginationRowModel()
@@ -283,7 +236,7 @@ export function AdvancedTable<T extends Record<string, any>>({
           {loadingState || (
             <div className="flex items-center justify-center space-x-2">
               <Loader2 className="h-6 w-6 animate-spin" />
-              <span>dashboard Loading {title.toLowerCase()}...</span>
+              <span>Loading {title.toLowerCase()}...</span>
             </div>
           )}
         </CardContent>
@@ -359,14 +312,20 @@ export function AdvancedTable<T extends Record<string, any>>({
                     .map((column) => (
                       <DropdownMenuItem
                         key={column.id}
-                        onClick={() =>
-                          column.toggleVisibility(!column.getIsVisible())
-                        }
+                        className="cursor-pointer"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          column.toggleVisibility(!column.getIsVisible());
+                        }}
                       >
                         <input
                           type="checkbox"
                           checked={column.getIsVisible()}
+                          onChange={() => {
+                            // This will be handled by the parent onClick
+                          }}
                           className="mr-2"
+                          readOnly
                         />
                         {column.columnDef.header?.toString() || column.id}
                       </DropdownMenuItem>
