@@ -2,27 +2,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductCardSkeleton() {
   return (
-    <div className="group block overflow-hidden rounded-xl">
-      {/* Image Skeleton */}
-      <div className="relative w-full h-40 lg:h-[350px] overflow-hidden rounded-xl">
-        <Skeleton className="w-full h-full" />
-      </div>
+    <div className="flex flex-col rounded-2xl border shadow p-4 w-full max-w-xs">
+      {/* Image */}
+      <Skeleton className="h-40 w-full rounded-xl" />
 
-      {/* Title Skeleton */}
-      <div className="mt-2 mb-1">
-        <Skeleton className="h-5 lg:h-6 w-3/4" />
-      </div>
+      <div className="mt-4 space-y-3">
+        {/* Title */}
+        <Skeleton className="h-5 w-3/4" />
+        {/* Description */}
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-2/3" />
 
-      {/* Description Skeleton */}
-      <div className="space-y-1">
-        <Skeleton className="h-3 lg:h-4 w-full" />
-        <Skeleton className="h-3 lg:h-4 w-2/3" />
-      </div>
-
-      {/* Price Skeleton */}
-      <div className="flex items-center gap-2 mt-2">
-        <Skeleton className="h-4 lg:h-5 w-12" /> {/* "Price:" text */}
-        <Skeleton className="h-5 lg:h-6 w-20" /> {/* Price value */}
+        {/* Price row */}
+        <div className="flex gap-2 items-center">
+          <Skeleton className="h-4 w-16" />
+          <Skeleton className="h-3 w-12" />
+        </div>
       </div>
     </div>
   );

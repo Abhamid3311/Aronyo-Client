@@ -1,7 +1,8 @@
 import ProductExplorer from "@/components/Modules/Products/ProductExplorer";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
+import ProductsSkeleton from "@/components/Modules/skeletons/ProductGridSkeleton";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
-import React from "react";
+import React, { Suspense } from "react";
 
 const OnSale = async () => {
   const [onSale] = await Promise.all([
@@ -14,7 +15,9 @@ const OnSale = async () => {
         para="Save on plants, planters, and more! All plants are backed by our 30-Day Happiness Guarantee."
       />
 
-      <ProductExplorer initialData={onSale} />
+      <Suspense fallback={<ProductsSkeleton />}>
+        <ProductExplorer initialData={onSale} />
+      </Suspense>
     </div>
   );
 };

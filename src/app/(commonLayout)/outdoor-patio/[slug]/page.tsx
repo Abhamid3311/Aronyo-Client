@@ -1,8 +1,10 @@
 import ProductCard from "@/components/Modules/Cards/ProductCard";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
+import ProductsSkeleton from "@/components/Modules/skeletons/ProductGridSkeleton";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import { OUTDOOR_PATIO_CONFIG } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
+import { Suspense } from "react";
 
 interface OutdoorPatioPageProps {
   params: Promise<{ slug: string }>;
@@ -32,17 +34,19 @@ export default async function OutdoorPatioPage({
 
   return (
     <div className="custom-container px-4 py-8">
-      <PageHeader
-        title={categoryConfig.title}
-        para={categoryConfig.description}
-      />
+      <Suspense fallback={<ProductsSkeleton />}>
+        <PageHeader
+          title={categoryConfig.title}
+          para={categoryConfig.description}
+        />
 
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {products.data.map((product: IProduct) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </div>
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {products.data.map((product: IProduct) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      </Suspense>
 
       {/* Empty state */}
       {(!products.data || products.data.length === 0) && (

@@ -1,7 +1,8 @@
 import ProductExplorer from "@/components/Modules/Products/ProductExplorer";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
+import ProductsSkeleton from "@/components/Modules/skeletons/ProductGridSkeleton";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
-import React from "react";
+import React, { Suspense } from "react";
 
 const Newarrivals = async () => {
   const [newArrivals] = await Promise.all([
@@ -14,7 +15,9 @@ const Newarrivals = async () => {
         para="Discover the latest plants and accessories for your home garden."
       />
 
-      <ProductExplorer initialData={newArrivals} />
+      <Suspense fallback={<ProductsSkeleton />}>
+        <ProductExplorer initialData={newArrivals} />
+      </Suspense>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { IProduct } from "@/lib/types";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
 import FiltersSidebar from "./FiltersSidebar";
@@ -8,6 +8,7 @@ import Pagination from "../Shared/Pagination";
 import FilterDrawer from "./FilterDrawer";
 import SortSelect from "./SortSelect";
 import ProductGrid from "./ProductGrid";
+import ProductGridSkeleton from "../skeletons/ProductGridSkeleton";
 
 interface ProductExplorerProps {
   initialData: {

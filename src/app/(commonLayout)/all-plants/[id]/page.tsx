@@ -75,7 +75,7 @@ export default async function ProductPage({ params }: PageProps) {
               <h1 className="text-3xl font-bold text-gray-900">
                 {product.title}
               </h1>
-            {/*   <button className="p-2 rounded-lg border-2 border-gray-300 hover:border-red-500 hover:text-red-500">
+              {/*   <button className="p-2 rounded-lg border-2 border-gray-300 hover:border-red-500 hover:text-red-500">
                 <Heart className="w-5 h-5" />
               </button> */}
               <WishlistAction product={product} />

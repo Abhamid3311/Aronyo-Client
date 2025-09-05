@@ -1,7 +1,8 @@
 import ProductExplorer from "@/components/Modules/Products/ProductExplorer";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
+import ProductsSkeleton from "@/components/Modules/skeletons/ProductGridSkeleton";
 import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
-import React from "react";
+import React, { Suspense } from "react";
 
 const Gifts = async () => {
   const [giftProducts] = await Promise.all([
@@ -14,7 +15,9 @@ const Gifts = async () => {
         para="From birthdays to housewarmings and every holiday – shop our favorite gift-able greens for all occasions."
       />
 
-      <ProductExplorer initialData={giftProducts} />
+      <Suspense fallback={<ProductsSkeleton />}>
+        <ProductExplorer initialData={giftProducts} />
+      </Suspense>
     </div>
   );
 };
