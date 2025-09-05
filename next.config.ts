@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "**", // allow any host
+      },
+      {
+        protocol: "http",
+        hostname: "**", // if you also want to allow http
+      },
+      {
+        protocol: "https",
         hostname: "i.ibb.co.com", // Corrected hostname
         pathname: "/**", // Allows all paths under ibb.co
       },

@@ -1,4 +1,3 @@
-// auth.ts - Updated for cookie-based accessToken
 import axiosInstance from "@/lib/axios";
 import {
   AuthResponse,
