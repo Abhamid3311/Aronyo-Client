@@ -31,8 +31,6 @@ interface ProductsTableClientProps {
 }
 
 export function ProductsTableClient({ initialData }: ProductsTableClientProps) {
-  const [open, setOpen] = useState(false);
-
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "title",
@@ -136,75 +134,7 @@ export function ProductsTableClient({ initialData }: ProductsTableClientProps) {
   return (
     <>
       {/* 🔹 Add Product Button with Modal */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Products</h2>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button>Add Product</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Product</DialogTitle>
-            </DialogHeader>
-            <form
-              className="space-y-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const form = e.target as HTMLFormElement;
-                const formData = new FormData(form);
-                const newProduct = {
-                  name: formData.get("name"),
-                  price: parseFloat(formData.get("price") as string),
-                  category: formData.get("category"),
-                  stock: parseInt(formData.get("stock") as string, 10),
-                  status: formData.get("status"),
-                };
-                console.log("New Product:", newProduct);
-                // 🔥 Call API to save product
-                setOpen(false);
-              }}
-            >
-              <div>
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" required />
-              </div>
-              <div>
-                <Label htmlFor="price">Price</Label>
-                <Input
-                  id="price"
-                  name="price"
-                  type="number"
-                  step="0.01"
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="category">Category</Label>
-                <Input id="category" name="category" required />
-              </div>
-              <div>
-                <Label htmlFor="stock">Stock</Label>
-                <Input id="stock" name="stock" type="number" required />
-              </div>
-              <div>
-                <Label htmlFor="status">Status</Label>
-                <select
-                  id="status"
-                  name="status"
-                  className="border rounded w-full p-2"
-                  defaultValue="active"
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-              <Button type="submit" className="w-full">
-                Save
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+      <AddProduct />
 
       {/* 🔹 Product Table */}
       <AdvancedTable
@@ -231,3 +161,77 @@ export function ProductsTableClient({ initialData }: ProductsTableClientProps) {
     </>
   );
 }
+
+const AddProduct = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="flex justify-between items-center mb-4">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button>Add Product</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Product</DialogTitle>
+          </DialogHeader>
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const form = e.target as HTMLFormElement;
+              const formData = new FormData(form);
+              const newProduct = {
+                name: formData.get("name"),
+                price: parseFloat(formData.get("price") as string),
+                category: formData.get("category"),
+                stock: parseInt(formData.get("stock") as string, 10),
+                status: formData.get("status"),
+              };
+              console.log("New Product:", newProduct);
+              // 🔥 Call API to save product
+              setOpen(false);
+            }}
+          >
+            <div>
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" name="name" required />
+            </div>
+            <div>
+              <Label htmlFor="price">Price</Label>
+              <Input
+                id="price"
+                name="price"
+                type="number"
+                step="0.01"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="category">Category</Label>
+              <Input id="category" name="category" required />
+            </div>
+            <div>
+              <Label htmlFor="stock">Stock</Label>
+              <Input id="stock" name="stock" type="number" required />
+            </div>
+            <div>
+              <Label htmlFor="status">Status</Label>
+              <select
+                id="status"
+                name="status"
+                className="border rounded w-full p-2"
+                defaultValue="active"
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <Button type="submit" className="w-full">
+              Save
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};

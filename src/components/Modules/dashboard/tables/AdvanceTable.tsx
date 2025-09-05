@@ -44,6 +44,7 @@ import {
   SortingState,
   ColumnFiltersState,
   VisibilityState,
+  PaginationState,
 } from "@tanstack/react-table";
 import {
   Download,
@@ -157,6 +158,10 @@ export function AdvancedTable<T extends Record<string, any>>({
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
   const [pageSize, setPageSize] = useState(defaultPageSize);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: defaultPageSize, // whatever default you want
+  });
 
   // Enhanced columns with actions
   const enhancedColumns = useMemo<ColumnDef<T>[]>(() => {
@@ -230,17 +235,9 @@ export function AdvancedTable<T extends Record<string, any>>({
       columnVisibility,
       rowSelection,
       globalFilter,
-      pagination: {
-        pageIndex: 0,
-        pageSize,
-      },
+      pagination, // ✅ always defined
     },
-    enableRowSelection: tableConfig.enableRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination, // ✅ updates React state
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: tableConfig.enablePagination
       ? getPaginationRowModel()
@@ -286,7 +283,7 @@ export function AdvancedTable<T extends Record<string, any>>({
           {loadingState || (
             <div className="flex items-center justify-center space-x-2">
               <Loader2 className="h-6 w-6 animate-spin" />
-              <span>Loading {title.toLowerCase()}...</span>
+              <span>dashboard Loading {title.toLowerCase()}...</span>
             </div>
           )}
         </CardContent>
