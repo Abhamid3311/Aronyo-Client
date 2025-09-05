@@ -22,6 +22,7 @@ export interface IProduct {
   title: string;
   slug: string;
   description: string;
+  detailsDesc?: string;
   price: number;
   discountPrice?: number;
   category: string;

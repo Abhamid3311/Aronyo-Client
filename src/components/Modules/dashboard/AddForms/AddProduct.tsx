@@ -35,13 +35,9 @@ import { Separator } from "@/components/ui/separator";
 import { productSchema } from "@/lib/FormSchemas";
 import { BASE_API_URL } from "@/config/api";
 import { ICategory } from "@/lib/types";
+import axiosInstance from "@/lib/axios";
+import { successAlert } from "@/lib/alert";
 
-// ✅ Static data
-const CATEGORIES = [
-  { value: "indoor", label: "Indoor Plant" },
-  { value: "outdoor", label: "Outdoor Plant" },
-  { value: "decor", label: "Home Decor" },
-];
 const SIZES = ["Small", "Medium", "Large"];
 const STATIC_TAGS = ["sale", "new-arrivals", "gift", "decor"];
 
@@ -116,13 +112,20 @@ export default function AddProductModal() {
         numReviews: 10,
         size: data.size,
       };
-      console.log("Submitting to backend:", productToSend);
+      // console.log("Submitting to backend:", productToSend);
 
       // API call
-      // await axios.post("/api/products", productToSend);
-
-      setOpen(false);
-      form.reset();
+      const res = await axiosInstance.post(
+        "/products/create-product",
+        productToSend
+      );
+      console.log(res);
+      
+      if (res.status == 200) {
+        successAlert("Product Added Successfully!");
+        setOpen(false);
+        form.reset();
+      }
     } catch (error) {
       console.error(error);
     } finally {
