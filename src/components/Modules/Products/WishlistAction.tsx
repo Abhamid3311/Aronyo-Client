@@ -22,10 +22,8 @@ const WishlistAction: React.FC<WishlistActionProps> = ({ product }) => {
     try {
       if (isWishlisted) {
         await removeFromWishlist(product._id);
-        successAlert("Removed from your wishlist!");
       } else {
         await addToWishlist(product._id);
-        successAlert("Added to your wishlist!");
       }
     } catch (err) {
       console.error("Wishlist action failed:", err);

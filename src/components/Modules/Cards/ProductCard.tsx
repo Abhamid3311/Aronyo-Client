@@ -26,10 +26,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleWishlistToggle = async () => {
     if (isWishlisted) {
       await removeFromWishlist(product._id);
-      successAlert("Removed from your wishlist!");
     } else {
       await addToWishlist(product._id);
-      successAlert("Added to your wishlist!");
     }
   };
 
