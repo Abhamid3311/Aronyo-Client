@@ -1,13 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
+  createCategory,
   createProduct,
+  deleteCategory,
   deleteProduct,
+  getAdminCategories,
   getAdminProducts,
   getSingelProduct,
+  getSingleCategory,
+  updateCategory,
   updateProduct,
+  updateStatusCategory,
 } from "@/lib/services/Products/ProductsAdminApi";
-import { IProduct } from "@/lib/types";
+import { ICategory, IProduct } from "@/lib/types";
+
+/****************************  Products Hooks *******************************/
 
 export const useProducts = () => {
   return useQuery({
@@ -50,6 +58,69 @@ export const useDeleteProduct = () => {
     mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+};
+
+/*******************  Category Hooks **************************/
+
+/* Fetch all categories for admin */
+export const useCategories = () => {
+  return useQuery({
+    queryKey: ["categories"],
+    queryFn: getAdminCategories,
+  });
+};
+
+/* Fetch single category by id */
+export const useSingleCategory = (id: string) => {
+  return useQuery({
+    queryKey: ["categories", id],
+    queryFn: () => getSingleCategory(id),
+  });
+};
+
+/* Create category */
+export const useCreateCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
+};
+
+/* Update category */
+export const useUpdateCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<ICategory> }) =>
+      updateCategory(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
+};
+
+/* Update category status */
+export const useUpdateCategoryStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => updateStatusCategory(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
+};
+
+/* Delete category */
+export const useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 };

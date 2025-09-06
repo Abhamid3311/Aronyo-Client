@@ -3,14 +3,13 @@ import { ColumnDef } from "@tanstack/react-table";
 export interface ICategory {
   _id: string;
   name: string;
-  slug: string;
+  slug?: string;
   description: string;
   image: string;
-  isActive: boolean;
-  createdAt: string; // or Date if you want to parse it
-  updatedAt: string; // or Date
-  createdBy: string;
-  __v: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  createdBy?: string;
 }
 
 export interface CategoryProps {
