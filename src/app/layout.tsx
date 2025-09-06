@@ -5,6 +5,9 @@ import { Playfair_Display } from "next/font/google";
 import { AuthProvider } from "@/Context/AuthContext";
 import { CartProvider } from "@/Context/CartContext";
 import { WishlistProvider } from "@/Context/WishlistContext";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
+import QueryProviders from "@/Provider/QueryProviders";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -38,9 +41,11 @@ export default function RootLayout({
         className={` ${geistMono.variable} ${playfairDisplay.variable} antialiased `}
       >
         <AuthProvider>
-          <WishlistProvider>
-            <CartProvider>{children}</CartProvider>
-          </WishlistProvider>
+          <QueryProviders>
+            <WishlistProvider>
+              <CartProvider>{children}</CartProvider>
+            </WishlistProvider>
+          </QueryProviders>
         </AuthProvider>
       </body>
     </html>

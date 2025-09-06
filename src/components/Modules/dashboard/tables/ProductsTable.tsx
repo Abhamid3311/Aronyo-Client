@@ -6,10 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Eye } from "lucide-react";
 import { AdvancedTable } from "./AdvanceTable";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import AddProductForm from "../AddForms/AddProduct";
+import { useProducts } from "@/hooks/useProducts";
+import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
 
 interface Product {
   id: string;
@@ -21,11 +20,15 @@ interface Product {
   createdAt: string;
 }
 
-interface ProductsTableClientProps {
-  initialData: Product[];
-}
+export function ProductsTableClient() {
+  const { data: initialData, isLoading } = useProducts();
 
-export function ProductsTableClient({ initialData }: ProductsTableClientProps) {
+  console.log("tanStack:", initialData);
+
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
+
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "title",

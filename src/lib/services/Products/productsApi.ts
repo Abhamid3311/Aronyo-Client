@@ -33,26 +33,6 @@ export async function getProductById(id: string) {
   return result.data;
 }
 
-// Get All Products for Admin
-export async function getAdminProducts() {
-  const cookieStore = cookies(); // ✅ Read cookies on server
-  const cookieHeader = cookieStore.toString();
-
-  const res = await fetch(`${BASE_API_URL}/products/admin/all-products`, {
-    method: "GET",
-    headers: {
-      Cookie: cookieHeader,
-    },
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed: ${res.status}`);
-  }
-
-  return res.json();
-}
-
 // Get All Users for Admin
 export async function getUsersForAdmin() {
   const cookieStore = cookies(); // ✅ Read cookies on server
@@ -72,7 +52,6 @@ export async function getUsersForAdmin() {
 
   return res.json();
 }
-
 
 // Get All Category for Admin
 export async function getCategoriesForAdmin() {
