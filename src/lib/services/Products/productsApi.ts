@@ -33,6 +33,9 @@ export async function getProductBySlug(slug: string) {
   return result.data;
 }
 
+
+
+
 // Get All Users for Admin
 export async function getUsersForAdmin() {
   const cookieStore = cookies(); // ✅ Read cookies on server

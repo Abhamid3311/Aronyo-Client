@@ -9,19 +9,21 @@ import { AdvancedTable } from "./AdvanceTable";
 import AddProductForm from "../AddForms/AddProduct";
 import { useProducts } from "@/hooks/useProducts";
 import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
+import { useRouter } from "next/navigation";
 
 interface Product {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   category: string;
   stock: number;
-  status: "active" | "inactive";
+  isActive: boolean;
   createdAt: string;
 }
 
 export function ProductsTableClient() {
   const { data: initialData, isLoading } = useProducts();
+  const router = useRouter();
 
   console.log("tanStack:", initialData);
 
@@ -88,24 +90,25 @@ export function ProductsTableClient() {
     {
       icon: Eye,
       onClick: (product: Product) => {
-        console.log("View product:", product.id);
+        console.log("View product:", product._id);
+        router.push(`/dashboard/admin/product-managment/${product._id}`);
       },
       variant: "outline" as const,
     },
     {
       icon: Edit,
       onClick: (product: Product) => {
-        console.log("Edit product:", product.id);
+        console.log("Edit product:", product._id);
       },
       variant: "outline" as const,
     },
     {
       icon: Trash2,
       onClick: (product: Product) => {
-        console.log("Delete product:", product.id);
+        console.log("Delete product:", product._id);
       },
       variant: "destructive" as const,
-      disabled: (product: Product) => product.status === "active",
+      // disabled: (product: Product) => product.isActive === false,
     },
   ];
 
@@ -116,7 +119,7 @@ export function ProductsTableClient() {
       onClick: (products: Product[]) => {
         console.log(
           "Bulk delete:",
-          products.map((p) => p.id)
+          products.map((p) => p._id)
         );
       },
       variant: "destructive" as const,
@@ -132,7 +135,9 @@ export function ProductsTableClient() {
   return (
     <>
       {/* 🔹 Add Product Button with Modal */}
-      <AddProductForm />
+      <div className="flex items-center justify-end mb-3">
+        <AddProductForm />
+      </div>
 
       {/* 🔹 Product Table */}
       <AdvancedTable
@@ -153,7 +158,7 @@ export function ProductsTableClient() {
           showTableInfo: true,
         }}
         onRowClick={(product) => {
-          console.log("Row clicked:", product.id);
+          console.log("Row clicked:", product._id);
         }}
       />
     </>

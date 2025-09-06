@@ -16,7 +16,10 @@ export interface ICategory {
 export interface CategoryProps {
   category: ICategory[];
 }
-
+type createdByName = {
+  name: string;
+  email: string;
+};
 export interface IProduct {
   _id: string;
   title: string;
@@ -33,7 +36,7 @@ export interface IProduct {
   ratings: number;
   numReviews: number;
   size?: string;
-  createdBy: string;
+  createdBy: string | createdByName;
   createdAt?: Date;
 }
 

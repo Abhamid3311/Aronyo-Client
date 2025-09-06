@@ -29,6 +29,7 @@ export const deleteProduct = async (id: string) => {
 
 // Get Singel product for Admin
 export const getSingelProduct = async (id: string) => {
-  const res = await axiosInstance.get(`/products/${id}`);
-  return res.data;
+  const res = await axiosInstance.get(`/products/admin/${id}`);
+  console.log(res);
+  return res.data.data;
 };
