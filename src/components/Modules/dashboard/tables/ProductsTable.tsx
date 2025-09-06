@@ -27,7 +27,7 @@ export function ProductsTableClient() {
   const router = useRouter();
   const deleteMutation = useDeleteProduct();
 
-  console.log("tanStack:", initialData);
+  // console.log("tanStack:", initialData);
 
   if (isLoading) {
     return <DashboardSkeleton />;

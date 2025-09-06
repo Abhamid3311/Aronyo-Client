@@ -21,9 +21,9 @@ type createdByName = {
   email: string;
 };
 export interface IProduct {
-  _id: string;
+  _id?: string;
   title: string;
-  slug: string;
+  slug?: string;
   description: string;
   detailsDesc?: string;
   price: number;
@@ -32,11 +32,11 @@ export interface IProduct {
   brand?: string;
   images: string[];
   stock: number;
-  tags: string[];
+  tags: string[] | [];
   ratings: number;
   numReviews: number;
   size?: string;
-  createdBy: string | createdByName;
+  createdBy?: string | createdByName;
   createdAt?: Date;
 }
 

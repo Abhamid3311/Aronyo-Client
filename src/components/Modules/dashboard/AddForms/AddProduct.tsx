@@ -35,8 +35,8 @@ import { Separator } from "@/components/ui/separator";
 import { productSchema } from "@/lib/FormSchemas";
 import { BASE_API_URL } from "@/config/api";
 import { ICategory } from "@/lib/types";
-import axiosInstance from "@/lib/axios";
-import { successAlert } from "@/lib/alert";
+import { errorAlert, successAlert } from "@/lib/alert";
+import { useCreateProduct } from "@/hooks/useProducts";
 
 const SIZES = ["Small", "Medium", "Large"];
 const STATIC_TAGS = ["sale", "new-arrivals", "gift", "decor"];
@@ -44,15 +44,14 @@ const STATIC_TAGS = ["sale", "new-arrivals", "gift", "decor"];
 type ProductFormValues = z.infer<typeof productSchema>;
 
 export default function AddProductModal() {
+  const createMutation = useCreateProduct();
+
   const [open, setOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageInput, setImageInput] = useState("");
   const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
-    fetch(`${BASE_API_URL}/category`, {
-      cache: "no-store",
-    })
+    fetch(`${BASE_API_URL}/category`, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => setCategories(data?.data))
       .catch(console.error);
@@ -66,7 +65,7 @@ export default function AddProductModal() {
       description: "",
       detailsDesc: "",
       price: 0,
-      discountPrice: undefined,
+      discountPrice: 0,
       stock: 0,
       category: "",
       images: [],
@@ -74,7 +73,6 @@ export default function AddProductModal() {
       tags: [],
       ratings: 5,
       numReviews: 10,
-      isActive: true,
     },
   });
 
@@ -94,43 +92,34 @@ export default function AddProductModal() {
       form.getValues("images").filter((_, idx) => idx !== i)
     );
 
-  const handleSubmit = async (data: ProductFormValues) => {
-    setIsSubmitting(true);
-    try {
-      const productToSend = {
-        title: data.title,
-        description: data.description,
-        detailsDesc: data.detailsDesc,
-        price: data.price,
-        discountPrice: data.discountPrice || undefined,
-        category: data.category,
-        brand: data.brand,
-        images: data.images,
-        stock: data.stock,
-        tags: data.tags?.length ? data.tags : undefined,
-        ratings: 5,
-        numReviews: 10,
-        size: data.size,
-      };
-      // console.log("Submitting to backend:", productToSend);
-
-      // API call
-      const res = await axiosInstance.post(
-        "/products/create-product",
-        productToSend
-      );
-      console.log(res);
-      
-      if (res.status == 200) {
+  const handleSubmit = (data: ProductFormValues) => {
+    const productToSend = {
+      title: data.title,
+      description: data.description,
+      detailsDesc: data.detailsDesc,
+      price: data.price,
+      discountPrice: data.discountPrice,
+      category: data.category,
+      brand: data.brand,
+      images: data.images,
+      stock: data.stock,
+      tags: data.tags?.length ? data.tags : [],
+      ratings: 5,
+      numReviews: 10,
+      size: data.size,
+    };
+    // Product Add to DB
+    createMutation.mutate(productToSend, {
+      onSuccess: () => {
         successAlert("Product Added Successfully!");
         setOpen(false);
         form.reset();
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsSubmitting(false);
-    }
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError: (error: any) => {
+        errorAlert(error?.message || " Failed to add product!");
+      },
+    });
   };
 
   return (
@@ -150,6 +139,7 @@ export default function AddProductModal() {
             Fill out the form to add a new product.
           </DialogDescription>
         </DialogHeader>
+        <Separator />
 
         <Form {...form}>
           <form
@@ -176,7 +166,7 @@ export default function AddProductModal() {
                 name="brand"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Brand Name</FormLabel>
+                    <FormLabel>Brand Name *</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter brand name" {...field} />
                     </FormControl>
@@ -407,8 +397,8 @@ export default function AddProductModal() {
               >
                 Reset
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? (
+              <Button type="submit" disabled={createMutation.isPending}>
+                {createMutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
                   </>
