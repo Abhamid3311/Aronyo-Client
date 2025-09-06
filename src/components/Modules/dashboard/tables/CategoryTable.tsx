@@ -6,39 +6,17 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, Eye, Trash2 } from "lucide-react";
 import { AdvancedTable } from "./AdvanceTable";
 import { Switch } from "@/components/ui/switch";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-
-interface Category {
-  _id: string;
-  name: string;
-  slug: string;
-  description: string;
-  image: string;
-  isActive: boolean;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import AddCategoryForm from "../AddForms/AddCategoryForm";
+import { ICategory } from "@/lib/types";
 
 interface CategoriesTableClientProps {
-  initialData: Category[];
+  initialData: ICategory[];
 }
 
 export function CategoriesTableClient({
   initialData,
 }: CategoriesTableClientProps) {
-  const [open, setOpen] = useState(false);
-
-  const columns: ColumnDef<Category>[] = [
+  const columns: ColumnDef<ICategory>[] = [
     {
       accessorKey: "name",
       header: "Category Name",
@@ -139,54 +117,12 @@ export function CategoriesTableClient({
 
   return (
     <>
-      {/* 🔹 Add Category Button with Modal */}
-      <div className="flex justify-end items-center mb-2">
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button>Add Category</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Category</DialogTitle>
-            </DialogHeader>
-            <form
-              className="space-y-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const form = e.target as HTMLFormElement;
-                const formData = new FormData(form);
-                const newCategory = {
-                  name: formData.get("name"),
-                  description: formData.get("description"),
-                  image: formData.get("image"),
-                };
-                console.log("New Category:", newCategory);
-                // 🔥 Call API to save category
-                setOpen(false);
-              }}
-            >
-              <div>
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" required />
-              </div>
-
-              <div>
-                <Label htmlFor="description">Description</Label>
-                <Input id="description" name="description" />
-              </div>
-              <div>
-                <Label htmlFor="image">Image URL</Label>
-                <Input id="image" name="image" type="url" />
-              </div>
-              <Button type="submit" className="w-full">
-                Save
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
+      {/* Add Category Button with Modal */}
+      <div className="flex items-center justify-end mb-3">
+        <AddCategoryForm />
       </div>
 
-      {/* 🔹 Category Table */}
+      {/*  Category Table */}
       <AdvancedTable
         title="Categories"
         subtitle="Manage your categories"
