@@ -7,9 +7,10 @@ import { Edit, Trash2, Eye } from "lucide-react";
 import { AdvancedTable } from "./AdvanceTable";
 
 import AddProductForm from "../AddForms/AddProduct";
-import { useProducts } from "@/hooks/useProducts";
+import { useDeleteProduct, useProducts } from "@/hooks/useProducts";
 import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
 import { useRouter } from "next/navigation";
+import { confirmAlert, successAlert } from "@/lib/alert";
 
 interface Product {
   _id: string;
@@ -24,6 +25,7 @@ interface Product {
 export function ProductsTableClient() {
   const { data: initialData, isLoading } = useProducts();
   const router = useRouter();
+  const deleteMutation = useDeleteProduct();
 
   console.log("tanStack:", initialData);
 
@@ -104,11 +106,21 @@ export function ProductsTableClient() {
     },
     {
       icon: Trash2,
-      onClick: (product: Product) => {
-        console.log("Delete product:", product._id);
+      onClick: async (product: Product) => {
+        const confirmed = await confirmAlert(
+          "Do you want to delete this product?"
+        );
+        if (confirmed) {
+          deleteMutation.mutate(product._id, {
+            onSuccess: () => {
+              successAlert("Product deleted successfully!");
+            },
+          });
+        }
       },
       variant: "destructive" as const,
-      // disabled: (product: Product) => product.isActive === false,
+      disabled: () => deleteMutation.isPending,
+      loading: () => deleteMutation.isPending,
     },
   ];
 

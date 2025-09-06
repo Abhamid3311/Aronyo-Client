@@ -46,7 +46,7 @@ export default function ProductDetailsAdmin({
                 {product.title}
               </h1>
 
-              <WishlistAction product={product} />
+              {/* <WishlistAction product={product} /> */}
             </div>
 
             {product.ratings && (

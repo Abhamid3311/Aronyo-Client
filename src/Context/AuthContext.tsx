@@ -10,6 +10,7 @@ import {
   getCurrentUser,
   refreshAccessToken,
 } from "@/lib/services/Auth/auth";
+import { confirmAlert, errorAlert, successAlert } from "@/lib/alert";
 
 interface AuthContextType {
   user: IUser | null;
@@ -51,9 +52,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await apiLogin(credentials);
       console.log(res);
       setUser(res.data.user);
+      successAlert("Login successfully!");
       router.push("/dashboard");
     } catch (err) {
       setUser(null);
+      errorAlert("Login failed!");
       throw err;
     } finally {
       setLoading(false);
@@ -65,9 +68,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       const res = await apiRegister(credentials);
       setUser(res.data.user);
+      successAlert("Registered successfully!");
       router.push("/dashboard");
     } catch (err) {
       setUser(null);
+      errorAlert("Registration failed!");
       throw err;
     } finally {
       setLoading(false);
@@ -75,10 +80,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = async () => {
+    const confirmed = await confirmAlert("Are you sure you want to logout?");
+
+    if (!confirmed) {
+      return;
+    }
+
     setLoading(true);
     try {
       await apiLogout();
       setUser(null);
+      successAlert("Logged out successfully!");
       router.push("/login");
     } catch (err) {
       console.error(err);
