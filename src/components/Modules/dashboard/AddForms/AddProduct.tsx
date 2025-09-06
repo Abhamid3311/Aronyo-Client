@@ -37,6 +37,7 @@ import { BASE_API_URL } from "@/config/api";
 import { ICategory } from "@/lib/types";
 import { errorAlert, successAlert } from "@/lib/alert";
 import { useCreateProduct } from "@/hooks/useProducts";
+import Image from "next/image";
 
 const SIZES = ["Small", "Medium", "Large"];
 const STATIC_TAGS = ["sale", "new-arrivals", "gift", "decor"];
@@ -226,7 +227,7 @@ export default function AddProductModal() {
                         </SelectTrigger>
                         <SelectContent>
                           {categories.map((cat) => (
-                            <SelectItem key={cat._id} value={cat.slug}>
+                            <SelectItem key={cat._id} value={cat.slug!}>
                               {cat.name}
                             </SelectItem>
                           ))}
@@ -367,7 +368,14 @@ export default function AddProductModal() {
                           key={i}
                           className="relative group border rounded-lg overflow-hidden"
                         >
-                          <img src={img} className="w-full h-28 object-cover" />
+                          <div className="relative w-full h-28">
+                            <Image
+                              src={img}
+                              alt="Product Image"
+                              fill
+                              className="object-cover rounded-lg"
+                            />
+                          </div>
                           <Button
                             type="button"
                             size="icon"
