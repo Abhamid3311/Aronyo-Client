@@ -24,8 +24,8 @@ export async function getProductsWithFilters(filters?: Record<string, string>) {
 }
 
 // Get Single Product for User
-export async function getProductById(id: string) {
-  const res = await fetch(`${BASE_API_URL}/products/${id}`, {
+export async function getProductBySlug(slug: string) {
+  const res = await fetch(`${BASE_API_URL}/products/${slug}`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error("Failed to fetch Product");

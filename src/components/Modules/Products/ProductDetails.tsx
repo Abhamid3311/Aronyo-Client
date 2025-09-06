@@ -1,52 +1,18 @@
-import { getProductById } from "@/lib/services/Products/productsApi";
+"use client";
+
 import { IProduct } from "@/lib/types";
-import React from "react";
-import {
-  Star,
-  Heart,
-  ShoppingCart,
-  Truck,
-  Shield,
-  RotateCcw,
-  Plus,
-  Minus,
-} from "lucide-react";
+import { Star, Truck, Shield, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import ProductImages from "@/components/Modules/Products/ProductDetailsImage";
 import ProductActions from "@/components/Modules/Products/ProductActions";
 import WishlistAction from "@/components/Modules/Products/WishlistAction";
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default async function ProductPage({ params }: PageProps) {
-  const { id } = params;
-
-  let product: IProduct;
-
-  try {
-    product = await getProductById(id);
-  } catch (error) {
-    return (
-      <div className="max-w-4xl mx-auto p-6 text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Product Not Found
-        </h2>
-        <p className="text-gray-600">
-          The requested product could not be found.
-        </p>
-      </div>
-    );
-  }
-
+export default function ProductDetails({ product }: { product: IProduct }) {
   const discountPercentage = product.discountPrice
     ? Math.round(
         ((product.price - product.discountPrice) / product.price) * 100
       )
     : 0;
-
-  //   console.log(product);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -75,9 +41,7 @@ export default async function ProductPage({ params }: PageProps) {
               <h1 className="text-3xl font-bold text-gray-900">
                 {product.title}
               </h1>
-              {/*   <button className="p-2 rounded-lg border-2 border-gray-300 hover:border-red-500 hover:text-red-500">
-                <Heart className="w-5 h-5" />
-              </button> */}
+
               <WishlistAction product={product} />
             </div>
 

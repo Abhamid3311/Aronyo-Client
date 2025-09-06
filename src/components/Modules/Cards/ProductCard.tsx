@@ -46,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30">
           {/* Eye Icon -> Product Details */}
           <Link
-            href={`/all-plants/${product._id}`}
+            href={`/all-plants/${product.slug}`}
             className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition"
           >
             <Eye size={20} className="text-gray-700" />
@@ -79,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product Info */}
       <div className="p-2">
         <h3 className="text-base lg:text-lg font-semibold text-textClr truncate group-hover:text-primaryGreen">
-          <Link href={`/all-plants/${product._id}`}>{product.title}</Link>
+          <Link href={`/all-plants/${product.slug}`}>{product.title}</Link>
         </h3>
         <p className="text-xs lg:text-sm text-gray-600 line-clamp-2">
           {product.description}
