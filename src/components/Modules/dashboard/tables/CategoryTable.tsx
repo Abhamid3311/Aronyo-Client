@@ -8,14 +8,21 @@ import { AdvancedTable } from "./AdvanceTable";
 import { Switch } from "@/components/ui/switch";
 import AddCategoryForm from "../AddForms/AddCategoryForm";
 import { ICategory } from "@/lib/types";
+import { useCategories, useDeleteCategory } from "@/hooks/useProducts";
+import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
+import { useRouter } from "next/navigation";
+import { confirmAlert, successAlert } from "@/lib/alert";
 
-interface CategoriesTableClientProps {
-  initialData: ICategory[];
-}
+export function CategoriesTableClient() {
+  const { data: initialData, isLoading } = useCategories();
+  const router = useRouter();
+  const deleteMutation = useDeleteCategory();
+  console.log(initialData);
 
-export function CategoriesTableClient({
-  initialData,
-}: CategoriesTableClientProps) {
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
+
   const columns: ColumnDef<ICategory>[] = [
     {
       accessorKey: "name",
@@ -76,7 +83,7 @@ export function CategoriesTableClient({
   const rowActions = [
     {
       icon: Eye,
-      onClick: (category: Category) => {
+      onClick: (category: ICategory) => {
         console.log("View category:", category._id);
         // Navigate to category detail page
       },
@@ -84,7 +91,7 @@ export function CategoriesTableClient({
     },
     {
       icon: Edit,
-      onClick: (category: Category) => {
+      onClick: (category: ICategory) => {
         console.log("Edit category:", category._id);
         // Navigate to category detail page
       },
@@ -92,12 +99,21 @@ export function CategoriesTableClient({
     },
     {
       icon: Trash2,
-      onClick: (category: Category) => {
-        console.log("Delete category:", category._id);
-        // Show confirmation dialog
+      onClick: async (category: ICategory) => {
+        const confirmed = await confirmAlert(
+          "Do you want to delete this category?"
+        );
+        if (confirmed) {
+          deleteMutation.mutate(category._id, {
+            onSuccess: () => {
+              successAlert("Category deleted successfully!");
+            },
+          });
+        }
       },
       variant: "destructive" as const,
-      disabled: (category: Category) => category.isActive,
+      disabled: () => deleteMutation.isPending,
+      loading: () => deleteMutation.isPending,
     },
   ];
 
@@ -105,7 +121,7 @@ export function CategoriesTableClient({
     {
       label: "Bulk Delete",
       icon: Trash2,
-      onClick: (categories: Category[]) => {
+      onClick: (categories: ICategory[]) => {
         console.log(
           "Bulk delete:",
           categories.map((c) => c._id)
@@ -127,7 +143,7 @@ export function CategoriesTableClient({
         title="Categories"
         subtitle="Manage your categories"
         columns={columns}
-        data={initialData}
+        data={initialData || []}
         exportFileName="categories_export.xlsx"
         rowActions={rowActions}
         bulkActions={bulkActions}
