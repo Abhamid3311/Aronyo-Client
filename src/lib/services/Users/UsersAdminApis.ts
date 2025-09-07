@@ -28,7 +28,10 @@ export const getSingleUser = async (id: string) => {
 };
 
 // UPDATE user password
-export const updatePassword = async (data: Partial<IUser>) => {
+export const updatePassword = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
   const res = await axiosInstance.patch(`/users/update-password`, data);
   return res.data;
 };

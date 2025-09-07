@@ -5,6 +5,8 @@ import {
   getSingleUser,
   updateUser,
   deleteUser,
+  updatePassword,
+  updateProfile,
 } from "@/lib/services/Users/UsersAdminApis";
 
 /****************************  Users Hooks *******************************/
@@ -43,6 +45,25 @@ export const useDeleteUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+  });
+};
+
+// Update user password
+export const useUpdatePassword = () => {
+  return useMutation({
+    mutationFn: (data: { currentPassword: string; newPassword: string }) =>
+      updatePassword(data),
+  });
+};
+
+// Update personal profile
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: Partial<IUser>) => updateProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
