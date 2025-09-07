@@ -24,7 +24,8 @@ export const deleteUser = async (id: string) => {
 // Get Single user for Admin
 export const getSingleUser = async (id: string) => {
   const res = await axiosInstance.get(`/users/admin/${id}`);
-  return res.data.data;
+  console.log(res);
+  return res.data.user;
 };
 
 // UPDATE user password

@@ -69,7 +69,7 @@ export function UsersTableClient() {
     {
       icon: Eye,
       onClick: (user: IUser) =>
-        router.push(`/dashboard/admin/users/${user._id}`),
+        router.push(`/dashboard/admin/user-managment/${user._id}`),
       variant: "outline" as const,
     },
     {
