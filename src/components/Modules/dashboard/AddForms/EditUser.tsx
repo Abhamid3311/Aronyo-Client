@@ -92,9 +92,11 @@ export default function EditUserForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-full max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
+          <DialogTitle className="text-primaryGreen font-semibold text-2xl">
+            Edit User
+          </DialogTitle>
           <DialogDescription>
             Update the role and status of this user.
           </DialogDescription>
@@ -138,9 +140,9 @@ export default function EditUserForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Role</FormLabel>
-                  <FormControl>
+                  <FormControl className="w-full">
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select Role" />
                       </SelectTrigger>
                       <SelectContent>
@@ -164,7 +166,7 @@ export default function EditUserForm({
                   <FormLabel>Status</FormLabel>
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select Status" />
                       </SelectTrigger>
                       <SelectContent>

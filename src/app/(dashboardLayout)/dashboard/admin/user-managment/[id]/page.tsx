@@ -1,7 +1,7 @@
 "use client";
 
 import ProductDetailsSkeleton from "@/components/Modules/skeletons/ProductDetailsSkeleton";
-import { useSingleUser } from "@/hooks/useUsers"; // Assuming you have this hook
+import { useSingleUser } from "@/hooks/useUsers";
 import { use } from "react";
 import {
   Card,
@@ -18,11 +18,10 @@ import {
   ShieldIcon,
   CalendarIcon,
   ActivityIcon,
-  KeyIcon,
   TrashIcon,
   ArrowLeft,
-  CheckCircleIcon,
-  XCircleIcon,
+  Phone,
+  Locate,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -157,33 +156,6 @@ export default function UserDetailsPage({ params }: PageProps) {
                     {user.email}
                   </div>
                 </div>
-
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <Badge variant={getRoleColor(user.role)}>
-                      <ShieldIcon className="h-3 w-3 mr-1" />
-                      {user.role.toUpperCase()}
-                    </Badge>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Badge variant={getStatusColor(user.status)}>
-                      {user.status.toLowerCase() === "active" ? (
-                        <CheckCircleIcon className="h-3 w-3 mr-1" />
-                      ) : (
-                        <XCircleIcon className="h-3 w-3 mr-1" />
-                      )}
-                      {user.status.toUpperCase()}
-                    </Badge>
-                  </div>
-
-                  {user.isDeleted && (
-                    <Badge variant="destructive">
-                      <TrashIcon className="h-3 w-3 mr-1" />
-                      DELETED
-                    </Badge>
-                  )}
-                </div>
               </div>
             </CardContent>
           </Card>
@@ -198,10 +170,8 @@ export default function UserDetailsPage({ params }: PageProps) {
                 <ActivityIcon className="h-5 w-5" />
                 Account Information
               </CardTitle>
-              <CardDescription>
-                Detailed account settings and credentials
-              </CardDescription>
             </CardHeader>
+
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -221,6 +191,26 @@ export default function UserDetailsPage({ params }: PageProps) {
                   </div>
                   <p className="text-sm bg-muted px-3 py-2 rounded-lg">
                     {user.email}
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Phone className="h-4 w-4" />
+                    Phone Number
+                  </div>
+                  <p className="font-mono text-sm bg-muted px-3 py-2 rounded-lg break-all">
+                    {user?.phone || "N/A"}
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Locate className="h-4 w-4" />
+                    Address
+                  </div>
+                  <p className="text-sm bg-muted px-3 py-2 rounded-lg">
+                    {user?.address || "N/A"}
                   </p>
                 </div>
               </div>
@@ -315,36 +305,6 @@ export default function UserDetailsPage({ params }: PageProps) {
                     </p>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>
-                Common administrative actions for this user
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-3">
-                <Button variant="outline" size="sm">
-                  <MailIcon className="h-4 w-4 mr-2" />
-                  Send Email
-                </Button>
-                <Button variant="outline" size="sm">
-                  <KeyIcon className="h-4 w-4 mr-2" />
-                  Reset Password
-                </Button>
-                <Button variant="outline" size="sm">
-                  <ActivityIcon className="h-4 w-4 mr-2" />
-                  Change Status
-                </Button>
-                <Button variant="destructive" size="sm">
-                  <TrashIcon className="h-4 w-4 mr-2" />
-                  Delete User
-                </Button>
               </div>
             </CardContent>
           </Card>
