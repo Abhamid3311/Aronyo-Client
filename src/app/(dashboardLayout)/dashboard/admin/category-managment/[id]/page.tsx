@@ -181,13 +181,17 @@ export default function CategoryDetailsPage({ params }: PageProps) {
                 <div className="flex-grow space-y-2">
                   <div className="flex items-center gap-2">
                     <h4 className="font-semibold">
-                      {category.createdBy?.name}
+                      {typeof category.createdBy === "object"
+                        ? category.createdBy?.name
+                        : category.createdBy}
                     </h4>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MailIcon className="h-4 w-4" />
-                    {category.createdBy?.email}
-                  </div>
+                  {typeof category.createdBy === "object" && (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MailIcon className="h-4 w-4" />
+                      {category.createdBy.email}
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>
