@@ -26,7 +26,10 @@ export default function ProductDetailsAdmin({
           Home
         </Link>
         <span className="mx-2">/</span>
-        <Link href="/all-plants" className="hover:text-green-600">
+        <Link
+          href="/dashboard/admin/product-managment"
+          className="hover:text-green-600"
+        >
           Products
         </Link>
         <span className="mx-2">/</span>
