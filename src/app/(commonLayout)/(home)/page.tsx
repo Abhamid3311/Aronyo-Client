@@ -7,7 +7,7 @@ import Category from "@/components/Modules/Home/Category";
 import {
   getCategories,
   getProductsWithFilters,
-} from "@/lib/services/Products/productsApi";
+} from "@/lib/services/Products/publicApi";
 
 export default async function Home() {
   const [categories, popularPro, largePlant, newArrival] = await Promise.all([

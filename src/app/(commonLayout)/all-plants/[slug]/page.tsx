@@ -1,4 +1,4 @@
-import { getProductBySlug } from "@/lib/services/Products/productsApi";
+import { getProductBySlug } from "@/lib/services/Products/publicApi";
 import { IProduct } from "@/lib/types";
 import React, { Suspense } from "react";
 import ProductDetails from "@/components/Modules/Products/ProductDetails";

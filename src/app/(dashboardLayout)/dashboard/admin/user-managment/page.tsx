@@ -1,6 +1,6 @@
 import { UsersTableClient } from "@/components/Modules/dashboard/tables/UserTable";
 import DashboardSkeleton from "@/components/Modules/skeletons/DashboardSkeleton";
-import { getUsersForAdmin } from "@/lib/services/Products/productsApi";
+import { getUsersForAdmin } from "@/lib/services/Products/publicApi";
 import React, { Suspense } from "react";
 
 const Users = async () => {
@@ -8,8 +8,8 @@ const Users = async () => {
   // console.log(users);
   return (
     <div>
-       <Suspense fallback={<DashboardSkeleton />}>
-      <UsersTableClient initialData={users.data} />
+      <Suspense fallback={<DashboardSkeleton />}>
+        <UsersTableClient initialData={users.data} />
       </Suspense>
     </div>
   );

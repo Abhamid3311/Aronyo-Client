@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { IProduct } from "@/lib/types";
-import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
+import { getProductsWithFilters } from "@/lib/services/Products/publicApi";
 import FiltersSidebar from "./FiltersSidebar";
 import Pagination from "../Shared/Pagination";
 import FilterDrawer from "./FilterDrawer";

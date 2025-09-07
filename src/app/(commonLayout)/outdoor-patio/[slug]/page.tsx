@@ -1,7 +1,7 @@
 import ProductCard from "@/components/Modules/Cards/ProductCard";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
 import ProductsSkeleton from "@/components/Modules/skeletons/ProductGridSkeleton";
-import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
+import { getProductsWithFilters } from "@/lib/services/Products/publicApi";
 import { OUTDOOR_PATIO_CONFIG } from "@/lib/staticData";
 import { IProduct } from "@/lib/types";
 import { Suspense } from "react";

@@ -1,7 +1,7 @@
 import ProductExplorer from "@/components/Modules/Products/ProductExplorer";
 import PageHeader from "@/components/Modules/Shared/PageHeader";
 import ProductsSkeleton from "@/components/Modules/skeletons/ProductGridSkeleton";
-import { getProductsWithFilters } from "@/lib/services/Products/productsApi";
+import { getProductsWithFilters } from "@/lib/services/Products/publicApi";
 import React, { Suspense } from "react";
 
 const Newarrivals = async () => {
