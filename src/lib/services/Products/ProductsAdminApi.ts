@@ -54,12 +54,6 @@ export const updateCategory = async (id: string, data: Partial<ICategory>) => {
   return res.data;
 };
 
-// UPDATE Status category
-export const updateStatusCategory = async (id: string) => {
-  const res = await axiosInstance.patch(`/category/status/${id}`);
-  return res.data;
-};
-
 // DELETE category
 export const deleteCategory = async (id: string) => {
   const res = await axiosInstance.delete(`/category/${id}`);

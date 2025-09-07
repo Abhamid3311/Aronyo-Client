@@ -56,25 +56,7 @@ export function CategoriesTableClient() {
         );
       },
     },
-    {
-      accessorKey: "toggle",
-      header: "Toggle",
-      cell: ({ row }) => {
-        const category = row.original;
-        return (
-          <Switch
-            checked={category.isActive}
-            onCheckedChange={(checked) => {
-              console.log(
-                `Category ${category._id} status changed to:`,
-                checked ? "active" : "inactive"
-              );
-              // 🔥 Call API here to update category status
-            }}
-          />
-        );
-      },
-    },
+
     {
       accessorKey: "createdAt",
       header: "Created",

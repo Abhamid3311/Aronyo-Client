@@ -11,7 +11,6 @@ import {
   getSingleCategory,
   updateCategory,
   updateProduct,
-  updateStatusCategory,
 } from "@/lib/services/Products/ProductsAdminApi";
 import { ICategory, IProduct } from "@/lib/types";
 
@@ -97,17 +96,6 @@ export const useUpdateCategory = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<ICategory> }) =>
       updateCategory(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
-    },
-  });
-};
-
-/* Update category status */
-export const useUpdateCategoryStatus = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (id: string) => updateStatusCategory(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },

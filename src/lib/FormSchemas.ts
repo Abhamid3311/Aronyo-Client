@@ -14,4 +14,5 @@ export const productSchema = z.object({
   tags: z.array(z.string()),
   ratings: z.number(),
   numReviews: z.number(),
+  isActive: z.boolean(),
 });

@@ -11,8 +11,10 @@ import { useDeleteProduct, useProducts } from "@/hooks/useProducts";
 import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
 import { useRouter } from "next/navigation";
 import { confirmAlert, successAlert } from "@/lib/alert";
+import EditProductModal from "../AddForms/EditProductForm";
+import { IProduct } from "@/lib/types";
 
-interface Product {
+/* interface Product {
   _id: string;
   name: string;
   price: number;
@@ -20,12 +22,14 @@ interface Product {
   stock: number;
   isActive: boolean;
   createdAt: string;
-}
+} */
 
 export function ProductsTableClient() {
   const { data: initialData, isLoading } = useProducts();
   const router = useRouter();
   const deleteMutation = useDeleteProduct();
+  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   // console.log("tanStack:", initialData);
 
@@ -33,7 +37,7 @@ export function ProductsTableClient() {
     return <DashboardSkeleton />;
   }
 
-  const columns: ColumnDef<Product>[] = [
+  const columns: ColumnDef<IProduct>[] = [
     {
       accessorKey: "title",
       header: "Name",
@@ -91,7 +95,7 @@ export function ProductsTableClient() {
   const rowActions = [
     {
       icon: Eye,
-      onClick: (product: Product) => {
+      onClick: (product: IProduct) => {
         // console.log("View product:", product._id);
         router.push(`/dashboard/admin/product-managment/${product._id}`);
       },
@@ -99,19 +103,22 @@ export function ProductsTableClient() {
     },
     {
       icon: Edit,
-      onClick: (product: Product) => {
+      onClick: (product: IProduct) => {
         console.log("Edit product:", product._id);
+        setSelectedProduct(product); // set the product to edit
+        setEditModalOpen(true);
       },
       variant: "outline" as const,
     },
     {
       icon: Trash2,
-      onClick: async (product: Product) => {
+
+      onClick: async (product: IProduct) => {
         const confirmed = await confirmAlert(
           "Do you want to delete this product?"
         );
         if (confirmed) {
-          deleteMutation.mutate(product._id, {
+          deleteMutation.mutate(product._id!, {
             onSuccess: () => {
               successAlert("Product deleted successfully!");
             },
@@ -128,7 +135,7 @@ export function ProductsTableClient() {
     {
       label: "Bulk Delete",
       icon: Trash2,
-      onClick: (products: Product[]) => {
+      onClick: (products: IProduct[]) => {
         console.log(
           "Bulk delete:",
           products.map((p) => p._id)
@@ -138,7 +145,7 @@ export function ProductsTableClient() {
     },
     {
       label: "Export Selected",
-      onClick: (products: Product[]) => {
+      onClick: (products: IProduct[]) => {
         console.log("Export selected:", products.length);
       },
     },
@@ -173,6 +180,14 @@ export function ProductsTableClient() {
           console.log("Row clicked:", product._id);
         }}
       />
+
+      {selectedProduct && (
+        <EditProductModal
+          open={editModalOpen}
+          setOpen={setEditModalOpen}
+          product={selectedProduct}
+        />
+      )}
     </>
   );
 }

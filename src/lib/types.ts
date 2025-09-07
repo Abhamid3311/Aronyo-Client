@@ -38,6 +38,7 @@ export interface IProduct {
   size?: string;
   createdBy?: string | createdByName;
   createdAt?: Date;
+  isActive?: boolean;
 }
 
 export interface ProductsProps {
