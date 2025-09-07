@@ -32,19 +32,6 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-  status: string;
-  isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
-  avatar?: string;
-}
-
 export default function UserDetailsPage({ params }: PageProps) {
   const { id } = use(params);
   const router = useRouter();

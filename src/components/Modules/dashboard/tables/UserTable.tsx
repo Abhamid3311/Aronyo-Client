@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Eye } from "lucide-react";
 import { AdvancedTable } from "./AdvanceTable";
 
-import { useDeleteUser, useUpdateUser, useUsers } from "@/hooks/useUsers";
+import { useDeleteUser, useUsers } from "@/hooks/useUsers";
 import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
 import { confirmAlert, successAlert } from "@/lib/alert";
 import { IUser } from "@/lib/types";
