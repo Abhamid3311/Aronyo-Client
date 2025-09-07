@@ -25,10 +25,12 @@ import {
   Home,
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import UpdatePassword from "@/components/Modules/dashboard/AddForms/UpdatePasswordForm";
 
 export default function UserProfilePage() {
   const { user, logout } = useAuth();
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   // Helper function to get user initials for avatar fallback
   const getUserInitials = (name: string) => {
     return name
@@ -125,13 +127,13 @@ export default function UserProfilePage() {
                   </CardDescription>
                   <div className="flex gap-2 mt-2">
                     <Badge
-                      variant={getRoleVariant(user.role)}
+                      variant={getRoleVariant(user.role!)}
                       className="capitalize"
                     >
                       {user.role}
                     </Badge>
                     <Badge
-                      variant={getStatusVariant(user.status)}
+                      variant={getStatusVariant(user.status!)}
                       className="capitalize"
                     >
                       {user.status}
@@ -260,7 +262,7 @@ export default function UserProfilePage() {
               </Button>
 
               <Button
-                onClick={handleChangePassword}
+                onClick={() => setIsDialogOpen(true)}
                 className="w-full justify-start"
                 variant="outline"
               >
@@ -299,7 +301,7 @@ export default function UserProfilePage() {
                   Account Type
                 </span>
                 <Badge
-                  variant={getRoleVariant(user.role)}
+                  variant={getRoleVariant(user.role!)}
                   className="capitalize"
                 >
                   {user.role}
@@ -309,7 +311,7 @@ export default function UserProfilePage() {
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Status</span>
                 <Badge
-                  variant={getStatusVariant(user.status)}
+                  variant={getStatusVariant(user.status!)}
                   className="capitalize"
                 >
                   {user.status}
@@ -321,10 +323,12 @@ export default function UserProfilePage() {
                   Profile Complete
                 </span>
                 <span className="text-sm font-medium">
-                  {user.phone && user.address
+                  {user.phone && user.address && user.image
                     ? "100%"
+                    : (user.phone && user.address) || user.image
+                    ? "85%"
                     : user.phone || user.address
-                    ? "75%"
+                    ? "70%"
                     : "50%"}
                 </span>
               </div>
@@ -332,6 +336,11 @@ export default function UserProfilePage() {
           </Card>
         </div>
       </div>
+
+      <UpdatePassword
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
     </div>
   );
 }
