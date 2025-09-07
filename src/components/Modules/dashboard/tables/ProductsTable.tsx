@@ -92,7 +92,7 @@ export function ProductsTableClient() {
     {
       icon: Eye,
       onClick: (product: Product) => {
-        console.log("View product:", product._id);
+        // console.log("View product:", product._id);
         router.push(`/dashboard/admin/product-managment/${product._id}`);
       },
       variant: "outline" as const,

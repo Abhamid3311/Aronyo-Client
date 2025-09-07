@@ -1,4 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
+type createdByName = {
+  name: string;
+  email: string;
+};
 
 export interface ICategory {
   _id: string;
@@ -9,16 +13,13 @@ export interface ICategory {
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
-  createdBy?: string;
+  createdBy?: string | createdByName;
 }
 
 export interface CategoryProps {
   category: ICategory[];
 }
-type createdByName = {
-  name: string;
-  email: string;
-};
+
 export interface IProduct {
   _id?: string;
   title: string;

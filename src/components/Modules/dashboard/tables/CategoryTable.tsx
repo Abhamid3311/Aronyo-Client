@@ -84,8 +84,8 @@ export function CategoriesTableClient() {
     {
       icon: Eye,
       onClick: (category: ICategory) => {
-        console.log("View category:", category._id);
-        // Navigate to category detail page
+        // console.log("View category:", category._id);
+        router.push(`/dashboard/admin/category-managment/${category._id}`);
       },
       variant: "outline" as const,
     },
