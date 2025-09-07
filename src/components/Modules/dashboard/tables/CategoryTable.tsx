@@ -12,9 +12,14 @@ import { useCategories, useDeleteCategory } from "@/hooks/useProducts";
 import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
 import { useRouter } from "next/navigation";
 import { confirmAlert, successAlert } from "@/lib/alert";
+import EditCategoryForm from "../AddForms/EditCategoryForm";
 
 export function CategoriesTableClient() {
   const { data: initialData, isLoading } = useCategories();
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
+    null
+  );
   const router = useRouter();
   const deleteMutation = useDeleteCategory();
   console.log(initialData);
@@ -84,7 +89,6 @@ export function CategoriesTableClient() {
     {
       icon: Eye,
       onClick: (category: ICategory) => {
-        // console.log("View category:", category._id);
         router.push(`/dashboard/admin/category-managment/${category._id}`);
       },
       variant: "outline" as const,
@@ -92,8 +96,8 @@ export function CategoriesTableClient() {
     {
       icon: Edit,
       onClick: (category: ICategory) => {
-        console.log("Edit category:", category._id);
-        // Navigate to category detail page
+        setSelectedCategory(category);
+        setEditOpen(true);
       },
       variant: "outline" as const,
     },
@@ -159,6 +163,13 @@ export function CategoriesTableClient() {
         onRowClick={(category) => {
           console.log("Row clicked:", category._id);
         }}
+      />
+
+      {/* Edit Category Modal */}
+      <EditCategoryForm
+        open={editOpen}
+        setOpen={setEditOpen}
+        category={selectedCategory}
       />
     </>
   );
