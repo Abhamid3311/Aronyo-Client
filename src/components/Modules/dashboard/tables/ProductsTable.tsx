@@ -14,16 +14,6 @@ import { confirmAlert, successAlert } from "@/lib/alert";
 import EditProductModal from "../AddForms/EditProductForm";
 import { IProduct } from "@/lib/types";
 
-/* interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  category: string;
-  stock: number;
-  isActive: boolean;
-  createdAt: string;
-} */
-
 export function ProductsTableClient() {
   const { data: initialData, isLoading } = useProducts();
   const router = useRouter();

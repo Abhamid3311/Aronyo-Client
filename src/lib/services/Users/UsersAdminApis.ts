@@ -11,7 +11,7 @@ export const getAdminUsers = async () => {
 
 // UPDATE Admin user
 export const updateUser = async (id: string, data: Partial<IUser>) => {
-  const res = await axiosInstance.put(`/users/update-user/${id}`, data);
+  const res = await axiosInstance.put(`/users/admin/update-user/${id}`, data);
   return res.data;
 };
 

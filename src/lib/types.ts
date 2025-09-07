@@ -68,8 +68,8 @@ export interface IUser {
   phone?: string;
   address?: string;
   image?: string;
-  role: TUserRole;
-  status: TUserStatus;
+  role?: TUserRole;
+  status?: TUserStatus;
   isDeleted: boolean;
   createdAt?: Date;
 }
