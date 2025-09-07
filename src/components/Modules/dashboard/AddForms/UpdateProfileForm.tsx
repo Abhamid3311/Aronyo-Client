@@ -156,11 +156,7 @@ export default function UpdateProfileForm({
                 <FormItem>
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter your address"
-                      className="h-24 resize-none"
-                      {...field}
-                    />
+                    <Input placeholder="Enter your address" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -178,7 +174,7 @@ export default function UpdateProfileForm({
                     <Input placeholder="Enter image URL" {...field} />
                   </FormControl>
                   {field.value && (
-                    <div className="relative w-full h-40 mt-2 border rounded-lg overflow-hidden">
+                    <div className="relative w-40 h-40 mt-2 border rounded-lg overflow-hidden">
                       <Image
                         src={field.value}
                         alt={form.getValues("name") || "User Image"}

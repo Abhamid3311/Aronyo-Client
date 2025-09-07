@@ -362,13 +362,13 @@ export default function AddProductModal() {
                     </Button>
                   </div>
                   {field.value.length > 0 && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                       {field.value.map((img, i) => (
                         <div
                           key={i}
                           className="relative group border rounded-lg overflow-hidden"
                         >
-                          <div className="relative w-full h-28">
+                          <div className="relative w-full h-36">
                             <Image
                               src={img}
                               alt="Product Image"

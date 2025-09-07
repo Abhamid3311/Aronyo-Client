@@ -139,7 +139,7 @@ export default function AddCategoryForm() {
                     <Input placeholder="Enter image URL" {...field} />
                   </FormControl>
                   {field.value && (
-                    <div className="relative w-full h-40 mt-2 border rounded-lg overflow-hidden">
+                    <div className="relative w-40 h-40 mt-2 border rounded-lg overflow-hidden">
                       <Image
                         src={field.value}
                         alt={form.getValues("name") || "Category Image"}
