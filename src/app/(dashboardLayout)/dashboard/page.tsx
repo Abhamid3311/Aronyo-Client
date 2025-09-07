@@ -27,10 +27,12 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import UpdatePassword from "@/components/Modules/dashboard/AddForms/UpdatePasswordForm";
+import UpdateProfileForm from "@/components/Modules/dashboard/AddForms/UpdateProfileForm";
 
 export default function UserProfilePage() {
   const { user, logout } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
   // Helper function to get user initials for avatar fallback
   const getUserInitials = (name: string) => {
     return name
@@ -77,16 +79,6 @@ export default function UserProfilePage() {
       default:
         return "outline";
     }
-  };
-
-  const handleEditProfile = () => {
-    // Navigate to edit profile page or open modal
-    console.log("Edit profile clicked");
-  };
-
-  const handleChangePassword = () => {
-    // Navigate to change password page or open modal
-    console.log("Change password clicked");
   };
 
   if (!user) {
@@ -253,7 +245,7 @@ export default function UserProfilePage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <Button
-                onClick={handleEditProfile}
+                onClick={() => setIsProfileDialogOpen(true)}
                 className="w-full justify-start"
                 variant="outline"
               >
@@ -340,6 +332,12 @@ export default function UserProfilePage() {
       <UpdatePassword
         open={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
+      />
+
+      <UpdateProfileForm
+        open={isProfileDialogOpen}
+        setOpen={setIsProfileDialogOpen}
+        user={user}
       />
     </div>
   );

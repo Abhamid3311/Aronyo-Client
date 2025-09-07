@@ -14,6 +14,7 @@ import { confirmAlert, errorAlert, successAlert } from "@/lib/alert";
 
 interface AuthContextType {
   user: IUser | null;
+  setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   loading: boolean;
   isAuthenticated: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
@@ -112,6 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value: AuthContextType = {
     user,
+    setUser,
     loading,
     isAuthenticated: !!user,
     login,

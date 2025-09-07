@@ -20,6 +20,7 @@ export function UsersTableClient() {
 
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  
 
   if (isLoading) return <DashboardSkeleton />;
 
