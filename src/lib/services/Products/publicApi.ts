@@ -1,7 +1,6 @@
 "use server";
 
 import { BASE_API_URL } from "@/config/api";
-import { cookies } from "next/headers";
 
 // Get All Categories for User
 
@@ -33,24 +32,4 @@ export async function getProductBySlug(slug: string) {
   if (!res.ok) throw new Error("Failed to fetch Product");
   const result = await res.json();
   return result.data;
-}
-
-// Get All Users for Admin
-export async function getUsersForAdmin() {
-  const cookieStore = cookies(); // ✅ Read cookies on server
-  const cookieHeader = cookieStore.toString();
-
-  const res = await fetch(`${BASE_API_URL}/users/admin/all-users`, {
-    method: "GET",
-    headers: {
-      Cookie: cookieHeader,
-    },
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed: ${res.status}`);
-  }
-
-  return res.json();
 }

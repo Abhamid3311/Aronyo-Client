@@ -5,6 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, Trash2 } from "lucide-react";
 import { AdvancedTable } from "./AdvanceTable";
 import { Switch } from "@/components/ui/switch";
+import { useDeleteUser, useUsers } from "@/hooks/useUsers";
+import { useRouter } from "next/navigation";
+import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
+import { confirmAlert, successAlert } from "@/lib/alert";
+import { IUser } from "@/lib/types";
 
 interface User {
   _id: string;
@@ -20,11 +25,15 @@ interface User {
   updatedAt: string;
 }
 
-interface UsersTableClientProps {
-  initialData: User[];
-}
+export function UsersTableClient() {
+  const { data: initialData, isLoading } = useUsers();
+  const router = useRouter();
+  const deleteMutation = useDeleteUser();
 
-export function UsersTableClient({ initialData }: UsersTableClientProps) {
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
+
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: "name",
@@ -54,21 +63,14 @@ export function UsersTableClient({ initialData }: UsersTableClientProps) {
     },
 
     {
-      accessorKey: "statusToggle",
+      accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        const user = row.original;
+        const status = row.getValue("status") as "active" | "inactive";
         return (
-          <Switch
-            checked={user.status === "active"}
-            onCheckedChange={(checked) => {
-              console.log(
-                `User ${user._id} status changed to:`,
-                checked ? "active" : "inactive"
-              );
-              // 🔥 Call API here to update user status
-            }}
-          />
+          <Badge variant={status === "active" ? "default" : "destructive"}>
+            {status === "active" ? "Active" : "Inactive"}
+          </Badge>
         );
       },
     },
@@ -93,12 +95,21 @@ export function UsersTableClient({ initialData }: UsersTableClientProps) {
     },
     {
       icon: Trash2,
-      onClick: (user: User) => {
-        console.log("Delete user:", user._id);
-        // Show confirmation dialog
+      onClick: async (user: User) => {
+        const confirmed = await confirmAlert(
+          "Do you want to delete this User?"
+        );
+        if (confirmed) {
+          deleteMutation.mutate(user._id!, {
+            onSuccess: () => {
+              successAlert("User deleted successfully!");
+            },
+          });
+        }
       },
       variant: "destructive" as const,
-      disabled: (user: User) => user.status === "active",
+      disabled: () => deleteMutation.isPending,
+      loading: () => deleteMutation.isPending,
     },
   ];
 
