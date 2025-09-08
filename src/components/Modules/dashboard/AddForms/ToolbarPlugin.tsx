@@ -8,6 +8,7 @@ import {
   SELECTION_CHANGE_COMMAND,
   FORMAT_ELEMENT_COMMAND,
   COMMAND_PRIORITY_LOW,
+  EditorState,
 } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
@@ -53,12 +54,11 @@ import {
 
 const LowPriority = COMMAND_PRIORITY_LOW;
 
-
-function Divider(): JSX.Element {
+function Divider(): React.ReactElement {
   return <Separator orientation="vertical" className="mx-1 h-6" />;
 }
 
-function FloatingLinkEditor({ editor }: { editor: any }): JSX.Element {
+function FloatingLinkEditor({ editor }: { editor: any }): React.ReactElement {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const mouseDownRef = useRef(false);
@@ -122,11 +122,13 @@ function FloatingLinkEditor({ editor }: { editor: any }): JSX.Element {
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          updateLinkEditor();
-        });
-      }),
+      editor.registerUpdateListener(
+        ({ editorState }: { editorState: EditorState }) => {
+          editorState.read(() => {
+            updateLinkEditor();
+          });
+        }
+      ),
 
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
@@ -271,7 +273,7 @@ function isLinkNode(node: any): boolean {
   return $isLinkNode(node); // Use Lexical's $isLinkNode for consistency
 }
 
-export function ToolbarPlugin(): JSX.Element {
+export function ToolbarPlugin(): React.ReactElement {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const [blockType, setBlockType] = useState("paragraph");
@@ -361,7 +363,7 @@ export function ToolbarPlugin(): JSX.Element {
     }
   };
 
-  const formatHeading = (headingSize: string) => {
+  const formatHeading = (headingSize: "h1" | "h2" | "h3") => {
     if (blockType !== headingSize) {
       editor.update(() => {
         const selection = $getSelection();

@@ -299,20 +299,17 @@ export default function AddBlogForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="Plant Care">🌱 Plant Care</SelectItem>
-                      <SelectItem value="Health Tips">
-                        💚 Health Tips
-                      </SelectItem>
+                      <SelectItem value="Plant Care">Plant Care</SelectItem>
+                      <SelectItem value="Health Tips">Health Tips</SelectItem>
                       <SelectItem value="Indoor Plants">
-                        🏠 Indoor Plants
+                        Indoor Plants
                       </SelectItem>
                       <SelectItem value="Outdoor Plants">
-                        🌳 Outdoor Plants
+                        Outdoor Plants
                       </SelectItem>
                       <SelectItem value="Gardening Tips">
-                        🌿 Gardening Tips
+                        Gardening Tips
                       </SelectItem>
-                      <SelectItem value="Misc">📝 Miscellaneous</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
