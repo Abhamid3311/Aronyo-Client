@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   CalendarIcon,
   ClockIcon,
-  ShareIcon,
-  BookmarkIcon,
   ArrowLeft,
   UserIcon,
   TagIcon,
@@ -329,7 +327,11 @@ export default async function BlogDetailsPage({
             </CardHeader>
             <CardContent>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="outline" className="flex-1 bg-primaryGreen text-white" asChild>
+                <Button
+                  variant="outline"
+                  className="flex-1 bg-primaryGreen text-white"
+                  asChild
+                >
                   <Link href="/blogs">View All Blog Posts</Link>
                 </Button>
                 {blog.category && (

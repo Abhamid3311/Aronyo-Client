@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios";
-import { IUser } from "@/lib/types";
+import { IBlog, IUser } from "@/lib/types";
 
 /***************************  Users API ***************************/
 
@@ -40,5 +40,31 @@ export const updatePassword = async (data: {
 // UPDATE personal profile
 export const updateProfile = async (data: Partial<IUser>) => {
   const res = await axiosInstance.put(`/users/update-profile/`, data);
+  return res.data;
+};
+
+/***************************  Blogs API ***************************/
+
+// CREATE blog
+export const createBlog = async (data: IBlog) => {
+  const res = await axiosInstance.post("/blog/create-blog", data);
+  return res.data;
+};
+
+// Get Admin blogs
+export const getAllBlogsAdmin = async () => {
+  const res = await axiosInstance.post("/blog/admin/all-blogs");
+  return res.data;
+};
+
+// UPDATE blog
+export const updateBlog = async (id: string, data: IBlog) => {
+  const res = await axiosInstance.put(`/blog/update-blog/${id}`, data);
+  return res.data;
+};
+
+// DELETE blog
+export const deleteBlog = async (id: string) => {
+  const res = await axiosInstance.delete(`/blog/delete-blog/${id}`);
   return res.data;
 };
