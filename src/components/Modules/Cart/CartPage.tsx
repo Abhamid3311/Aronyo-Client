@@ -122,7 +122,7 @@ export default function CartPage() {
                   Proceed to Checkout
                 </Button>
 
-                <Link href="/all-products" className="block">
+                <Link href="/all-plants" className="block">
                   <Button variant="outline" className="w-full">
                     Continue Shopping
                   </Button>

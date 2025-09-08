@@ -1,3 +1,4 @@
+import { GuestGuard } from "@/components/auth/GuestGuard";
 import Navbar from "@/components/layouts/Navbar";
 
 export default function AuthLayout({
@@ -7,10 +8,13 @@ export default function AuthLayout({
 }) {
   return (
     <div>
-      <Navbar />
-      <div className="flex min-h-[80vh] items-center justify-center bg-gray-50">
-        {children}
-      </div>
+      <GuestGuard>
+        <Navbar />
+        <div className="flex min-h-[80vh] items-center justify-center bg-gray-50">
+          {children}
+        </div>
+      </GuestGuard>
+      ;
     </div>
   );
 }
