@@ -10,12 +10,13 @@ import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
 import { useRouter } from "next/navigation";
 import { confirmAlert, successAlert } from "@/lib/alert";
 import { IBlog } from "@/lib/types";
+import AddBlogForm from "../AddForms/AddBlogForm";
 
 export function BlogsTableClient() {
   const { data: initialData, isLoading } = useBlogs();
   //   console.log(initialData);
-  //   const [editOpen, setEditOpen] = useState(false);
-  //   const [selectedBlog, setSelectedBlog] = useState<IBlog | null>(null);
+    const [editOpen, setEditOpen] = useState(false);
+    const [selectedBlog, setSelectedBlog] = useState<IBlog | null>(null);
   const router = useRouter();
   const deleteMutation = useDeleteBlog();
 
@@ -69,8 +70,8 @@ export function BlogsTableClient() {
     {
       icon: Edit,
       onClick: (blog: IBlog) => {
-        // setSelectedBlog(blog);
-        // setEditOpen(true);
+        setSelectedBlog(blog);
+        setEditOpen(true);
       },
       variant: "outline" as const,
     },
@@ -111,9 +112,9 @@ export function BlogsTableClient() {
   return (
     <>
       {/* Add Blog Button */}
-      {/*    <div className="flex items-center justify-end mb-3">
+         <div className="flex items-center justify-end mb-3">
         <AddBlogForm />
-      </div> */}
+      </div>
 
       {/* Blogs Table */}
       <AdvancedTable

@@ -46,7 +46,7 @@ export const updateProfile = async (data: Partial<IUser>) => {
 /***************************  Blogs API ***************************/
 
 // CREATE blog
-export const createBlog = async (data: IBlog) => {
+export const createBlog = async (data: Partial<IBlog>) => {
   const res = await axiosInstance.post("/blog/create-blog", data);
   return res.data;
 };

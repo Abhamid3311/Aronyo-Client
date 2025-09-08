@@ -16,3 +16,21 @@ export const productSchema = z.object({
   numReviews: z.number(),
   isActive: z.boolean(),
 });
+
+
+export const blogSchema = z.object({
+  title: z.string().min(1, "Title is required").max(200, "Title is too long"),
+  subtitle: z.string().optional(),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  image: z.string().url("Invalid image URL").min(1, "Image is required"),
+  category: z.enum([
+    "Plant Care",
+    "Health Tips",
+    "Indoor Plants",
+    "Outdoor Plants",
+    "Gardening Tips",
+    "Misc",
+  ]),
+  tags: z.array(z.string()).max(10, "Maximum 10 tags allowed"),
+  isPublished: z.boolean(),
+});
