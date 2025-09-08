@@ -57,11 +57,11 @@ export interface IBlog {
   title: string;
   subTitle?: string;
   description: string;
-  tags?: string[];
+  tags: string[];
   category: string;
   slug?: string;
   isPublished: boolean;
-  createdBy: TCreatedByInfo ;
+  createdBy: TCreatedByInfo;
   createdAt: string;
   updatedAt?: Date;
 }

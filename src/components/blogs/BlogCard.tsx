@@ -49,7 +49,7 @@ const BlogCard: React.FC<BlogsProps> = ({ blog }) => {
   };
 
   return (
-    <Card className="group relative overflow-hidden hover:shadow-lg transition-all duration-300 border-0 shadow-sm hover:shadow-xl">
+    <Card className="group relative overflow-hidden hover:shadow-lg transition-all duration-300 border-0 shadow-sm ">
       {/* Blog Image */}
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
@@ -87,7 +87,7 @@ const BlogCard: React.FC<BlogsProps> = ({ blog }) => {
           <div className="flex-1 min-w-0">
             <CardTitle className="text-lg font-bold leading-tight group-hover:text-primary transition-colors duration-200 line-clamp-2">
               <Link
-                href={`/blog/${blog._id}`}
+                href={`/blogs/${blog._id}`}
                 className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
               >
                 {blog.title}
@@ -136,7 +136,7 @@ const BlogCard: React.FC<BlogsProps> = ({ blog }) => {
             className="opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 p-2"
             asChild
           >
-            <Link href={`/blog/${blog._id}`}>
+            <Link href={`/blogs/${blog._id}`}>
               <ArrowRightIcon className="h-4 w-4" />
             </Link>
           </Button>

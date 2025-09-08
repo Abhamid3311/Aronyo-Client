@@ -1,6 +1,6 @@
 import React from "react";
 import Headlines from "../Shared/Headlines";
-import BlogCard from "../Cards/BlogCard";
+import BlogCard from "../../blogs/BlogCard";
 import { BlogProps } from "@/lib/types";
 
 const BlogSec = ({ blogs }: BlogProps) => {
@@ -9,7 +9,7 @@ const BlogSec = ({ blogs }: BlogProps) => {
     <div className="py-10 custom-container my-10 px-5">
       <Headlines
         title={"Plant Care Stories & Tips"}
-        link={"#"}
+        link={"/blogs"}
         buttonText={"View All Blogs"}
       />
 
