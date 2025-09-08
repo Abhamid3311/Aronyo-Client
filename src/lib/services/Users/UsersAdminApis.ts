@@ -53,8 +53,8 @@ export const createBlog = async (data: IBlog) => {
 
 // Get Admin blogs
 export const getAllBlogsAdmin = async () => {
-  const res = await axiosInstance.post("/blog/admin/all-blogs");
-  return res.data;
+  const res = await axiosInstance.get("/blog/admin/all-blogs");
+  return res.data.data;
 };
 
 // UPDATE blog
