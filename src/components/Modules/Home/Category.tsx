@@ -9,9 +9,9 @@ const Category: React.FC<CategoryProps> = ({ category }) => {
       <h1 className="px-5 ">Plants For Everyone</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5 my-5 px-5 ">
-        {category
-          .map((item) => <PlantCard key={item._id} plant={item} />)
-          .slice(0, 8)}
+        {category.slice(0, 8).map((item) => (
+          <PlantCard key={item._id} plant={item} />
+        ))}
       </div>
     </div>
   );

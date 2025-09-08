@@ -3,14 +3,14 @@ import React from "react";
 
 interface HeadlinesProps {
   title: string;
-  link : string;
+  link: string;
   buttonText: string;
 }
 
 const Headlines: React.FC<HeadlinesProps> = ({ title, link, buttonText }) => {
   return (
     <div className="flex items-center justify-between gap-1">
-      <h1 className="px-5 text-textClr">{title}</h1>
+      <h1 className="px-5 ">{title}</h1>
       <Link
         href={link}
         className="bg-ghost text-textClr px-2 py-3 rounded-md text-lg font-bold font-[--font-playfair]"

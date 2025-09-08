@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useMemo } from "react";
 import { Heart, ShoppingCart, Eye } from "lucide-react";
-import { successAlert } from "@/lib/alert";
 
 interface ProductCardProps {
   product: IProduct;
@@ -25,9 +24,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleWishlistToggle = async () => {
     if (isWishlisted) {
-      await removeFromWishlist(product._id);
+      await removeFromWishlist(product._id!);
     } else {
-      await addToWishlist(product._id);
+      await addToWishlist(product._id!);
     }
   };
 
@@ -68,7 +67,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <button
             className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
             onClick={() => {
-              addToCart(product._id);
+              addToCart(product._id!);
             }}
           >
             <ShoppingCart size={20} className="text-green-600" />

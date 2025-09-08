@@ -45,6 +45,34 @@ export interface ProductsProps {
   popProducts: IProduct[];
 }
 
+type TCreatedByInfo = {
+  name: string;
+  image: string;
+  email: string;
+};
+
+export interface IBlog {
+  _id: string;
+  image: string;
+  title: string;
+  subTitle?: string;
+  description: string;
+  tags?: string[];
+  category: string;
+  slug?: string;
+  isPublished: boolean;
+  createdBy: TCreatedByInfo ;
+  createdAt: string;
+  updatedAt?: Date;
+}
+
+export interface BlogsProps {
+  blog: IBlog;
+}
+export interface BlogProps {
+  blogs: IBlog[];
+}
+
 export interface CartItem {
   productId: IProduct;
   quantity: number;

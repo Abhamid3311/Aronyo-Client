@@ -5,28 +5,51 @@ import NewArrivals from "@/components/Modules/Home/NewArrivals";
 import PopularPlants from "@/components/Modules/Home/PopularPlants";
 import Category from "@/components/Modules/Home/Category";
 import {
+  getBlogsWithFilters,
   getCategories,
   getProductsWithFilters,
 } from "@/lib/services/Products/publicApi";
+import BlogSec from "@/components/Modules/Home/BlogSec";
+import PopularPlantsSkeleton from "@/components/Modules/skeletons/PlantSectionSkeleton";
+import { Suspense } from "react";
 
 export default async function Home() {
-  const [categories, popularPro, largePlant, newArrival] = await Promise.all([
-    getCategories(),
-    getProductsWithFilters(),
-    getProductsWithFilters({ category: "large-plants" }),
-    getProductsWithFilters({ tag: "new-arrivals" }),
-  ]);
+  const [categories, popularPro, largePlant, newArrival, blogs] =
+    await Promise.all([
+      getCategories(),
+      getProductsWithFilters(),
+      getProductsWithFilters({ category: "large-plants" }),
+      getProductsWithFilters({ tag: "new-arrivals" }),
+      getBlogsWithFilters(),
+    ]);
 
   // console.log(popularPro);
 
   return (
     <div>
       <Hero />
-      <PopularPlants popProducts={popularPro?.data} />
+
+      <Suspense fallback={<PopularPlantsSkeleton />}>
+        <PopularPlants popProducts={popularPro?.data} />
+      </Suspense>
+
       <Help />
-      <Category category={categories.data} />
-      <LargePlants popProducts={largePlant.data} />
-      <NewArrivals popProducts={newArrival.data} />
+
+      <Suspense fallback={<PopularPlantsSkeleton />}>
+        <Category category={categories.data} />
+      </Suspense>
+
+      <Suspense fallback={<PopularPlantsSkeleton />}>
+        <LargePlants popProducts={largePlant.data} />
+      </Suspense>
+
+      <Suspense fallback={<PopularPlantsSkeleton />}>
+        <NewArrivals popProducts={newArrival.data} />
+      </Suspense>
+
+      <Suspense fallback={<PopularPlantsSkeleton />}>
+        <BlogSec blogs={blogs.data} />
+      </Suspense>
     </div>
   );
 }
