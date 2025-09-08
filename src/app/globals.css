@@ -35,7 +35,9 @@
   .primaryButton {
     @apply bg-primaryGreen hover:bg-green-800 px-5 py-6 rounded-md text-lg font-bold font-[--font-playfair];
   }
-
+  .swal2-container {
+    z-index: 99999 !important;
+  }
   /* Sliding Text Animation */
   @keyframes slide {
     0% {

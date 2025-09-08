@@ -58,7 +58,7 @@ export const getAllBlogsAdmin = async () => {
 };
 
 // UPDATE blog
-export const updateBlog = async (id: string, data: IBlog) => {
+export const updateBlog = async (id: string, data: Partial<IBlog>) => {
   const res = await axiosInstance.put(`/blog/update-blog/${id}`, data);
   return res.data;
 };

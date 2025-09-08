@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -37,19 +37,37 @@ import { Plus, Loader2, X, ImageIcon } from "lucide-react";
 
 import { blogSchema } from "@/lib/FormSchemas";
 import { errorAlert, successAlert } from "@/lib/alert";
-import { useCreateBlog } from "@/hooks/useBlog";
+import { useUpdateBlog } from "@/hooks/useBlog";
 import { IBlog } from "@/lib/types";
 import { BlogEditor } from "@/components/blogs/BlogEditor";
 
 type BlogFormValues = z.infer<typeof blogSchema>;
 
-export default function AddBlogForm() {
-  const [open, setOpen] = useState(false);
+interface EditBlogFormProps {
+  blog: IBlog | null;
+  open: boolean;
+  setOpen: (value: boolean) => void;
+}
+
+const allowedCategories = [
+  "Plant Care",
+  "Health Tips",
+  "Indoor Plants",
+  "Outdoor Plants",
+  "Gardening Tips",
+] as const;
+
+export default function EditBlogForm({
+  blog,
+  open,
+  setOpen,
+}: EditBlogFormProps) {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
-  const [editorContent, setEditorContent] = useState("");
   const [imagePreviewError, setImagePreviewError] = useState("");
-  const createMutation = useCreateBlog();
+  const updateMutation = useUpdateBlog();
+
+  console.log(blog);
 
   const form = useForm<BlogFormValues>({
     resolver: zodResolver(blogSchema),
@@ -64,26 +82,34 @@ export default function AddBlogForm() {
     },
   });
 
-  // Handle form submit
-  const handleSubmit = async (data: Partial<IBlog>) => {
+  // Load blog data whenever the blog or modal opens
+  useEffect(() => {
+    if (blog && open) {
+      form.reset({
+        title: blog.title,
+        subTitle: blog.subTitle || "",
+        description: blog.description,
+        image: blog.image || "",
+        category: (blog.category as BlogFormValues["category"]) || "Plant Care",
+        tags: blog.tags || [],
+        isPublished: blog.isPublished,
+      });
+      setTags(blog.tags || []);
+    }
+  }, [blog, open, form]);
+
+  const handleSubmit = async (data: IBlog) => {
+    if (!blog?._id) return;
     try {
-      const blogData = {
-        ...data,
-        tags,
-      };
+      const blogData = { ...data, tags };
 
-      await createMutation.mutateAsync(blogData);
+      await updateMutation.mutateAsync({ id: blog._id, data: blogData });
 
-      successAlert("✅ Blog created successfully!");
-      form.reset();
-      setTags([]);
-      setTagInput("");
-      setEditorContent("");
-      setImagePreviewError("");
+      successAlert(" Blog updated successfully!");
       setOpen(false);
     } catch (error: any) {
-      console.error("Error creating blog:", error);
-      errorAlert(error?.message || "❌ Failed to create blog!");
+      console.error("Error updating blog:", error);
+      errorAlert(error?.message || " Failed to update blog!");
     }
   };
 
@@ -123,17 +149,10 @@ export default function AddBlogForm() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          Add Blog
-        </Button>
-      </DialogTrigger>
-
       <DialogContent className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold text-green-700">
-            Create New Blog Post
+            Edit Blog Post
           </DialogTitle>
         </DialogHeader>
 
@@ -188,10 +207,7 @@ export default function AddBlogForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category *</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select a category" />
@@ -307,7 +323,7 @@ export default function AddBlogForm() {
                     className="flex-1"
                   />
                   <Button
-                    type="button" // Explicitly set to prevent form submission
+                    type="button"
                     variant="outline"
                     onClick={addTag}
                     disabled={!tagInput.trim() || tags.length >= 10}
@@ -358,42 +374,27 @@ export default function AddBlogForm() {
             <div className="flex flex-col sm:flex-row justify-end gap-3">
               <Button
                 type="button"
-                variant="outline"
-                onClick={() => {
-                  form.reset();
-                  setTags([]);
-                  setTagInput("");
-                  setEditorContent("");
-                  setImagePreviewError("");
-                }}
-                disabled={createMutation.isPending}
-              >
-                Reset Form
-              </Button>
-
-              <Button
-                type="button"
                 variant="ghost"
                 onClick={() => setOpen(false)}
-                disabled={createMutation.isPending}
+                disabled={updateMutation.isPending}
               >
                 Cancel
               </Button>
 
               <Button
                 type="submit"
-                disabled={createMutation.isPending}
+                disabled={updateMutation.isPending}
                 className="gap-2 min-w-[120px]"
               >
-                {createMutation.isPending ? (
+                {updateMutation.isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Creating...
+                    Updating...
                   </>
                 ) : (
                   <>
                     <Plus className="h-4 w-4" />
-                    Create Blog
+                    Update Blog
                   </>
                 )}
               </Button>

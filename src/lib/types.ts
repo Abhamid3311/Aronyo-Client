@@ -52,7 +52,7 @@ type TCreatedByInfo = {
 };
 
 export interface IBlog {
-  _id: string;
+  _id?: string;
   image: string;
   title: string;
   subTitle?: string;
@@ -61,8 +61,8 @@ export interface IBlog {
   category: string;
   slug?: string;
   isPublished: boolean;
-  createdBy: TCreatedByInfo;
-  createdAt: string;
+  createdBy?: TCreatedByInfo;
+  createdAt?: string;
   updatedAt?: Date;
 }
 
