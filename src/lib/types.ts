@@ -178,3 +178,37 @@ export interface TableConfig {
   showTableInfo?: boolean;
   stickyHeader?: boolean;
 }
+
+/* Order Schema */
+export interface IOrderItem {
+  product: string; // product ID (ObjectId as string)
+  quantity: number;
+  price: number;
+}
+export interface IShippingAddress {
+  name: string;
+  phone: string;
+  city?: string;
+  area?: string;
+  address: string;
+}
+
+export interface IOrder {
+  _id: string;
+  user: string; // userId
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
+
+  paymentMethod: "cod" | "online";
+  paymentStatus: "pending" | "paid" | "failed";
+  orderStatus: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
+
+  totalAmount: number;
+  deliveryCharge: number;
+  totalPayable: number;
+
+  transactionId: string;
+
+  createdAt: string; // ISO Date string
+  updatedAt: string; // ISO Date string
+}

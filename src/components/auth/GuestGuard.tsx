@@ -7,7 +7,7 @@ import { useAuth } from "@/Context/AuthContext";
 
 interface GuestGuardProps {
   children: React.ReactNode;
-  fallback?: string; // default home/dashboard page
+  fallback?: string;
 }
 
 export const GuestGuard = ({ children, fallback = "/" }: GuestGuardProps) => {

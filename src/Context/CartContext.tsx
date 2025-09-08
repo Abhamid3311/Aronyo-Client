@@ -19,6 +19,7 @@ interface CartContextType {
   addToCart: (productId: string, quantity?: number) => Promise<void>;
   removeFromCart: (productId: string | IProduct) => Promise<void>;
   updateQuantity: (productId: string | IProduct, quantity: number) => void;
+  clearCart: () => Promise<void>; // ✅ new
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -29,14 +30,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const { isAuthenticated, loading: authLoading } = useAuth();
-
   const quantityTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
-  const getProductId = (productId: string | IProduct): string => {
-    return typeof productId === "string" ? productId : productId._id;
-  };
+  const getProductId = (productId: string | IProduct): string =>
+    typeof productId === "string" ? productId : productId._id!;
 
-  // ✅ Only fetch cart when user is authenticated
+  // Refresh Cart
   const refreshCart = async () => {
     if (!isAuthenticated) {
       setCart([]);
@@ -47,7 +46,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       const res = await get<ICart>("/cart");
-      if (res.data?.data.items) setCart(res.data.data.items);
+      if (res.data?.data.items) setCart(res.data?.data.items);
       else setCart([]);
     } catch (err) {
       console.error("Failed to fetch cart:", err);
@@ -61,7 +60,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     if (!authLoading && isAuthenticated) {
       refreshCart();
     } else if (!authLoading && !isAuthenticated) {
-      // User not logged in → clear cart
       setCart([]);
       setLoading(false);
     }
@@ -131,7 +129,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Quantity Update with Debounce
+  // Update Quantity (debounced)
   const updateQuantity = (productId: string | IProduct, quantity: number) => {
     if (!isAuthenticated) {
       errorAlert("Please log in to update cart!");
@@ -140,7 +138,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     const id = getProductId(productId);
 
-    // Immediate local update
     setCart((prev) =>
       prev.map((item) =>
         getProductId(item.productId) === id ? { ...item, quantity } : item
@@ -164,6 +161,26 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }, 300);
   };
 
+  // ✅ Clear Cart
+  const clearCart = async () => {
+    if (!isAuthenticated) {
+      errorAlert("Please log in to clear your cart!");
+      return;
+    }
+
+    const previousCart = [...cart];
+    setCart([]);
+
+    try {
+      await del("/cart/clear-cart");
+      // successAlert("Cart cleared!");
+    } catch (err) {
+      setCart(previousCart); // rollback
+      console.error("❌ Clear cart failed:", err);
+      // errorAlert("Failed to clear cart!");
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -172,6 +189,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart, // ✅ exposed
       }}
     >
       {children}
