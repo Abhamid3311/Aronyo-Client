@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
