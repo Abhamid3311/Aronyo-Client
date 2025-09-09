@@ -8,11 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { confirmAlert, successAlert } from "@/lib/alert";
 import { IOrder } from "@/lib/types";
 import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
-import { useAllOrdersAdmin, useCancelOrder } from "@/hooks/useOrders";
+import { useCancelOrder, useMyOrders } from "@/hooks/useOrders";
 import { AdvancedTable } from "./AdvanceTable";
 
-export function OrdersTableClient() {
-  const { data: initialData, isLoading } = useAllOrdersAdmin();
+export function MyOrdersTableClient() {
+  const { data: initialData, isLoading } = useMyOrders();
   const router = useRouter();
   const deleteMutation = useCancelOrder();
 
@@ -29,11 +29,7 @@ export function OrdersTableClient() {
         <span className="font-medium">{row.getValue("_id")}</span>
       ),
     },
-    {
-      accessorKey: "user.email",
-      header: "Customer Email",
-      cell: ({ row }) => row.original.user?.email || "N/A",
-    },
+
     {
       accessorKey: "orderItems",
       header: "Items",
@@ -118,7 +114,8 @@ export function OrdersTableClient() {
         }
       },
       variant: "destructive" as const,
-      disabled: () => deleteMutation.isPending,
+      disabled: (order: IOrder) =>
+        deleteMutation.isPending || order.orderStatus !== "pending",
       loading: () => deleteMutation.isPending,
     },
   ];

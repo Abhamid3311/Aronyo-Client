@@ -45,12 +45,15 @@ import {
 import { errorAlert, successAlert } from "@/lib/alert";
 import { IOrder, OrderStatus } from "@/lib/types";
 import { ORDER_STATUS_OPTIONS, PAYMENT_STATUS_OPTIONS } from "@/lib/staticData";
+import { useAuth } from "@/Context/AuthContext";
+import Link from "next/link";
 
 interface OrderDetailsAdminProps {
   order: IOrder;
 }
 
 export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
+  const { user } = useAuth();
   const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState(order);
   const { mutate: updateOrderStatus, isPending: isUpdating } =
@@ -58,6 +61,7 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus>("pending");
   const [isEditing, setIsEditing] = useState(false);
 
+  console.log(user?.role);
   // Set initial status when order loads
   useEffect(() => {
     if (order) {
@@ -128,14 +132,20 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <Button
-              variant="ghost"
-              onClick={() => router.push("/dashboard/admin/order-managment")}
-              className="mb-4"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Orders
+            <Button asChild variant="ghost" className="mb-4">
+              <Link
+                href={
+                  user?.role === "admin" || user?.role === "staff"
+                    ? "/dashboard/admin/order-managment"
+                    : "/dashboard/order-history"
+                }
+                className="flex items-center"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Orders
+              </Link>
             </Button>
+
             <h1 className="text-3xl font-bold text-gray-900">Order Details</h1>
             <p className="text-gray-600">Order ID: {order._id}</p>
           </div>
@@ -307,97 +317,103 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
           {/* Right Column */}
           <div className="space-y-6">
             {/* Order Status Management */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span className="flex items-center gap-2">
-                    <Edit className="w-5 h-5" />
-                    Order Status
-                  </span>
-                  {!isEditing && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setIsEditing(true)}
-                    >
-                      <Edit className="w-4 h-4 mr-2" />
-                      Edit
-                    </Button>
-                  )}
-                </CardTitle>
-              </CardHeader>
 
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm font-medium text-gray-500 mb-2">
-                      Current Status
-                    </p>
-                    {isEditing ? (
-                      <Select
-                        value={selectedStatus}
-                        onValueChange={(value) =>
-                          setSelectedStatus(value as OrderStatus)
-                        }
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select order status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ORDER_STATUS_OPTIONS.map((status) => (
-                            <SelectItem key={status.value} value={status.value}>
-                              <div className="flex items-center gap-2">
-                                {getStatusIcon(status.value)}
-                                {status.label}
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        {getStatusIcon(order.orderStatus)}
-                        {getStatusBadge(order.orderStatus)}
-                      </div>
-                    )}
-                  </div>
-
-                  {isEditing && (
-                    <div className="flex gap-2 pt-2">
-                      <Button
-                        onClick={handleUpdateStatus}
-                        disabled={
-                          isUpdating || selectedStatus === order.orderStatus
-                        }
-                        size="sm"
-                      >
-                        {isUpdating ? (
-                          <>
-                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                            Updating...
-                          </>
-                        ) : (
-                          <>
-                            <Save className="w-4 h-4 mr-2" />
-                            Update Status
-                          </>
-                        )}
-                      </Button>
+            {user?.role !== "user" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <Edit className="w-5 h-5" />
+                      Order Status
+                    </span>
+                    {!isEditing && (
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => {
-                          setIsEditing(false);
-                          setSelectedStatus(order.orderStatus);
-                        }}
+                        onClick={() => setIsEditing(true)}
                       >
-                        Cancel
+                        <Edit className="w-4 h-4 mr-2" />
+                        Edit
                       </Button>
+                    )}
+                  </CardTitle>
+                </CardHeader>
+
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-sm font-medium text-gray-500 mb-2">
+                        Current Status
+                      </p>
+                      {isEditing ? (
+                        <Select
+                          value={selectedStatus}
+                          onValueChange={(value) =>
+                            setSelectedStatus(value as OrderStatus)
+                          }
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select order status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {ORDER_STATUS_OPTIONS.map((status) => (
+                              <SelectItem
+                                key={status.value}
+                                value={status.value}
+                              >
+                                <div className="flex items-center gap-2">
+                                  {getStatusIcon(status.value)}
+                                  {status.label}
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          {getStatusIcon(order.orderStatus)}
+                          {getStatusBadge(order.orderStatus)}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+
+                    {isEditing && (
+                      <div className="flex gap-2 pt-2">
+                        <Button
+                          onClick={handleUpdateStatus}
+                          disabled={
+                            isUpdating || selectedStatus === order.orderStatus
+                          }
+                          size="sm"
+                        >
+                          {isUpdating ? (
+                            <>
+                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                              Updating...
+                            </>
+                          ) : (
+                            <>
+                              <Save className="w-4 h-4 mr-2" />
+                              Update Status
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setIsEditing(false);
+                            setSelectedStatus(order.orderStatus);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Payment Information */}
             <Card>

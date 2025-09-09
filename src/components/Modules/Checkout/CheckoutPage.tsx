@@ -34,6 +34,7 @@ import { useAuth } from "@/Context/AuthContext";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { errorAlert, successAlert } from "@/lib/alert";
 import { checkoutSchema } from "@/lib/FormSchemas";
+import Image from "next/image";
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
@@ -75,14 +76,14 @@ export default function CheckoutPage() {
 
     createMutation.mutate(orderPayload, {
       onSuccess: () => {
-        successAlert("✅ Order Added Successfully!");
-        router.push("/all-plants");
+        successAlert("Order Added Successfully!");
         clearCart();
+        router.push("/all-plants");
         form.reset();
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (error: any) => {
-        errorAlert(error?.message || "❌ Failed to add category!");
+        errorAlert(error?.message || " Failed to add category!");
       },
     });
   };
@@ -115,7 +116,7 @@ export default function CheckoutPage() {
     );
   }
 
-  if (!cart.length) {
+/*   if (!cart.length) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -126,13 +127,13 @@ export default function CheckoutPage() {
           <p className="text-gray-600 mb-6">
             Add some items to your cart to proceed with checkout
           </p>
-          <Button onClick={() => router.push("/shop")}>
+          <Button onClick={() => router.push("/all-plants")}>
             Continue Shopping
           </Button>
         </div>
       </div>
     );
-  }
+  } */
 
   const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = cart.reduce(
@@ -326,6 +327,7 @@ export default function CheckoutPage() {
                       <Badge variant="outline">{itemCount} items</Badge>
                     </CardTitle>
                   </CardHeader>
+
                   <CardContent className="space-y-4">
                     <div className="max-h-64 overflow-y-auto space-y-3">
                       {cart.map((item) => (
@@ -333,11 +335,14 @@ export default function CheckoutPage() {
                           key={item._id}
                           className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
                         >
-                          <img
+                          <Image
                             src={item.productId.images[0]}
                             alt={item.productId.title}
-                            className="w-12 h-12 object-cover rounded"
+                            width={48}
+                            height={48}
+                            className="object-cover rounded"
                           />
+
                           <div className="flex-1 min-w-0">
                             <h4 className="font-medium text-sm truncate">
                               {item.productId.title}

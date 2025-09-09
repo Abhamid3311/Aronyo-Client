@@ -1,10 +1,11 @@
+import { MyOrdersTableClient } from "@/components/Modules/dashboard/tables/MyOrderTable";
 import React from "react";
 
 const OrderPage = () => {
   return (
-    <div>
-      <h1>This is Order Page</h1>
-    </div>
+    <>
+      <MyOrdersTableClient />
+    </>
   );
 };
 

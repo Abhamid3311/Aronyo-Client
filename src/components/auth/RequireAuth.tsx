@@ -14,14 +14,14 @@ export const AuthGuard = ({
   children,
   fallback = "/login",
 }: AuthGuardProps) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, hydrated } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.replace(fallback);
+    if (!loading && hydrated && !isAuthenticated) {
+      router.replace(fallback); // redirect only after auth check
     }
-  }, [isAuthenticated, loading, router, fallback]);
+  }, [isAuthenticated, loading, hydrated, router, fallback]);
 
   if (loading || !isAuthenticated) {
     return (

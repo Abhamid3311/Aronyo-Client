@@ -11,22 +11,25 @@ interface GuestGuardProps {
 }
 
 export const GuestGuard = ({ children, fallback = "/" }: GuestGuardProps) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, hydrated } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    // If user is logged in, redirect to fallback
-    if (!loading && isAuthenticated) {
+    if (hydrated && !loading && isAuthenticated) {
       router.replace(fallback);
     }
-  }, [isAuthenticated, loading, router, fallback]);
+  }, [hydrated, isAuthenticated, loading, router, fallback]);
 
-  if (loading || isAuthenticated) {
+  if (!hydrated || loading || isAuthenticated) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
         <span className="ml-2">
-          {loading ? "Checking auth..." : "Redirecting..."}
+          {!hydrated
+            ? "Loading..."
+            : loading
+            ? "Checking auth..."
+            : "Redirecting..."}
         </span>
       </div>
     );

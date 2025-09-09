@@ -17,6 +17,7 @@ interface AuthContextType {
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   loading: boolean;
   isAuthenticated: boolean;
+  hydrated: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
   logout: () => Promise<void>;
@@ -33,15 +34,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const initAuth = async () => {
+      setLoading(true);
       try {
-        await refreshAccessToken(); // refresh access token if expired
-        const userData = await getCurrentUser();
-        setUser(userData);
+        const refreshed = await refreshAccessToken(); // returns boolean
+        if (refreshed) {
+          const userData = await getCurrentUser();
+          setUser(userData);
+        } else {
+          setUser(null); // no valid token
+        }
       } catch (err) {
         setUser(null);
       } finally {
         setLoading(false);
-        setHydrated(true);
+        setHydrated(true); // ✅ must set hydrated
       }
     };
     initAuth();
@@ -51,10 +57,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       const res = await apiLogin(credentials);
-      console.log(res);
       setUser(res.data.user);
-      successAlert("Login successfully!");
       router.push("/dashboard");
+      successAlert("Login successfully!");
     } catch (err) {
       setUser(null);
       errorAlert("Login failed!");
@@ -116,6 +121,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser,
     loading,
     isAuthenticated: !!user,
+    hydrated,
     login,
     register,
     logout,

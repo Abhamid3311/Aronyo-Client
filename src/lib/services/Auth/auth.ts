@@ -48,12 +48,12 @@ export const getCurrentUser = async (): Promise<IUser | null> => {
 };
 
 // Refresh access token
-export const refreshAccessToken = async (): Promise<void> => {
+export const refreshAccessToken = async (): Promise<boolean> => {
   try {
     await axiosInstance.post("/auth/refresh", {}, { withCredentials: true });
-    // backend sets new accessToken cookie automatically
+    return true; // refresh succeeded
   } catch (err) {
-    console.error("Failed to refresh access token:", err);
-    await logout(); // force logout if refresh fails
+    console.log("Failed to refresh access token:", err);
+    return false;
   }
 };
