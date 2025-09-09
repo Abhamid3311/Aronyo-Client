@@ -17,7 +17,6 @@ import Link from "next/link";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAuth();
-  const [collapsed, setCollapsed] = React.useState(false);
 
   // build sidebar items based on role
   let navMain = [...roleMenus.common];

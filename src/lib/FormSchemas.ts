@@ -17,6 +17,18 @@ export const productSchema = z.object({
   isActive: z.boolean(),
 });
 
+export const categorySchema = z.object({
+  name: z.string().min(1, "Category name is required"),
+  description: z.string().max(500, "Description cannot exceed 500 characters"),
+  image: z.string().url("Invalid image URL").min(1, "Image is required"),
+});
+
+export const editCategorySchema = z.object({
+  name: z.string().min(1, "Category name is required"),
+  description: z.string().max(500, "Description cannot exceed 500 characters"),
+  image: z.string().url("Invalid image URL").min(1, "Image is required"),
+  isActive: z.boolean(),
+});
 export const blogSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title is too long"),
   subTitle: z
@@ -34,4 +46,19 @@ export const blogSchema = z.object({
   ]),
   tags: z.array(z.string()).max(10, "Maximum 10 tags allowed"),
   isPublished: z.boolean(),
+});
+
+
+// Validation schema
+export const checkoutSchema = z.object({
+  fullName: z.string().min(2),
+  phone: z
+    .string()
+    .min(10)
+    .regex(/^\+?[\d\s-()]+$/),
+  address: z.string().min(10),
+  city: z.string().min(2),
+  area: z.string().min(2),
+  deliveryNotes: z.string().optional(),
+  paymentMethod: z.enum(["cod", "online"]),
 });

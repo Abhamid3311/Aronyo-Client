@@ -28,13 +28,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { successAlert, errorAlert } from "@/lib/alert";
 import { useCreateCategory } from "@/hooks/useProducts";
-
-// Zod schema for validation
-const categorySchema = z.object({
-  name: z.string().min(1, "Category name is required"),
-  description: z.string().max(500, "Description cannot exceed 500 characters"),
-  image: z.string().url("Invalid image URL").min(1, "Image is required"),
-});
+import { categorySchema } from "@/lib/FormSchemas";
 
 type CategoryFormValues = z.infer<typeof categorySchema>;
 

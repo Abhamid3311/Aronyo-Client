@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +12,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -26,8 +24,6 @@ import {
   Truck,
   CreditCard,
   Package,
-  MapPin,
-  AlertCircle,
   ShoppingCart,
   Link,
   Loader2,
@@ -37,26 +33,13 @@ import { useCart } from "@/Context/CartContext";
 import { useAuth } from "@/Context/AuthContext";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { errorAlert, successAlert } from "@/lib/alert";
-
-// Validation schema
-const checkoutSchema = z.object({
-  fullName: z.string().min(2),
-  phone: z
-    .string()
-    .min(10)
-    .regex(/^\+?[\d\s-()]+$/),
-  address: z.string().min(10),
-  city: z.string().min(2),
-  area: z.string().min(2),
-  deliveryNotes: z.string().optional(),
-  paymentMethod: z.enum(["cod", "online"]),
-});
+import { checkoutSchema } from "@/lib/FormSchemas";
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
 export default function CheckoutPage() {
-  const { cart,  clearCart, loading } = useCart();
-  const { user, isAuthenticated } = useAuth();
+  const { cart, clearCart, loading } = useCart();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
   const createMutation = useCreateOrder();
 
@@ -73,7 +56,7 @@ export default function CheckoutPage() {
     },
   });
 
-  const deliveryFee = 60; // You can calculate dynamically if needed
+  const deliveryFee = 120; // Static Delivery Charge
 
   const onSubmit = async (data: CheckoutFormData) => {
     // Minimal payload

@@ -49,14 +49,6 @@ interface EditBlogFormProps {
   setOpen: (value: boolean) => void;
 }
 
-const allowedCategories = [
-  "Plant Care",
-  "Health Tips",
-  "Indoor Plants",
-  "Outdoor Plants",
-  "Gardening Tips",
-] as const;
-
 export default function EditBlogForm({
   blog,
   open,

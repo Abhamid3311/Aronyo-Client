@@ -29,16 +29,9 @@ import Image from "next/image";
 import { successAlert, errorAlert } from "@/lib/alert";
 import { useUpdateCategory } from "@/hooks/useProducts";
 import { ICategory } from "@/lib/types";
+import { editCategorySchema } from "@/lib/FormSchemas";
 
-// ✅ Validation Schema
-const categorySchema = z.object({
-  name: z.string().min(1, "Category name is required"),
-  description: z.string().max(500, "Description cannot exceed 500 characters"),
-  image: z.string().url("Invalid image URL").min(1, "Image is required"),
-  isActive: z.boolean(),
-});
-
-type CategoryFormValues = z.infer<typeof categorySchema>;
+type CategoryFormValues = z.infer<typeof editCategorySchema>;
 
 export default function EditCategoryForm({
   open,
@@ -52,7 +45,7 @@ export default function EditCategoryForm({
   const updateMutation = useUpdateCategory();
 
   const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
+    resolver: zodResolver(editCategorySchema),
     defaultValues: {
       name: "",
       description: "",
