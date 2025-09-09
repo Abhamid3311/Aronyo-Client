@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 export default function OrderPage({ params }: PageProps) {
-  const { id } = use(params); // unwrap the Promise
+  const { id } = use(params);
 
   const { data: order, isLoading, error } = useSingleOrder(id);
 

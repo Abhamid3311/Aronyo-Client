@@ -59,9 +59,10 @@ export const useUpdateOrderStatus = () => {
       orderId: string;
       data: Partial<IOrder>;
     }) => updateOrderStatus(orderId, data),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["allOrders"] });
       queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["order", variables.orderId] });
     },
   });
 };

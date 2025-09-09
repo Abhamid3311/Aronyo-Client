@@ -210,3 +210,46 @@ export const roleMenus = {
     },
   ],
 };
+
+
+// Order status options
+export const ORDER_STATUS_OPTIONS = [
+  {
+    value: "pending",
+    label: "Pending",
+    color: "bg-yellow-100 text-yellow-800",
+  },
+  {
+    value: "confirmed",
+    label: "Confirmed",
+    color: "bg-blue-100 text-blue-800",
+  },
+  {
+    value: "shipped",
+    label: "Shipped",
+    color: "bg-indigo-100 text-indigo-800",
+  },
+  {
+    value: "delivered",
+    label: "Delivered",
+    color: "bg-green-100 text-green-800",
+  },
+  { value: "cancelled", label: "Cancelled", color: "bg-red-100 text-red-800" },
+];
+
+
+// Payment status options
+export const PAYMENT_STATUS_OPTIONS = [
+  {
+    value: "pending",
+    label: "Pending",
+    color: "bg-yellow-100 text-yellow-800",
+  },
+  { value: "paid", label: "Paid", color: "bg-green-100 text-green-800" },
+  { value: "failed", label: "Failed", color: "bg-red-100 text-red-800" },
+  {
+    value: "refunded",
+    label: "Refunded",
+    color: "bg-purple-100 text-purple-800",
+  },
+];

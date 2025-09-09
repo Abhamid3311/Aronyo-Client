@@ -191,6 +191,7 @@ export interface IShippingAddress {
   city?: string;
   area?: string;
   address: string;
+  deliveryNotes?: string;
 }
 
 type TUserInfo = {
@@ -217,3 +218,10 @@ export interface IOrder {
   createdAt: string; // ISO Date string
   updatedAt: string; // ISO Date string
 }
+
+export type OrderStatus =
+  | "pending"
+  | "confirmed"
+  | "shipped"
+  | "delivered"
+  | "cancelled";

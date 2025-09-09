@@ -22,7 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUpdateOrderStatus } from "@/hooks/useOrders";
 import {
@@ -44,54 +43,8 @@ import {
   LocationEditIcon,
 } from "lucide-react";
 import { errorAlert, successAlert } from "@/lib/alert";
-import { IOrder } from "@/lib/types";
-
-// Order status options
-const ORDER_STATUS_OPTIONS = [
-  {
-    value: "pending",
-    label: "Pending",
-    color: "bg-yellow-100 text-yellow-800",
-  },
-  {
-    value: "confirmed",
-    label: "Confirmed",
-    color: "bg-blue-100 text-blue-800",
-  },
-  {
-    value: "processing",
-    label: "Processing",
-    color: "bg-purple-100 text-purple-800",
-  },
-  {
-    value: "shipped",
-    label: "Shipped",
-    color: "bg-indigo-100 text-indigo-800",
-  },
-  {
-    value: "delivered",
-    label: "Delivered",
-    color: "bg-green-100 text-green-800",
-  },
-  { value: "cancelled", label: "Cancelled", color: "bg-red-100 text-red-800" },
-  { value: "returned", label: "Returned", color: "bg-gray-100 text-gray-800" },
-];
-
-// Payment status options
-const PAYMENT_STATUS_OPTIONS = [
-  {
-    value: "pending",
-    label: "Pending",
-    color: "bg-yellow-100 text-yellow-800",
-  },
-  { value: "paid", label: "Paid", color: "bg-green-100 text-green-800" },
-  { value: "failed", label: "Failed", color: "bg-red-100 text-red-800" },
-  {
-    value: "refunded",
-    label: "Refunded",
-    color: "bg-purple-100 text-purple-800",
-  },
-];
+import { IOrder, OrderStatus } from "@/lib/types";
+import { ORDER_STATUS_OPTIONS, PAYMENT_STATUS_OPTIONS } from "@/lib/staticData";
 
 interface OrderDetailsAdminProps {
   order: IOrder;
@@ -99,16 +52,10 @@ interface OrderDetailsAdminProps {
 
 export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
   const router = useRouter();
-
-  console.log(order);
-
-  const {
-    mutate: updateOrderStatus,
-    isPending: isUpdating,
-    error: updateError,
-  } = useUpdateOrderStatus();
-
-  const [selectedStatus, setSelectedStatus] = useState<string>("");
+  const [currentOrder, setCurrentOrder] = useState(order);
+  const { mutate: updateOrderStatus, isPending: isUpdating } =
+    useUpdateOrderStatus();
+  const [selectedStatus, setSelectedStatus] = useState<OrderStatus>("pending");
   const [isEditing, setIsEditing] = useState(false);
 
   // Set initial status when order loads
@@ -127,10 +74,11 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
     updateOrderStatus(
       {
         orderId: order._id,
-        status: selectedStatus,
+        data: { orderStatus: selectedStatus },
       },
       {
-        onSuccess: () => {
+        onSuccess: (updatedOrder: IOrder) => {
+          setCurrentOrder(updatedOrder);
           successAlert("Order status updated successfully!");
           setIsEditing(false);
         },
@@ -163,16 +111,12 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
         return <Clock className="w-4 h-4" />;
       case "confirmed":
         return <CheckCircle className="w-4 h-4" />;
-      case "processing":
-        return <Package className="w-4 h-4" />;
       case "shipped":
         return <Truck className="w-4 h-4" />;
       case "delivered":
         return <CheckCircle className="w-4 h-4" />;
       case "cancelled":
         return <XCircle className="w-4 h-4" />;
-      case "returned":
-        return <AlertCircle className="w-4 h-4" />;
       default:
         return <Clock className="w-4 h-4" />;
     }
@@ -196,8 +140,8 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
             <p className="text-gray-600">Order ID: {order._id}</p>
           </div>
           <div className="flex items-center gap-2">
-            {getStatusIcon(order.orderStatus)}
-            {getStatusBadge(order.orderStatus)}
+            {getStatusIcon(currentOrder.orderStatus)}
+            {getStatusBadge(currentOrder.orderStatus)}
           </div>
         </div>
 
@@ -301,21 +245,21 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                     <p className="text-sm font-medium text-gray-500">
                       Customer Name
                     </p>
-                    <p className="text-sm">{order.user.name}</p>
+                    <p className="text-sm">{order.user?.name}</p>
                   </div>
 
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-gray-500">
                       Customer Email
                     </p>
-                    <p className="text-sm">{order.user.email}</p>
+                    <p className="text-sm">{order.user?.email}</p>
                   </div>
 
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-gray-500">
                       Customer ID
                     </p>
-                    <p className="text-sm font-mono">{order.user._id}</p>
+                    <p className="text-sm font-mono">{order.user?._id}</p>
                   </div>
                 </div>
               </CardContent>
@@ -347,11 +291,11 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                     <p className="text-sm">{order.shippingAddress.phone}</p>
                   </div>
 
-                  {order.shippingAddress.deliveryNotes && (
+                  {order?.shippingAddress?.deliveryNotes && (
                     <div className="flex items-center gap-2 mt-2">
                       <Notebook className="w-4 h-4 text-gray-400" />
                       <p className="text-sm">
-                        {order.shippingAddress.deliveryNotes || "N/A"}
+                        {order?.shippingAddress?.deliveryNotes || "N/A"}
                       </p>
                     </div>
                   )}
@@ -382,6 +326,7 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                   )}
                 </CardTitle>
               </CardHeader>
+
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div>
@@ -391,7 +336,9 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                     {isEditing ? (
                       <Select
                         value={selectedStatus}
-                        onValueChange={setSelectedStatus}
+                        onValueChange={(value) =>
+                          setSelectedStatus(value as OrderStatus)
+                        }
                       >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select order status" />

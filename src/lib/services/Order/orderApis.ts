@@ -36,7 +36,7 @@ export const updateOrderStatus = async (
     `/orders/update-order/${orderId}`,
     data
   );
-  return res.data;
+  return res.data.data;
 };
 
 // DELETE / Cancel order (Admin & Staff)
