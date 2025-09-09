@@ -109,6 +109,8 @@ export default function AddProductModal() {
       numReviews: 10,
       size: data.size,
     };
+
+    console.log(productToSend)
     // Product Add to DB
     createMutation.mutate(productToSend, {
       onSuccess: () => {

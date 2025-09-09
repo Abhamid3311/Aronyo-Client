@@ -10,13 +10,13 @@ export const getAdminProducts = async () => {
 };
 
 // CREATE product
-export const createProduct = async (data: IProduct) => {
+export const createProduct = async (data: Partial<IProduct>) => {
   const res = await axiosInstance.post("/products/create-product", data);
   return res.data;
 };
 
 // UPDATE product
-export const updateProduct = async (id: string, data: IProduct) => {
+export const updateProduct = async (id: string, data: Partial<IProduct>) => {
   const res = await axiosInstance.put(`/products/update-product/${id}`, data);
   return res.data;
 };
