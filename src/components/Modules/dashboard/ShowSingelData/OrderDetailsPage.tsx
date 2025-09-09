@@ -40,8 +40,11 @@ import {
   Edit,
   Save,
   ArrowLeft,
+  Notebook,
+  LocationEditIcon,
 } from "lucide-react";
-import { successAlert } from "@/lib/alert";
+import { errorAlert, successAlert } from "@/lib/alert";
+import { IOrder } from "@/lib/types";
 
 // Order status options
 const ORDER_STATUS_OPTIONS = [
@@ -91,13 +94,13 @@ const PAYMENT_STATUS_OPTIONS = [
 ];
 
 interface OrderDetailsAdminProps {
-  order: any; // Replace with your Order type
+  order: IOrder;
 }
 
 export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
   const router = useRouter();
 
-  console.log(order)
+  console.log(order);
 
   const {
     mutate: updateOrderStatus,
@@ -132,6 +135,7 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
           setIsEditing(false);
         },
         onError: (error: any) => {
+          errorAlert(error?.message || "Failed To Update, try Again");
           console.error("Failed to update order status:", error);
         },
       }
@@ -197,17 +201,6 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
           </div>
         </div>
 
-        {/* Error Message */}
-        {updateError && (
-          <Alert variant="destructive" className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              {updateError?.message ||
-                "Failed to update order status. Please try again."}
-            </AlertDescription>
-          </Alert>
-        )}
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
@@ -268,13 +261,13 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                         <TableCell>
                           <div className="space-y-1">
                             <p className="font-medium">
-                              ₹{item.price.toLocaleString()}
+                              ${item.price.toLocaleString()}
                             </p>
                             {item.product.discountPrice &&
                               item.product.discountPrice <
                                 item.product.price && (
                                 <p className="text-xs text-gray-500 line-through">
-                                  ₹{item.product.price.toLocaleString()}
+                                  ${item.product.price.toLocaleString()}
                                 </p>
                               )}
                           </div>
@@ -284,7 +277,7 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                         </TableCell>
                         <TableCell>
                           <p className="font-semibold">
-                            ₹{(item.price * item.quantity).toLocaleString()}
+                            ${(item.price * item.quantity).toLocaleString()}
                           </p>
                         </TableCell>
                       </TableRow>
@@ -303,13 +296,21 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-gray-500">
+                      Customer Name
+                    </p>
+                    <p className="text-sm">{order.user.name}</p>
+                  </div>
+
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-gray-500">
                       Customer Email
                     </p>
                     <p className="text-sm">{order.user.email}</p>
                   </div>
+
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-gray-500">
                       Customer ID
@@ -331,16 +332,29 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
               <CardContent className="space-y-3">
                 <div className="space-y-2">
                   <p className="font-medium">{order.shippingAddress.name}</p>
-                  <p className="text-sm text-gray-600">
-                    {order.shippingAddress.address}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    {order.shippingAddress.area}, {order.shippingAddress.city}
-                  </p>
+
+                  <div className="flex items-center gap-2 mt-2">
+                    <LocationEditIcon className="w-4 h-4 text-gray-400" />
+                    <p className="text-sm">
+                      {" "}
+                      {order.shippingAddress.address},
+                      {order.shippingAddress.area}, {order.shippingAddress.city}{" "}
+                    </p>
+                  </div>
+
                   <div className="flex items-center gap-2 mt-2">
                     <Phone className="w-4 h-4 text-gray-400" />
                     <p className="text-sm">{order.shippingAddress.phone}</p>
                   </div>
+
+                  {order.shippingAddress.deliveryNotes && (
+                    <div className="flex items-center gap-2 mt-2">
+                      <Notebook className="w-4 h-4 text-gray-400" />
+                      <p className="text-sm">
+                        {order.shippingAddress.deliveryNotes || "N/A"}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
