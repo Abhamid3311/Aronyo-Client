@@ -46,11 +46,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       const res = await get<ICart>("/cart");
-      if (res.data?.data.items) setCart(res.data?.data.items);
-      else setCart([]);
-    } catch (err) {
-      console.error("Failed to fetch cart:", err);
-      setCart([]);
+
+      if (res.data?.data?.items?.length > 0) {
+        setCart(res.data.data.items);
+      } else {
+        setCart([]); // ✅ empty cart
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      // ✅ if backend says "cart not found" (400/404) → just set empty cart
+      if (err?.response?.status === 400 || err?.response?.status === 404) {
+        setCart([]);
+      } else {
+        console.error("❌ Failed to fetch cart:", err);
+      }
     } finally {
       setLoading(false);
     }
@@ -161,24 +170,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }, 300);
   };
 
-  // ✅ Clear Cart
+  // Clear Cart
   const clearCart = async () => {
-    if (!isAuthenticated) {
-      errorAlert("Please log in to clear your cart!");
-      return;
-    }
-
-    const previousCart = [...cart];
     setCart([]);
-
-    try {
-      await del("/cart/clear-cart");
-      // successAlert("Cart cleared!");
-    } catch (err) {
-      setCart(previousCart); // rollback
-      console.error("❌ Clear cart failed:", err);
-      // errorAlert("Failed to clear cart!");
-    }
   };
 
   return (
@@ -189,7 +183,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
-        clearCart, // ✅ exposed
+        clearCart,
       }}
     >
       {children}

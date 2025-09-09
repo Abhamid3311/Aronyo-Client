@@ -55,7 +55,7 @@ const checkoutSchema = z.object({
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
 export default function CheckoutPage() {
-  const { cart, clearCart, loading } = useCart();
+  const { cart,  clearCart, loading } = useCart();
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
   const createMutation = useCreateOrder();
