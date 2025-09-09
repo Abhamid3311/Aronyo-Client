@@ -4,7 +4,7 @@ import BlogCard from "../../blogs/BlogCard";
 import { BlogProps } from "@/lib/types";
 
 const BlogSec = ({ blogs }: BlogProps) => {
-  console.log(blogs);
+  // console.log(blogs);
   return (
     <div className="py-10 custom-container my-10 px-5">
       <Headlines

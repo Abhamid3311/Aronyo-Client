@@ -139,7 +139,7 @@ export function MyOrdersTableClient() {
     <>
       {/* Orders Table */}
       <AdvancedTable
-        title="Orders"
+        title="My Orders"
         subtitle="Manage your orders"
         columns={columns}
         data={initialData || []}

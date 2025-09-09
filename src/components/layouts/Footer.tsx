@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Logo, LogoImage, LogoText } from "../logo";
 import Image from "next/image";
 
 interface MenuItem {

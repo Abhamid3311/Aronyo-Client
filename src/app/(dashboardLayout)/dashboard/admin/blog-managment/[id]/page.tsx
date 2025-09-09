@@ -39,10 +39,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   try {
-    const blog = await getBlogById(params.id);
+    const { id } = await params;
+    const blog = await getBlogById(id);
 
     if (!blog) {
       return {
@@ -88,16 +89,17 @@ export async function generateMetadata({
 }
 
 interface BlogDetailsPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function BlogDetailsPage({
   params,
 }: BlogDetailsPageProps) {
   try {
-    const blog = await getBlogById(params.id);
+    const { id } = await params;
+    const blog = await getBlogById(id);
 
     if (!blog) {
       notFound();
@@ -130,7 +132,7 @@ export default async function BlogDetailsPage({
     };
 
     return (
-      <article className="min-h-screen bg-background pb-5">
+      <article className="min-h-screen bg-background">
         {/* Hero Section */}
         <div className="relative h-[50vh] lg:h-[60vh] overflow-hidden">
           <Image
@@ -151,7 +153,7 @@ export default async function BlogDetailsPage({
               className="backdrop-blur-sm bg-white/90 hover:bg-white"
               asChild
             >
-              <Link href="/dashboard/admin/blog-managment/">
+              <Link href="/blogs">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Blogs
               </Link>
@@ -319,6 +321,35 @@ export default async function BlogDetailsPage({
               </CardContent>
             </Card>
           )}
+
+          {/* Related Posts Section */}
+          <Card className="mb-8 border-0 ">
+            <CardHeader>
+              <CardTitle>Continue Reading</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  variant="outline"
+                  className="flex-1 bg-primaryGreen text-white"
+                  asChild
+                >
+                  <Link href="/blogs">View All Blog Posts</Link>
+                </Button>
+                {blog.category && (
+                  <Button variant="outline" className="flex-1" asChild>
+                    <Link
+                      href={`/blogs?category=${encodeURIComponent(
+                        blog.category
+                      )}`}
+                    >
+                      More in {blog.category}
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </article>
     );

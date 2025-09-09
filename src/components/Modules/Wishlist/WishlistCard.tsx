@@ -44,7 +44,7 @@ export default function WishlistCard({
           <Button
             variant="outline"
             size="icon"
-            onClick={() => addToCart(product._id)}
+            onClick={() => addToCart(product._id!)}
           >
             <ShoppingCart className="h-5 w-5" />
           </Button>
@@ -52,7 +52,7 @@ export default function WishlistCard({
             variant="ghost"
             size="icon"
             className="text-red-500 hover:text-red-700"
-            onClick={() => removeFromWishlist(product._id)}
+            onClick={() => removeFromWishlist(product._id!)}
           >
             <Trash2 className="h-5 w-5" />
           </Button>

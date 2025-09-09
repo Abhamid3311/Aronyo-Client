@@ -39,10 +39,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   try {
-    const blog = await getBlogById(params.id);
+    const { id } = await params;
+    const blog = await getBlogById(id);
 
     if (!blog) {
       return {
@@ -88,16 +89,17 @@ export async function generateMetadata({
 }
 
 interface BlogDetailsPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function BlogDetailsPage({
   params,
 }: BlogDetailsPageProps) {
   try {
-    const blog = await getBlogById(params.id);
+    const { id } = await params;
+    const blog = await getBlogById(id);
 
     if (!blog) {
       notFound();

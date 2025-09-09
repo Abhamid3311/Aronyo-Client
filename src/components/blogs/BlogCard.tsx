@@ -69,7 +69,7 @@ const BlogCard: React.FC<BlogsProps> = ({ blog }) => {
           className="absolute top-3 left-3 bg-white/90 text-foreground backdrop-blur-sm hover:bg-white/95 transition-colors"
         >
           <CalendarIcon className="h-3 w-3 mr-1" />
-          {formatDate(blog.createdAt)}
+          {formatDate(blog.createdAt!)}
         </Badge>
 
         {/* Reading Time Badge */}

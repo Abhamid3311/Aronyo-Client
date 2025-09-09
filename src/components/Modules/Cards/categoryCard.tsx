@@ -34,7 +34,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
     return `/${slug}`;
   };
 
-  const link = getCategoryLink(plant.slug);
+  const link = getCategoryLink(plant.slug!);
 
   return (
     <Link href={link} className="group block overflow-hidden rounded-xl ">

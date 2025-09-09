@@ -26,7 +26,7 @@ export default function ProductActions({ product }: ProductActionsProps) {
   };
 
   const handleAddToCart = () => {
-    addToCart(product._id, quantity);
+    addToCart(product._id!, quantity);
     setQuantity(1);
   };
 

@@ -74,7 +74,7 @@ export default function CartCard({ item }: CartCardProps) {
           variant="ghost"
           size="icon"
           className="text-red-600 hover:bg-red-100 hover:text-red-700 rounded-full ml-2"
-          onClick={() => removeFromCart(item.productId._id)}
+          onClick={() => removeFromCart(item.productId._id!)}
         >
           <Trash className="h-5 w-5" />
         </Button>

@@ -1,17 +1,17 @@
 import { getProductBySlug } from "@/lib/services/Products/publicApi";
-import { IProduct } from "@/lib/types";
 import React, { Suspense } from "react";
 import ProductDetails from "@/components/Modules/Products/ProductDetails";
 import ProductDetailsSkeleton from "@/components/Modules/skeletons/ProductDetailsSkeleton";
 
-interface PageProps {
-  params: { slug: string };
-}
+type Props = {
+  params: Promise<{ slug: string }>; 
+};
 
-export default async function ProductPage({ params }: PageProps) {
-  const { slug } = params;
+export default async function ProductPage({ params }: Props) {
+  // Await the params Promise
+  const { slug } = await params;
 
-  let product: IProduct;
+  let product;
 
   try {
     product = await getProductBySlug(slug);

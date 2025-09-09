@@ -4,9 +4,10 @@ import React, { useMemo } from "react";
 import { Heart } from "lucide-react";
 import { useWishlist } from "@/Context/WishlistContext";
 import { errorAlert, successAlert } from "@/lib/alert";
+import { IProduct } from "@/lib/types";
 
 interface WishlistActionProps {
-  product: { _id: string }; // Adjust type according to your IProduct interface
+  product: IProduct;
 }
 
 const WishlistAction: React.FC<WishlistActionProps> = ({ product }) => {
@@ -21,9 +22,9 @@ const WishlistAction: React.FC<WishlistActionProps> = ({ product }) => {
   const handleWishlistToggle = async () => {
     try {
       if (isWishlisted) {
-        await removeFromWishlist(product._id);
+        await removeFromWishlist(product._id!);
       } else {
-        await addToWishlist(product._id);
+        await addToWishlist(product._id!);
       }
     } catch (err) {
       console.error("Wishlist action failed:", err);
