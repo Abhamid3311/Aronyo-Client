@@ -50,11 +50,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       if (res.data?.data?.items?.length > 0) {
         setCart(res.data.data.items);
       } else {
-        setCart([]); // ✅ empty cart
+        setCart([]);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // ✅ if backend says "cart not found" (400/404) → just set empty cart
       if (err?.response?.status === 400 || err?.response?.status === 404) {
         setCart([]);
       } else {
@@ -114,7 +113,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Remove
+  // Remove Item
   const removeFromCart = async (productId: string | IProduct) => {
     if (!isAuthenticated) {
       errorAlert("Please log in to remove items from your cart!");
@@ -132,7 +131,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       await del("/cart/remove", { data: { productId: id } });
       successAlert("Item removed!");
     } catch (err) {
-      setCart(previousCart); // rollback
+      setCart(previousCart);
       console.error("❌ Remove from cart failed:", err);
       errorAlert("Item remove failed!");
     }
