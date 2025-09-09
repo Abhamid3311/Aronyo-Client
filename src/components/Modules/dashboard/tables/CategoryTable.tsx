@@ -22,7 +22,7 @@ export function CategoriesTableClient() {
   );
   const router = useRouter();
   const deleteMutation = useDeleteCategory();
-  console.log(initialData);
+  // console.log(initialData);
 
   if (isLoading) {
     return <DashboardSkeleton />;

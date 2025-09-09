@@ -193,9 +193,14 @@ export interface IShippingAddress {
   address: string;
 }
 
+type TUserInfo = {
+  _id: string;
+  name: string;
+  email: string;
+};
 export interface IOrder {
   _id: string;
-  user: string; // userId
+  user?: TUserInfo;
   orderItems: IOrderItem[];
   shippingAddress: IShippingAddress;
 
