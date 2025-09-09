@@ -100,7 +100,7 @@ export function OrdersTableClient() {
     {
       icon: Eye,
       onClick: (order: IOrder) => {
-        router.push(`/dashboard/admin/order-management/${order._id}`);
+        router.push(`/dashboard/admin/order-managment/${order._id}`);
       },
       variant: "outline" as const,
     },

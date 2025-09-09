@@ -5,7 +5,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Edit, Eye, Trash2 } from "lucide-react";
 import { AdvancedTable } from "./AdvanceTable";
-import { Switch } from "@/components/ui/switch";
 import AddCategoryForm from "../AddForms/AddCategoryForm";
 import { ICategory } from "@/lib/types";
 import { useCategories, useDeleteCategory } from "@/hooks/useProducts";
