@@ -54,7 +54,6 @@ interface OrderDetailsAdminProps {
 
 export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
   const { user } = useAuth();
-  const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState(order);
   const { mutate: updateOrderStatus, isPending: isUpdating } =
     useUpdateOrderStatus();
