@@ -206,7 +206,7 @@ export default function BlogDetails({ blog }: BlogDetailsProps) {
                     {blog.createdBy.name}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    An experienced writer passionate about sharing knowledge.
+                    An experienced writer passionate about sharing knowledge..
                   </p>
                   {blog.createdBy.email && (
                     <Button
