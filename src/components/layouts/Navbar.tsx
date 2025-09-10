@@ -135,7 +135,7 @@ export default function Navbar() {
       </div>
 
       {/* Bottom Layer (Menu) */}
-      <div className="py-4 border-t ">
+      <div className="py-4  border-t">
         <div className="custom-container flex items-center justify-between lg:justify-center">
           {/* Desktop Menu */}
           <nav className="hidden lg:flex items-center justify-center gap-10 flex-1">

@@ -1,13 +1,12 @@
 import Image from "next/image";
 import React from "react";
 import { ArrowRightIcon, Gift, ShieldCheck, Smile } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const Hero = () => {
   return (
     <>
-      <div className="bg-primaryBG  h-auto lg:h-[80vh] px-5">
+      <div className="bg-secondaryBG   h-auto lg:h-[80vh] px-5">
         <div className="flex flex-col lg:flex-row items-center justify-center custom-container gap-5">
           {/* Left Column */}
           <div className="w-full lg:w-2/5  py-5">

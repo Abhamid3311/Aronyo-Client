@@ -45,8 +45,8 @@ export default function NotFoundPage() {
         </div>
 
         {/* Main Content Card */}
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm mb-8">
-          <CardContent className="p-8 md:p-12">
+        <Card className="shadow border-0 bg-white/80 backdrop-blur-sm mb-4">
+          <CardContent className="p-8 md:p-8">
             {/* Lost Icon */}
             <div className="mb-6">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primaryGreen to-green-600 rounded-full shadow-lg mb-4">
