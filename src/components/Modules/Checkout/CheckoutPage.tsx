@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +29,8 @@ import {
   Link,
   Loader2,
   Plus,
+  Smartphone,
+  Building,
 } from "lucide-react";
 import { useCart } from "@/Context/CartContext";
 import { useAuth } from "@/Context/AuthContext";
@@ -43,6 +46,7 @@ export default function CheckoutPage() {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const createMutation = useCreateOrder();
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const form = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -60,13 +64,15 @@ export default function CheckoutPage() {
   const deliveryFee = 120; // Static Delivery Charge
 
   const onSubmit = async (data: CheckoutFormData) => {
+    setIsProcessingPayment(true);
+
     // Minimal payload
     const orderPayload = {
       shippingAddress: {
         name: data.fullName,
         phone: data.phone,
         city: data.city,
-        area: data.area, // map as needed
+        area: data.area, 
         address: data.address,
         deliveryNotes: data.deliveryNotes,
       },
@@ -75,15 +81,23 @@ export default function CheckoutPage() {
     };
 
     createMutation.mutate(orderPayload, {
-      onSuccess: () => {
-        successAlert("Order Added Successfully!");
-        clearCart();
-        router.push("/all-plants");
-        form.reset();
+      onSuccess: (response) => {
+        if (data.paymentMethod === "online" && response.paymentUrl) {
+          // Redirect to SSL Commerce payment gateway
+          window.location.href = response.paymentUrl;
+        } else {
+          // COD order success
+          successAlert("Order placed successfully with Cash on Delivery!");
+          clearCart();
+          router.push("/dashboard/order-history");
+          form.reset();
+        }
+        setIsProcessingPayment(false);
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (error: any) => {
-        errorAlert(error?.message || " Failed to add category!");
+        setIsProcessingPayment(false);
+        errorAlert(error?.message || "Failed to create order!");
       },
     });
   };
@@ -95,7 +109,7 @@ export default function CheckoutPage() {
           <ShoppingCart className="h-16 w-16 text-muted-foreground" />
           <h2 className="text-2xl font-bold mb-2">You&apos;re Not Logged in</h2>
           <p className="text-muted-foreground mb-4">
-            Please login first for view Checkout
+            Please login first to view Checkout
           </p>
           <Link href="/login">
             <Button>Login</Button>
@@ -115,25 +129,6 @@ export default function CheckoutPage() {
       </div>
     );
   }
-
-/*   if (!cart.length) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Your cart is empty
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Add some items to your cart to proceed with checkout
-          </p>
-          <Button onClick={() => router.push("/all-plants")}>
-            Continue Shopping
-          </Button>
-        </div>
-      </div>
-    );
-  } */
 
   const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = cart.reduce(
@@ -290,23 +285,70 @@ export default function CheckoutPage() {
                               defaultValue={field.value}
                               className="space-y-4"
                             >
-                              <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                              {/* Cash on Delivery */}
+                              <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
                                 <RadioGroupItem value="cod" id="cod" />
-                                <Label
-                                  htmlFor="cod"
-                                  className="flex-1 cursor-pointer"
-                                >
-                                  Cash on Delivery
-                                </Label>
+                                <div className="flex-1">
+                                  <Label
+                                    htmlFor="cod"
+                                    className="flex items-center gap-3 cursor-pointer"
+                                  >
+                                    <Truck className="w-5 h-5 text-green-600" />
+                                    <div>
+                                      <div className="font-medium">
+                                        Cash on Delivery
+                                      </div>
+                                      <div className="text-sm text-gray-500">
+                                        Pay when you receive your order
+                                      </div>
+                                    </div>
+                                  </Label>
+                                </div>
                               </div>
-                              <div className="flex items-center space-x-3 p-4 border rounded-lg">
+
+                              {/* Online Payment */}
+                              <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
                                 <RadioGroupItem value="online" id="online" />
-                                <Label
-                                  htmlFor="online"
-                                  className="flex-1 cursor-pointer"
-                                >
-                                  Online Payment
-                                </Label>
+                                <div className="flex-1">
+                                  <Label
+                                    htmlFor="online"
+                                    className="flex items-center gap-3 cursor-pointer"
+                                  >
+                                    <CreditCard className="w-5 h-5 text-blue-600" />
+                                    <div>
+                                      <div className="font-medium">
+                                        Online Payment
+                                      </div>
+                                      <div className="text-sm text-gray-500 mb-2">
+                                        Pay securely with bKash, Nagad, Card,
+                                        etc.
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Badge
+                                          variant="secondary"
+                                          className="text-xs"
+                                        >
+                                          <Smartphone className="w-3 h-3 mr-1" />
+                                          bKash
+                                        </Badge>
+                                        <Badge
+                                          variant="secondary"
+                                          className="text-xs"
+                                        >
+                                          <Smartphone className="w-3 h-3 mr-1" />
+                                          Nagad
+                                        </Badge>
+                                        <Badge
+                                          variant="secondary"
+                                          className="text-xs"
+                                        >
+                                          <Building className="w-3 h-3 mr-1" />
+                                          Bank
+                                        </Badge>
+                                      </div>
+                                    </div>
+                                  </Label>
+                                </div>
                               </div>
                             </RadioGroup>
                           </FormControl>
@@ -314,6 +356,24 @@ export default function CheckoutPage() {
                         </FormItem>
                       )}
                     />
+
+                    {/* Payment Method Info */}
+                    {form.watch("paymentMethod") === "online" && (
+                      <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div className="flex items-start gap-2">
+                          <Package className="w-5 h-5 text-blue-600 mt-0.5" />
+                          <div className="text-sm text-blue-800">
+                            <div className="font-medium mb-1">
+                              Secure Payment
+                            </div>
+                            <p className="text-blue-600">
+                              You will be redirected to our secure payment
+                              gateway to complete your transaction safely.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
@@ -371,12 +431,12 @@ export default function CheckoutPage() {
                         <span>Subtotal</span>
                         <span>${subtotal.toFixed(2)}</span>
                       </div>
-                      {discount > 0 && (
+                      {/* {discount > 0 && (
                         <div className="flex justify-between text-green-600">
                           <span>Discount</span>
                           <span>-${discount.toFixed(2)}</span>
                         </div>
-                      )}
+                      )} */}
                       <div className="flex justify-between">
                         <span>Delivery</span>
                         <span>${deliveryFee.toFixed(2)}</span>
@@ -390,16 +450,30 @@ export default function CheckoutPage() {
                   </CardContent>
                 </Card>
 
-                <Button type="submit" disabled={createMutation.isPending}>
-                  {createMutation.isPending ? (
+                <Button
+                  type="submit"
+                  disabled={createMutation.isPending || isProcessingPayment}
+                  className="w-full"
+                >
+                  {isProcessingPayment ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing Payment...
+                    </>
+                  ) : createMutation.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Processing Order...
+                    </>
+                  ) : form.watch("paymentMethod") === "online" ? (
+                    <>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Proceed to Payment - ${finalTotal.toFixed(2)}
                     </>
                   ) : (
                     <>
-                      <Plus className="mr-2 h-4 w-4" /> Place Order - $
-                      {finalTotal.toFixed(2)}
+                      <Plus className="mr-2 h-4 w-4" />
+                      Place Order - ${finalTotal.toFixed(2)}
                     </>
                   )}
                 </Button>

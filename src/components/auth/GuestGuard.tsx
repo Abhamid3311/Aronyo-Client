@@ -26,7 +26,7 @@ export const GuestGuard = ({ children, fallback = "/" }: GuestGuardProps) => {
         <Loader2 className="h-8 w-8 animate-spin" />
         <span className="ml-2">
           {!hydrated
-            ? "Loading..."
+            ? "Guest Loading..."
             : loading
             ? "Checking auth..."
             : "Redirecting..."}
