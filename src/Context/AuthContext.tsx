@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -60,9 +61,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(res.data.user);
       router.push("/dashboard");
       successAlert("Login successfully!");
-    } catch (err) {
+    } catch (err: any) {
       setUser(null);
-      errorAlert("Login failed!");
+      errorAlert(err.message || "Login failed!");
       throw err;
     } finally {
       setLoading(false);
@@ -77,9 +78,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(res.data.user);
       successAlert("Registered successfully!");
       router.push("/dashboard");
-    } catch (err) {
+    } catch (err: any) {
       setUser(null);
-      errorAlert("Registration failed!");
+      errorAlert(err.message || "Registration failed!");
       throw err;
     } finally {
       setLoading(false);
@@ -147,3 +148,10 @@ export const useAuth = () => {
   if (!context) throw new Error("useAuth must be used within AuthProvider");
   return context;
 };
+
+
+
+/* Credential:
+Admin: admin@gmail.com | pass: 123456
+Staff: staff@gmail.com | pass: staff123
+User: user@gmail.com || pass: user123 */

@@ -126,7 +126,7 @@ export default function Navbar() {
             ) : (
               <Link href={"/login"}>
                 <Button className="bg-primaryGreen text-white hover:bg-green-800 cursor-pointer">
-                  Login
+                  Sign In
                 </Button>
               </Link>
             )}

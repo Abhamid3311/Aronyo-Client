@@ -7,14 +7,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Loader2,
@@ -119,11 +112,9 @@ export function RegisterForm() {
           <p className="text-gray-600">Join us and start your journey</p>
         </div>
 
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm ">
-         
-
-          <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <Card className="shadow-md border-0 bg-white/80 backdrop-blur-sm ">
+          <CardContent className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {error && (
                 <Alert
                   variant="destructive"
@@ -136,7 +127,7 @@ export function RegisterForm() {
               )}
 
               {/* Name Field */}
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label
                   htmlFor="name"
                   className="text-sm font-semibold text-gray-700"
@@ -162,7 +153,7 @@ export function RegisterForm() {
               </div>
 
               {/* Email Field */}
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label
                   htmlFor="email"
                   className="text-sm font-semibold text-gray-700"
@@ -189,7 +180,7 @@ export function RegisterForm() {
               </div>
 
               {/* Password Field */}
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label
                   htmlFor="password"
                   className="text-sm font-semibold text-gray-700"
@@ -254,7 +245,7 @@ export function RegisterForm() {
               </div>
 
               {/* Confirm Password Field */}
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label
                   htmlFor="confirmPassword"
                   className="text-sm font-semibold text-gray-700"
@@ -320,7 +311,7 @@ export function RegisterForm() {
             </form>
           </CardContent>
 
-          <CardFooter className="flex justify-center pt-3 pb-4">
+          <CardFooter className="flex justify-center pt-3 pb-2">
             <p className="text-sm text-gray-600">
               Already have an account?{" "}
               <Link
