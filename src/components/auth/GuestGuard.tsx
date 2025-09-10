@@ -10,7 +10,10 @@ interface GuestGuardProps {
   fallback?: string;
 }
 
-export const GuestGuard = ({ children, fallback = "/" }: GuestGuardProps) => {
+export const GuestGuard = ({
+  children,
+  fallback = "/dashboard",
+}: GuestGuardProps) => {
   const { isAuthenticated, loading, hydrated } = useAuth();
   const router = useRouter();
 

@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       const res = await apiRegister(credentials);
       setUser(res.data.user);
+      console.log(res.data.user);
       successAlert("Registered successfully!");
       router.push("/dashboard");
     } catch (err) {
