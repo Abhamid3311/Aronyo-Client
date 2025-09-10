@@ -32,7 +32,7 @@ import { successAlert, errorAlert } from "@/lib/alert";
 import { useUpdateUser } from "@/hooks/useUsers";
 import { IUser } from "@/lib/types";
 
-// ✅ Validation Schema
+// Validation Schema
 const userSchema = z.object({
   role: z.enum(["admin", "staff", "user"]),
   status: z.enum(["active", "inactive", "banned"]),

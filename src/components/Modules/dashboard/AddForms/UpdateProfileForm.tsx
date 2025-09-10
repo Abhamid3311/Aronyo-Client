@@ -22,7 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
@@ -31,7 +30,7 @@ import { useUpdateProfile } from "@/hooks/useUsers";
 import { IUser } from "@/lib/types";
 import { useAuth } from "@/Context/AuthContext";
 
-// ✅ Validation Schema
+//  Validation Schema
 const userProfileSchema = z.object({
   name: z.string().min(1, "Name is required"),
   phone: z.string().optional(),
@@ -82,16 +81,16 @@ export default function UpdateProfileForm({
     if (!user?._id) return;
 
     updateMutation.mutate(
-      { ...data }, // pass fields directly
+      { ...data },
       {
         onSuccess: () => {
-          successAlert("✅ Profile Updated Successfully!");
+          successAlert(" Profile Updated Successfully!");
           setOpen(false);
           setUser((prev) => (prev ? { ...prev, ...data } : prev)); // update context
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onError: (err: any) => {
-          errorAlert(err?.message || "❌ Failed to update profile!");
+          errorAlert(err?.message || " Failed to update profile!");
         },
       }
     );

@@ -48,13 +48,13 @@ export default function AddCategoryForm() {
   const handleSubmit = (data: CategoryFormValues) => {
     createMutation.mutate(data, {
       onSuccess: () => {
-        successAlert("✅ Category Added Successfully!");
+        successAlert("Category Added Successfully!");
         form.reset();
         setOpen(false);
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (error: any) => {
-        errorAlert(error?.message || "❌ Failed to add category!");
+        errorAlert(error?.message || " Failed to add category!");
       },
     });
   };

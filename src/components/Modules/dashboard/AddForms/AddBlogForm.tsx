@@ -74,7 +74,7 @@ export default function AddBlogForm() {
 
       await createMutation.mutateAsync(blogData);
 
-      successAlert("✅ Blog created successfully!");
+      successAlert("Blog created successfully!");
       form.reset();
       setTags([]);
       setTagInput("");
@@ -83,7 +83,7 @@ export default function AddBlogForm() {
       setOpen(false);
     } catch (error: any) {
       console.error("Error creating blog:", error);
-      errorAlert(error?.message || "❌ Failed to create blog!");
+      errorAlert(error?.message || " Failed to create blog!");
     }
   };
 

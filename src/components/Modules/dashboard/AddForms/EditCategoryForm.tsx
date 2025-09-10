@@ -73,12 +73,12 @@ export default function EditCategoryForm({
       { id: category._id, data },
       {
         onSuccess: () => {
-          successAlert("✅ Category Updated Successfully!");
+          successAlert("Category Updated Successfully!");
           setOpen(false);
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onError: (error: any) => {
-          errorAlert(error?.message || "❌ Failed to update category!");
+          errorAlert(error?.message || "Failed to update category!");
         },
       }
     );
