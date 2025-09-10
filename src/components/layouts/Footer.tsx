@@ -38,31 +38,30 @@ const Footer = ({
     {
       title: "Product",
       links: [
-        { text: "Overview", url: "#" },
-        { text: "Pricing", url: "#" },
-        { text: "Marketplace", url: "#" },
-        { text: "Features", url: "#" },
-        { text: "Integrations", url: "#" },
-        { text: "Pricing", url: "#" },
+        { text: "New Arrival", url: "/new-arrivals" },
+        { text: "Orchids", url: "/orchids-blooms" },
+        { text: "Planters", url: "/planters" },
+        { text: "Plant care", url: "/plant-care" },
+        { text: "Gifts", url: "/gifts" },
+        { text: "Sales", url: "/on-sale" },
       ],
     },
     {
       title: "Company",
       links: [
-        { text: "About", url: "#" },
-        { text: "Team", url: "#" },
-        { text: "Blog", url: "#" },
-        { text: "Careers", url: "#" },
-        { text: "Contact", url: "#" },
-        { text: "Privacy", url: "#" },
+        { text: "About", url: "/about" },
+        { text: "Blog", url: "/blogs" },
+        { text: "All Product", url: "/all-plants" },
+        { text: "Contact", url: "/contact" },
+        { text: "Privacy", url: "/privacy-policy" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { text: "Help", url: "#" },
-        { text: "Sales", url: "#" },
-        { text: "Advertise", url: "#" },
+        { text: "Help", url: "/contact" },
+        { text: "Sales", url: "/on-sale" },
+        { text: "Advertise", url: "/contact" },
       ],
     },
     {
@@ -75,10 +74,10 @@ const Footer = ({
     },
   ],
 
-  copyright = "© 2025 Aronyo. All rights reserved.",
+  copyright = "© 2025 Aronyo. All rights reserved. | Ab Hamid",
   bottomLinks = [
-    { text: "Terms and Conditions", url: "#" },
-    { text: "Privacy Policy", url: "#" },
+    { text: "Terms and Conditions", url: "/terms-and-conditions" },
+    { text: "Privacy Policy", url: "/privacy-policy" },
   ],
 }: Footer2Props) => {
   return (
@@ -99,6 +98,8 @@ const Footer = ({
               </div>
               <p className="mt-4 font-bold">{tagline}</p>
             </div>
+
+            
             {menuItems.map((section, sectionIdx) => (
               <div key={sectionIdx}>
                 <h3 className="mb-4 font-bold">{section.title}</h3>
