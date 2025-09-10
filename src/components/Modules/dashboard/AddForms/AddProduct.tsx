@@ -74,6 +74,7 @@ export default function AddProductModal() {
       tags: [],
       ratings: 5,
       numReviews: 10,
+      isActive: true,
     },
   });
 
@@ -94,6 +95,7 @@ export default function AddProductModal() {
     );
 
   const handleSubmit = (data: ProductFormValues) => {
+    console.log(data);
     const productToSend = {
       title: data.title,
       description: data.description,
@@ -110,7 +112,7 @@ export default function AddProductModal() {
       size: data.size,
     };
 
-    console.log(productToSend)
+    console.log(productToSend);
     // Product Add to DB
     createMutation.mutate(productToSend, {
       onSuccess: () => {

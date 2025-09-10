@@ -48,7 +48,6 @@ export const blogSchema = z.object({
   isPublished: z.boolean(),
 });
 
-
 // Validation schema
 export const checkoutSchema = z.object({
   fullName: z.string().min(2),
