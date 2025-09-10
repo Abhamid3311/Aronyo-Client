@@ -211,7 +211,6 @@ export const roleMenus = {
   ],
 };
 
-
 // Order status options
 export const ORDER_STATUS_OPTIONS = [
   {
@@ -237,7 +236,6 @@ export const ORDER_STATUS_OPTIONS = [
   { value: "cancelled", label: "Cancelled", color: "bg-red-100 text-red-800" },
 ];
 
-
 // Payment status options
 export const PAYMENT_STATUS_OPTIONS = [
   {
@@ -253,3 +251,14 @@ export const PAYMENT_STATUS_OPTIONS = [
     color: "bg-purple-100 text-purple-800",
   },
 ];
+
+export const ORDER_STATUS_COLORS: Record<
+  "pending" | "confirmed" | "shipped" | "delivered" | "cancelled",
+  string
+> = {
+  pending: "bg-yellow-200 text-gray-800",
+  confirmed: "bg-blue-500 text-white",
+  shipped: "bg-orange-200 text-dark-800",
+  delivered: "bg-green-400 text-white-800",
+  cancelled: "bg-red-200 text-red-800",
+};

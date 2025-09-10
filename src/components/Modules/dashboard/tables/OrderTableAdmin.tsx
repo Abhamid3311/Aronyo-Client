@@ -10,6 +10,7 @@ import { IOrder } from "@/lib/types";
 import DashboardSkeleton from "../../skeletons/DashboardSkeleton";
 import { useAllOrdersAdmin, useCancelOrder } from "@/hooks/useOrders";
 import { AdvancedTable } from "./AdvanceTable";
+import { ORDER_STATUS_COLORS } from "@/lib/staticData";
 
 export function OrdersTableClient() {
   const { data: initialData, isLoading } = useAllOrdersAdmin();
@@ -68,19 +69,17 @@ export function OrdersTableClient() {
       accessorKey: "orderStatus",
       header: "Order Status",
       cell: ({ row }) => {
-        const status = row.getValue("orderStatus") as string;
+        const status = row.getValue("orderStatus") as
+          | "pending"
+          | "confirmed"
+          | "shipped"
+          | "delivered"
+          | "cancelled";
+
+        const displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
+
         return (
-          <Badge
-            variant={
-              status === "delivered"
-                ? "default"
-                : status === "pending"
-                ? "secondary"
-                : "destructive"
-            }
-          >
-            {status}
-          </Badge>
+          <Badge className={ORDER_STATUS_COLORS[status]}>{displayStatus}</Badge>
         );
       },
     },

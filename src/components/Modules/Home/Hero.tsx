@@ -18,7 +18,7 @@ const Hero = () => {
             <div className="space-y-4">
               <div className="flex gap-2 sm:gap-4 mt-5 text-xs sm:text-sm lg:text-base">
                 <Link href={"/new-arrivals"} className="flex-1 sm:flex-none">
-                  <button className="w-full sm:w-auto border-2 border-green-600 bg-green-600 text-white py-2 sm:py-3 px-2 sm:px-6 lg:px-8 rounded-lg font-medium hover:bg-green-700 transition-colors whitespace-nowrap flex items-center justify-center space-x-1 sm:space-x-2 cursor-pointer">
+                  <button className="w-full sm:w-auto border-2 border-primaryGreen bg-primaryGreen text-white py-2 sm:py-3 px-2 sm:px-6 lg:px-8 rounded-lg font-medium hover:bg-green-700 transition-colors whitespace-nowrap flex items-center justify-center space-x-1 sm:space-x-2 cursor-pointer">
                     <span className="sm:hidden">New Items</span>
                     <span className="hidden sm:inline">New Collections</span>
                     <ArrowRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -26,7 +26,7 @@ const Hero = () => {
                 </Link>
 
                 <Link href={"/planters"} className="flex-1 sm:flex-none">
-                  <button className="w-full sm:w-auto border-2 border-green-600 text-green-600 py-2 sm:py-3 px-2 sm:px-6 lg:px-8 rounded-lg font-medium hover:bg-green-50 flex items-center justify-center space-x-1 sm:space-x-2 transition-colors whitespace-nowrap cursor-pointer">
+                  <button className="w-full sm:w-auto border-2 border-primaryGreen text-primaryGreen py-2 sm:py-3 px-2 sm:px-6 lg:px-8 rounded-lg font-medium hover:bg-green-50 flex items-center justify-center space-x-1 sm:space-x-2 transition-colors whitespace-nowrap cursor-pointer">
                     <span className="sm:hidden">Planters</span>
                     <span className="hidden sm:inline">Shop Planters</span>
                     <ArrowRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
