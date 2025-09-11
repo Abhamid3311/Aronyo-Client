@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { SearchIcon, LoaderIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getProductsWithFilters } from "@/lib/services/Products/publicApi";
@@ -190,7 +189,7 @@ export default function ProductSearchModal({
         </div>
 
         {/* Footer */}
-       {/*  {products.length > 0 && (
+        {/*  {products.length > 0 && (
           <div className="border-t pt-3 mt-3">
             <Link
               href={`/all-plants?search=${encodeURIComponent(searchTerm)}`}

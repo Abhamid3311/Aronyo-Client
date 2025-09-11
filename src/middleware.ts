@@ -10,6 +10,8 @@ const roleBasedRoutes = {
   user: [
     /^\/dashboard/, //  allow dashboard + all subpages
     /^\/order-history/,
+    /^\/cart/,
+    /^\/wishlist/,
   ],
   staff: [
     /^\/dashboard/, //  allow dashboard + all subpages

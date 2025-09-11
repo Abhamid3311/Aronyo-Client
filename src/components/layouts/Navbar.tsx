@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import {
@@ -22,16 +22,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCart } from "@/Context/CartContext";
 import ProductSearchModal from "./NavSearchBar";
+import { useWishlist } from "@/Context/WishlistContext";
 
 export default function Navbar() {
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
-  const totalProduct = cart.reduce((sum, items) => sum + items.quantity, 0);
+  const totalProduct = useMemo(() => {
+    return cart.reduce((sum, item) => sum + item.quantity, 0);
+  }, [cart]);
 
+  console.log(wishlist);
   return (
     <div className="w-full">
       {/* Product Search Modal */}
@@ -93,11 +98,14 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="text-green-800 hover:text-green-600 cursor-pointer"
+              className="text-green-800 hover:text-green-600 relative cursor-pointer"
             >
               <Link href={"/wishlist"}>
                 <HeartIcon className="h-10 w-10" />
                 <span className="sr-only">Wishlist</span>
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {wishlist?.length || 0}
+                </span>
               </Link>
             </Button>
 
