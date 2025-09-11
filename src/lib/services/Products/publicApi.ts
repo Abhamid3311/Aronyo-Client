@@ -1,6 +1,8 @@
 "use server";
 
 import { BASE_API_URL } from "@/config/api";
+import { cookies } from "next/headers";
+import { jwtDecode } from "jwt-decode";
 
 // Get All Categories for User
 
@@ -66,3 +68,15 @@ export async function getBlogById(id: string) {
   const result = await res.json();
   return result.data;
 }
+
+// Get Current Logedin User From Cookie for middleware
+export const getLoggedInUser = async () => {
+  const accesstoken = (await cookies()).get("accessToken")?.value;
+  let decodeData = null;
+  if (accesstoken) {
+    decodeData = await jwtDecode(accesstoken);
+    return decodeData;
+  } else {
+    return null;
+  }
+};

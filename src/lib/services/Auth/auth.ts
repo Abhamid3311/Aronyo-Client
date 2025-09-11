@@ -6,6 +6,7 @@ import {
   IUser,
 } from "@/lib/types";
 
+
 // Login
 export const login = async (
   credentials: LoginCredentials
@@ -57,3 +58,5 @@ export const refreshAccessToken = async (): Promise<boolean> => {
     return false;
   }
 };
+
+

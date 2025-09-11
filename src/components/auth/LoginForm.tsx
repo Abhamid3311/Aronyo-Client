@@ -180,7 +180,7 @@ export function LoginForm() {
 
               {/* Guest Login Buttons */}
               <div className="space-y-3">
-                {/*  <Button
+                <Button
                   type="button"
                   variant="outline"
                   className="w-full h-11 border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 transition-all duration-200"
@@ -203,7 +203,7 @@ export function LoginForm() {
                     </span>
                   </div>
                 </Button>
- */}
+
                 <Button
                   type="button"
                   variant="outline"

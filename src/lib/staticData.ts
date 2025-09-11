@@ -186,11 +186,7 @@ export const roleMenus = {
       url: "/dashboard/admin/order-managment",
       icon: ClipboardList,
     },
-    {
-      title: "Category Management",
-      url: "/dashboard/admin/category-managment",
-      icon: FolderTree,
-    },
+
     {
       title: "Blog Management",
       url: "/dashboard/admin/blog-managment",
@@ -198,6 +194,11 @@ export const roleMenus = {
     },
   ],
   admin: [
+    {
+      title: "Category Management",
+      url: "/dashboard/admin/category-managment",
+      icon: FolderTree,
+    },
     {
       title: "User Management",
       url: "/dashboard/admin/user-managment",

@@ -149,8 +149,6 @@ export const useAuth = () => {
   return context;
 };
 
-
-
 /* Credential:
 Admin: admin@gmail.com | pass: 123456
 Staff: staff@gmail.com | pass: staff123
