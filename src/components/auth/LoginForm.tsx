@@ -202,8 +202,8 @@ export function LoginForm() {
                       Full Access
                     </span>
                   </div>
-                </Button> */}
-
+                </Button>
+ */}
                 <Button
                   type="button"
                   variant="outline"
