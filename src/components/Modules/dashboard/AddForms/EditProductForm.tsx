@@ -38,9 +38,7 @@ import { ICategory, IProduct } from "@/lib/types";
 import { errorAlert, successAlert } from "@/lib/alert";
 import { useUpdateProduct } from "@/hooks/useProducts";
 import Image from "next/image";
-
-const SIZES = ["Small", "Medium", "Large"];
-const STATIC_TAGS = ["sale", "new-arrivals", "gift", "decor"];
+import { PRODUCT_SIZES, PRODUCT_TAGS } from "@/lib/staticData";
 
 type ProductFormValues = z.infer<typeof productSchema> & { isActive: boolean };
 
@@ -280,7 +278,7 @@ export default function EditProductModal({
                           <SelectValue placeholder="Select size" />
                         </SelectTrigger>
                         <SelectContent>
-                          {SIZES.map((size) => (
+                          {PRODUCT_SIZES.map((size) => (
                             <SelectItem key={size} value={size}>
                               {size}
                             </SelectItem>
@@ -321,7 +319,7 @@ export default function EditProductModal({
                 <FormItem>
                   <FormLabel>Tags *</FormLabel>
                   <div className="flex flex-wrap gap-2">
-                    {STATIC_TAGS.map((tag) => (
+                    {PRODUCT_TAGS.map((tag) => (
                       <label
                         key={tag}
                         className="flex items-center space-x-2 border rounded-lg px-3 py-1 cursor-pointer"

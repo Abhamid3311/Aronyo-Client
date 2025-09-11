@@ -320,3 +320,16 @@ export const plantReviews = [
     plantPurchased: "Indoor Plant Starter Kit",
   },
 ];
+
+export const PRODUCT_SIZES = ["Small", "Medium", "Large"];
+export const PRODUCT_TAGS = [
+  "sale",
+  "new-arrivals",
+  "gift",
+  "decor",
+  "out-door",
+  "indoor",
+  "planter",
+  "bonsai",
+  "plant-care",
+];
