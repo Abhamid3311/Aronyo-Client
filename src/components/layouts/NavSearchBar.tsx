@@ -81,7 +81,7 @@ export default function ProductSearchModal({
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-gray-900">
-            Search Products
+            Search Plants
           </DialogTitle>
         </DialogHeader>
 
