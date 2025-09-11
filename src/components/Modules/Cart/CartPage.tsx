@@ -7,19 +7,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart, Loader2 } from "lucide-react";
 import CartCard from "./CartCard";
 import { useAuth } from "@/Context/AuthContext";
+import { useMemo } from "react";
 
 export default function CartPage() {
   const { cart, loading } = useCart();
   const { isAuthenticated } = useAuth();
 
   // Calculate total price
-  const totalPrice = cart.reduce((sum, item) => {
-    const itemPrice =
-      Number(item.productId?.discountPrice) ||
-      Number(item.productId?.price) ||
-      0;
-    return sum + itemPrice * item.quantity;
-  }, 0);
+  const totalPrice = useMemo(() => {
+    return cart.reduce((sum, item) => {
+      const itemPrice =
+        Number(item.productId?.discountPrice) ||
+        Number(item.productId?.price) ||
+        0;
+      return sum + itemPrice * item.quantity;
+    }, 0);
+  }, [cart]);
 
   // console.log(cart);
 

@@ -36,7 +36,6 @@ export default function Navbar() {
     return cart.reduce((sum, item) => sum + item.quantity, 0);
   }, [cart]);
 
-  console.log(wishlist);
   return (
     <div className="w-full">
       {/* Product Search Modal */}
