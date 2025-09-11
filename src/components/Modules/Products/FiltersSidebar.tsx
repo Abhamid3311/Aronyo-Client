@@ -12,6 +12,9 @@ interface FiltersSidebarProps {
   allTags: string[];
   selectedTags: string[];
   setSelectedTags: (val: string[]) => void;
+  allSizes: string[];
+  selectedSizes: string[];
+  setSelectedSizes: (val: string[]) => void;
   allCategories: string[];
   selectedCategory: string;
   setSelectedCategory: (val: string) => void;
@@ -19,7 +22,6 @@ interface FiltersSidebarProps {
   setSelectedPriceRange: (val: string) => void;
   priceRanges: { label: string; min: number; max: number }[];
   clearFilters: () => void;
-  applyFilters: () => void;
 }
 
 export default function FiltersSidebar({
@@ -31,6 +33,9 @@ export default function FiltersSidebar({
   allTags,
   selectedTags,
   setSelectedTags,
+  allSizes,
+  selectedSizes,
+  setSelectedSizes,
   allCategories,
   selectedCategory,
   setSelectedCategory,
@@ -38,7 +43,6 @@ export default function FiltersSidebar({
   setSelectedPriceRange,
   priceRanges,
   clearFilters,
-  applyFilters,
 }: FiltersSidebarProps) {
   const toggleCheckbox = (
     value: string,
@@ -56,69 +60,110 @@ export default function FiltersSidebar({
     <Card className="h-full lg:h-auto">
       <CardContent className="p-4 space-y-6 overflow-y-auto">
         {/* Search */}
-        <Input
-          placeholder="Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div>
+          <p className="text-sm font-medium mb-2">Search</p>
+          <Input
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
 
         {/* Categories */}
-        <div>
-          <p className="text-sm font-medium mb-2">Category</p>
-          <div className="space-y-2">
-            {allCategories.map((c) => (
-              <label key={c} className="flex items-center gap-2 cursor-pointer">
-                <Checkbox
-                  checked={selectedCategory === c}
-                  onCheckedChange={() =>
-                    setSelectedCategory(selectedCategory === c ? "" : c)
-                  }
-                />
-                <span className="text-sm">{c}</span>
-              </label>
-            ))}
+        {allCategories.length > 0 && (
+          <div>
+            <p className="text-sm font-medium mb-2">Category</p>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {allCategories.map((c) => (
+                <label
+                  key={c}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <Checkbox
+                    checked={selectedCategory === c}
+                    onCheckedChange={() =>
+                      setSelectedCategory(selectedCategory === c ? "" : c)
+                    }
+                  />
+                  <span className="text-sm capitalize">{c}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Brands */}
-        <div>
-          <p className="text-sm font-medium mb-2">Brands</p>
-          <div className="space-y-2">
-            {allBrands.map((b) => (
-              <label key={b} className="flex items-center gap-2 cursor-pointer">
-                <Checkbox
-                  checked={selectedBrands.includes(b)}
-                  onCheckedChange={() =>
-                    toggleCheckbox(b, selectedBrands, setSelectedBrands)
-                  }
-                />
-                <span className="text-sm">{b}</span>
-              </label>
-            ))}
+        {allBrands.length > 0 && (
+          <div>
+            <p className="text-sm font-medium mb-2">Brands</p>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {allBrands.map((b) => (
+                <label
+                  key={b}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <Checkbox
+                    checked={selectedBrands.includes(b)}
+                    onCheckedChange={() =>
+                      toggleCheckbox(b, selectedBrands, setSelectedBrands)
+                    }
+                  />
+                  <span className="text-sm capitalize">{b}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Sizes */}
+        {allSizes.length > 0 && (
+          <div>
+            <p className="text-sm font-medium mb-2">Sizes</p>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {allSizes.map((size) => (
+                <label
+                  key={size}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <Checkbox
+                    checked={selectedSizes.includes(size)}
+                    onCheckedChange={() =>
+                      toggleCheckbox(size, selectedSizes, setSelectedSizes)
+                    }
+                  />
+                  <span className="text-sm">{size}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Tags */}
-        <div>
-          <p className="text-sm font-medium mb-2">Tags</p>
-          <div className="space-y-2">
-            {allTags.map((t) => (
-              <label key={t} className="flex items-center gap-2 cursor-pointer">
-                <Checkbox
-                  checked={selectedTags.includes(t)}
-                  onCheckedChange={() =>
-                    toggleCheckbox(t, selectedTags, setSelectedTags)
-                  }
-                />
-                <span className="text-sm">{t}</span>
-              </label>
-            ))}
+        {allTags.length > 0 && (
+          <div>
+            <p className="text-sm font-medium mb-2">Tags</p>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {allTags.map((t) => (
+                <label
+                  key={t}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <Checkbox
+                    checked={selectedTags.includes(t)}
+                    onCheckedChange={() =>
+                      toggleCheckbox(t, selectedTags, setSelectedTags)
+                    }
+                  />
+                  <span className="text-sm capitalize">{t}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Price */}
         <div>
-          <p className="text-sm font-medium mb-2">Price</p>
+          <p className="text-sm font-medium mb-2">Price Range</p>
           <div className="space-y-2">
             {priceRanges.map((r) => (
               <label
@@ -139,13 +184,19 @@ export default function FiltersSidebar({
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Button className="w-full" onClick={applyFilters}>
-            Apply Filters
-          </Button>
-          <Button variant="outline" className="w-full" onClick={clearFilters}>
-            Clear Filters
-          </Button>
+        {/* Clear Filters Button */}
+        <Button variant="outline" className="w-full" onClick={clearFilters}>
+          Clear All Filters
+        </Button>
+
+        {/* Active Filters Count */}
+        <div className="text-xs text-gray-500 text-center">
+          {selectedBrands.length +
+            selectedTags.length +
+            selectedSizes.length +
+            (selectedCategory ? 1 : 0) +
+            (selectedPriceRange ? 1 : 0)}{" "}
+          filters active
         </div>
       </CardContent>
     </Card>

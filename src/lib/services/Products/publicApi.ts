@@ -24,6 +24,15 @@ export async function getProductsWithFilters(filters?: Record<string, string>) {
   return res.json();
 }
 
+// Added New Filter products
+export async function getFilterOptions() {
+  const res = await fetch(`${BASE_API_URL}/products/filters`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Failed to fetch filter options");
+  return res.json();
+}
+
 // Get Single Product for User
 export async function getProductBySlug(slug: string) {
   const res = await fetch(`${BASE_API_URL}/products/${slug}`, {
