@@ -175,7 +175,7 @@ export default function ProductExplorer({
     setSelectedBrands([]);
     setSelectedTags([]);
     setSelectedSizes([]);
-    setSelectedCategory(category || ""); 
+    setSelectedCategory(category || "");
     setSelectedPriceRange("");
     setPage(1);
     setSort("-createdAt");
