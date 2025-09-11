@@ -21,19 +21,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCart } from "@/Context/CartContext";
+import ProductSearchModal from "./NavSearchBar";
 
 export default function Navbar() {
-  const { cart, loading } = useCart();
+  const { cart } = useCart();
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   const totalProduct = cart.reduce((sum, items) => sum + items.quantity, 0);
 
-  // console.log(cart, totalProduct);
-
   return (
     <div className="w-full">
+      {/* Product Search Modal */}
+      <ProductSearchModal
+        isOpen={searchModalOpen}
+        onClose={() => setSearchModalOpen(false)}
+      />
+
       {/* Top Layer (Green with Sliding Text) */}
       <div className="bg-primaryGreen text-white text-sm py-2 overflow-hidden">
         <div className="custom-container">
@@ -47,7 +53,7 @@ export default function Navbar() {
       </div>
 
       {/* Middle Layer */}
-      <div className="bg-white py-3 ">
+      <div className="bg-white py-3">
         <div className="custom-container flex items-center justify-between gap-2">
           {/* Logo on Left */}
           <Link href="/" className="text-xl font-bold text-primary">
@@ -59,18 +65,31 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Search Bar */}
-          <div className="relative w-full max-w-sm">
+          {/* Search Bar - Desktop & Tablet */}
+          <div className="relative w-full max-w-sm hidden md:block">
             <input
               type="text"
               placeholder="Search for plants ..."
-              className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+              onClick={() => setSearchModalOpen(true)}
+              readOnly
+              className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 cursor-pointer hover:border-green-400 transition-colors"
             />
             <SearchIcon className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
           </div>
 
           {/* Icons */}
-          <div className="flex items-center gap-2 lg:gap-4 ">
+          <div className="flex items-center gap-2 lg:gap-4">
+            {/* Mobile Search Icon */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-green-800 hover:text-green-600 cursor-pointer md:hidden"
+              onClick={() => setSearchModalOpen(true)}
+            >
+              <SearchIcon className="h-6 w-6" />
+              <span className="sr-only">Search</span>
+            </Button>
+
             <Button
               variant="ghost"
               size="icon"
@@ -135,7 +154,7 @@ export default function Navbar() {
       </div>
 
       {/* Bottom Layer (Menu) */}
-      <div className="py-4  border-t">
+      <div className="py-4 border-t">
         <div className="custom-container flex items-center justify-between lg:justify-center">
           {/* Desktop Menu */}
           <nav className="hidden lg:flex items-center justify-center gap-10 flex-1">
@@ -146,7 +165,7 @@ export default function Navbar() {
                 <div key={item.name} className="relative group">
                   <Link
                     href={item.link}
-                    className={`hover:text-green-600 ${
+                    className={`hover:text-green-600 transition-colors ${
                       isActive ? "text-green-600 font-medium" : "text-gray-700"
                     } ${item.className || ""}`}
                   >
@@ -187,7 +206,19 @@ export default function Navbar() {
               side="right"
               className="w-[300px] bg-white text-black pl-4"
             >
-              <nav className="flex flex-col gap-2 mt-4">
+              {/* Mobile Search in Menu */}
+              <div className="mt-4 mb-6">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2 text-gray-600 border-gray-300"
+                  onClick={() => setSearchModalOpen(true)}
+                >
+                  <SearchIcon className="h-4 w-4" />
+                  Search products...
+                </Button>
+              </div>
+
+              <nav className="flex flex-col gap-2">
                 {menuItems.map((item) => {
                   const isActive =
                     pathname === item.link ||
@@ -196,7 +227,7 @@ export default function Navbar() {
                     <div key={item.name}>
                       <Link
                         href={item.link}
-                        className={`block py-2 ${
+                        className={`block py-2 transition-colors ${
                           isActive
                             ? "text-green-600 font-medium"
                             : "text-gray-700"
@@ -210,7 +241,7 @@ export default function Navbar() {
                             <Link
                               key={sub.name}
                               href={sub.link}
-                              className={`block py-1 pl-4 text-sm hover:bg-gray-100 ${
+                              className={`block py-1 pl-4 text-sm hover:bg-gray-100 transition-colors ${
                                 pathname === sub.link
                                   ? "text-green-600 font-medium"
                                   : ""
