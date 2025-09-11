@@ -262,3 +262,61 @@ export const ORDER_STATUS_COLORS: Record<
   delivered: "bg-green-400 text-white-800",
   cancelled: "bg-red-200 text-red-800",
 };
+
+// Plant review data
+export const plantReviews = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    review:
+      "The Monstera Deliciosa I ordered arrived in perfect condition! The plant was healthy, well-packaged, and even bigger than expected. Amazing quality and fast delivery.",
+    rating: 5,
+    img: "/reviews/rev-1.jpg",
+    plantPurchased: "Monstera Deliciosa",
+  },
+  {
+    id: 2,
+    name: "Michael Chen",
+    review:
+      "Absolutely love my new Snake Plant collection! Perfect for beginners like me. The care instructions were detailed and the plants are thriving in my apartment.",
+    rating: 5,
+    img: "/reviews/rev-2.jpg",
+    plantPurchased: "Snake Plant Variety Pack",
+  },
+  {
+    id: 3,
+    name: "Emily Rodriguez",
+    review:
+      "The succulent arrangement was stunning! Each plant was carefully selected and the decorative pot was a nice touch. Great value for money.",
+    rating: 4,
+    img: "/reviews/rev-3.jpg",
+    plantPurchased: "Succulent Garden Set",
+  },
+  {
+    id: 4,
+    name: "David Thompson",
+    review:
+      "My Fiddle Leaf Fig arrived healthy and beautiful. The packaging was excellent - not a single damaged leaf! Customer service was also very responsive.",
+    rating: 5,
+    img: "/reviews/rev-5.jpeg",
+    plantPurchased: "Fiddle Leaf Fig",
+  },
+  {
+    id: 5,
+    name: "Jessica Park",
+    review:
+      "The Peace Lily I ordered has been blooming beautifully for months! Great quality plants and the care guide helped me keep it healthy.",
+    rating: 4,
+    img: "/reviews/rev-4.jpeg",
+    plantPurchased: "Peace Lily",
+  },
+  {
+    id: 6,
+    name: "Robert Kim",
+    review:
+      "Fantastic variety in the indoor plant starter kit! Perfect for someone looking to create a green oasis. All plants arrived in excellent condition.",
+    rating: 5,
+    img: "/reviews/rev-6.jpeg",
+    plantPurchased: "Indoor Plant Starter Kit",
+  },
+];

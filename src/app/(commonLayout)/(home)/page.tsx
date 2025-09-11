@@ -12,6 +12,7 @@ import {
 import BlogSec from "@/components/Modules/Home/BlogSec";
 import PopularPlantsSkeleton from "@/components/Modules/skeletons/PlantSectionSkeleton";
 import { Suspense } from "react";
+import PlantReviewSlider from "@/components/Modules/Home/Reviews";
 
 export default async function Home() {
   const [categories, popularPro, largePlant, newArrival, blogs] =
@@ -50,6 +51,8 @@ export default async function Home() {
       <Suspense fallback={<PopularPlantsSkeleton />}>
         <BlogSec blogs={blogs.data} />
       </Suspense>
+
+      <PlantReviewSlider className="bg-secondaryBG " />
     </div>
   );
 }
