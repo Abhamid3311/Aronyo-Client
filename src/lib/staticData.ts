@@ -331,6 +331,6 @@ export const PRODUCT_TAGS = [
   "out-door",
   "indoor",
   "planter",
-  "bonsai",
   "plant-care",
+  "popular",
 ];
