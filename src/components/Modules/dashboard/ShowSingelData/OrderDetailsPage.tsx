@@ -34,7 +34,6 @@ import {
   CheckCircle,
   Clock,
   XCircle,
-  AlertCircle,
   Edit,
   Save,
   ArrowLeft,
@@ -46,12 +45,17 @@ import { IOrder, OrderStatus } from "@/lib/types";
 import { ORDER_STATUS_OPTIONS, PAYMENT_STATUS_OPTIONS } from "@/lib/staticData";
 import { useAuth } from "@/Context/AuthContext";
 import Link from "next/link";
+import ReviewSection from "./ReviewCompo";
 
 interface OrderDetailsAdminProps {
   order: IOrder;
+  existingReviews?: { [key: string]: any }; // Optional prop for existing reviews
 }
 
-export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
+export default function OrderDetailsAdmin({
+  order,
+  existingReviews = {},
+}: OrderDetailsAdminProps) {
   const { user } = useAuth();
   const [currentOrder, setCurrentOrder] = useState(order);
   const { mutate: updateOrderStatus, isPending: isUpdating } =
@@ -122,6 +126,10 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
         return <Clock className="w-4 h-4" />;
     }
   };
+
+  // Check if order is delivered and user is a customer
+  const isDelivered = currentOrder.orderStatus === "delivered";
+  const isCustomer = user?.role === "user";
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -238,6 +246,15 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
               </CardContent>
             </Card>
 
+            {/* Review Section - Only visible when order is delivered and user is customer */}
+            <ReviewSection
+              orderItems={order.orderItems}
+              orderId={order._id}
+              isDelivered={isDelivered}
+              isUser={isCustomer}
+              existingReview={existingReviews}
+            />
+
             {/* Customer Information */}
             <Card>
               <CardHeader>
@@ -287,9 +304,8 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                   <div className="flex items-center gap-2 mt-2">
                     <LocationEditIcon className="w-4 h-4 text-gray-400" />
                     <p className="text-sm">
-                      {" "}
-                      {order.shippingAddress.address},
-                      {order.shippingAddress.area}, {order.shippingAddress.city}{" "}
+                      {order.shippingAddress.address},{" "}
+                      {order.shippingAddress.area}, {order.shippingAddress.city}
                     </p>
                   </div>
 
@@ -313,8 +329,7 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
 
           {/* Right Column */}
           <div className="space-y-6">
-            {/* Order Status Management */}
-
+            {/* Order Status Management - Only for admin/staff */}
             {user?.role !== "user" && (
               <Card>
                 <CardHeader>
