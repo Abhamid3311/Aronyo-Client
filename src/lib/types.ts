@@ -214,9 +214,10 @@ export interface IOrder {
   totalPayable: number;
 
   transactionId: string;
+  isReviewed?: boolean;
 
-  createdAt: string; // ISO Date string
-  updatedAt: string; // ISO Date string
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type OrderStatus =
@@ -227,6 +228,7 @@ export type OrderStatus =
   | "cancelled";
 
 export interface IReview {
+  _id?: string;
   userId?: string;
   orderId?: string;
   rating: number;

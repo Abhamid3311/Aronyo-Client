@@ -129,7 +129,6 @@ export default function OrderDetailsAdmin({
 
   // Check if order is delivered and user is a customer
   const isDelivered = currentOrder.orderStatus === "delivered";
-  const isCustomer = user?.role === "user";
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -246,13 +245,11 @@ export default function OrderDetailsAdmin({
               </CardContent>
             </Card>
 
-            {/* Review Section - Only visible when order is delivered and user is customer */}
+            {/* Review Section - Only visible when order is delivered */}
             <ReviewSection
-              orderItems={order.orderItems}
               orderId={order._id}
-              isDelivered={isDelivered}
-              isUser={isCustomer}
-              existingReview={existingReviews}
+              isDelivered={currentOrder.orderStatus === "delivered"}
+              isReviewed={currentOrder.isReviewed}
             />
 
             {/* Customer Information */}

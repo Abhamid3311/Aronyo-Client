@@ -49,13 +49,13 @@ export const cancelOrder = async (orderId: string) => {
 
 // CREATE or Update review (User)
 export const createReview = async (data: Partial<IReview>) => {
-  const res = await axiosInstance.post("/reviews/add-review", data);
+  const res = await axiosInstance.post("/review/add-review", data);
   return res.data.data;
 };
 
 // GET single review by ID (User)
 export const getSingleReview = async (reviewId: string): Promise<IReview> => {
-  const res = await axiosInstance.get(`/reviews/view-review/${reviewId}`);
+  const res = await axiosInstance.get(`/review/view-review/${reviewId}`);
   return res.data.data;
 };
 
@@ -64,13 +64,13 @@ export const updateReview = async (
   reviewId: string,
   data: Partial<IReview>
 ): Promise<IReview> => {
-  const res = await axiosInstance.put(`/reviews/edit-review/${reviewId}`, data);
+  const res = await axiosInstance.put(`/review/edit-review/${reviewId}`, data);
   return res.data.data;
 };
 
 // DELETE review (User)
 export const deleteReview = async (reviewId: string) => {
-  const res = await axiosInstance.delete(`/reviews/delete-review/${reviewId}`);
+  const res = await axiosInstance.delete(`/review/delete-review/${reviewId}`);
   return res.data;
 };
 
@@ -79,7 +79,7 @@ export const updateReviewStatus = async (
   reviewId: string,
   isActive: boolean
 ): Promise<IReview> => {
-  const res = await axiosInstance.put(`/reviews/update-status/${reviewId}`, {
+  const res = await axiosInstance.put(`/review/update-status/${reviewId}`, {
     isActive,
   });
   return res.data.data;
@@ -87,12 +87,12 @@ export const updateReviewStatus = async (
 
 // GET random active reviews (Public)
 export const getActiveReviews = async (): Promise<IReview[]> => {
-  const res = await axiosInstance.get(`/reviews/active-reviews`);
+  const res = await axiosInstance.get(`/review/active-reviews`);
   return res.data.data;
 };
 
 // GET all reviews (Admin)
 export const getAllReviewsAdmin = async (): Promise<IReview[]> => {
-  const res = await axiosInstance.get("/reviews/all-reviews");
+  const res = await axiosInstance.get("/review/all-reviews");
   return res.data.data;
 };
