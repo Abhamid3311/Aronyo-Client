@@ -59,7 +59,6 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus>("pending");
   const [isEditing, setIsEditing] = useState(false);
 
-  console.log(user?.role);
   // Set initial status when order loads
   useEffect(() => {
     if (order) {
@@ -458,16 +457,16 @@ export default function OrderDetailsAdmin({ order }: OrderDetailsAdminProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span>Subtotal</span>
-                    <span>₹{order.totalAmount.toLocaleString()}</span>
+                    <span>${order.totalAmount.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Delivery Charge</span>
-                    <span>₹{order.deliveryCharge.toLocaleString()}</span>
+                    <span>${order.deliveryCharge.toLocaleString()}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-semibold">
                     <span>Total Payable</span>
-                    <span>₹{order.totalPayable.toLocaleString()}</span>
+                    <span>${order.totalPayable.toLocaleString()}</span>
                   </div>
                 </div>
               </CardContent>

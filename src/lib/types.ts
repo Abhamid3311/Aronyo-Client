@@ -225,3 +225,13 @@ export type OrderStatus =
   | "shipped"
   | "delivered"
   | "cancelled";
+
+export interface IReview {
+  userId?: string;
+  orderId?: string;
+  rating: number;
+  comment: string;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
