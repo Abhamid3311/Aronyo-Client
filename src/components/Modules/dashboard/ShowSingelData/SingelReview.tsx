@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useUpdateReviewStatus } from "@/hooks/useOrders";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { successAlert, errorAlert } from "@/lib/alert";
@@ -114,6 +114,7 @@ export default function ReviewViewDialog({
             <CardContent className="">
               <div className="flex items-start gap-4">
                 <Avatar className="h-12 w-12 ring-2 ring-gray-100">
+                  <AvatarImage src={review.userId?.image} />
                   <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 text-gray-700 font-semibold">
                     {review.userId?.name?.substring(0, 2).toUpperCase() || "U"}
                   </AvatarFallback>

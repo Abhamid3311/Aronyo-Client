@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,41 +16,51 @@ interface ReviewSectionProps {
   isReviewed?: boolean;
 }
 
+interface ReviewFormValues {
+  comment: string;
+  rating: number;
+}
+
 export default function ReviewSection({
   orderId,
   isDelivered,
   isReviewed,
 }: ReviewSectionProps) {
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-
   const { mutate: addReview, isPending: isAdding } = useCreateReview();
 
-  // --- useCallback for handleSave ---
-  const handleSave = useCallback(() => {
-    if (!review.trim()) {
-      errorAlert("Please write a review before saving.");
-      return;
-    }
-    if (rating === 0) {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<ReviewFormValues>({
+    defaultValues: { comment: "", rating: 0 },
+  });
+
+  const rating = watch("rating");
+
+  const onSubmit = (data: ReviewFormValues) => {
+    if (data.rating === 0) {
       errorAlert("Please select a rating before saving.");
       return;
     }
 
-    const payload = { orderId, comment: review, rating };
+    const payload = { orderId, comment: data.comment, rating: data.rating };
 
     addReview(payload, {
       onSuccess: () => {
         successAlert("Review submitted successfully!");
         setSubmitted(true);
+        reset();
       },
       onError: (err: any) => {
+        console.log(err);
         errorAlert(err?.message || "Failed to submit review.");
       },
     });
-  }, [review, rating, orderId, addReview]);
+  };
 
   if (!isDelivered) return null;
 
@@ -67,34 +78,47 @@ export default function ReviewSection({
             🎉 Thanks for your review & rating!
           </div>
         ) : (
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Rating */}
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  className={`w-6 h-6 cursor-pointer ${
-                    (hoverRating || rating) >= star
-                      ? "text-yellow-400 fill-yellow-400"
-                      : "text-gray-300"
-                  }`}
-                  onMouseEnter={() => setHoverRating(star)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  onClick={() => setRating(star)}
-                />
-              ))}
-            </div>
-
-            {/* Review Input */}
-            <Textarea
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-              placeholder="Write your review here..."
-              className="min-h-[100px]"
+            <Controller
+              name="rating"
+              control={control}
+              render={({ field }) => (
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className={`w-6 h-6 cursor-pointer ${
+                        (rating || 0) >= star
+                          ? "text-yellow-400 fill-yellow-400"
+                          : "text-gray-300"
+                      }`}
+                      onClick={() => field.onChange(star)}
+                    />
+                  ))}
+                </div>
+              )}
             />
 
-            {/* Save Button */}
-            <Button onClick={handleSave} disabled={isAdding}>
+            {/* Review Textarea */}
+            <Controller
+              name="comment"
+              control={control}
+              rules={{ required: "Please write a review before submitting." }}
+              render={({ field }) => (
+                <Textarea
+                  {...field}
+                  placeholder="Write your review here..."
+                  className="min-h-[100px]"
+                />
+              )}
+            />
+            {errors.comment && (
+              <p className="text-red-500 text-sm">{errors.comment.message}</p>
+            )}
+
+            {/* Submit Button */}
+            <Button type="submit" disabled={isAdding}>
               {isAdding ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
@@ -107,7 +131,7 @@ export default function ReviewSection({
                 </>
               )}
             </Button>
-          </div>
+          </form>
         )}
       </CardContent>
     </Card>

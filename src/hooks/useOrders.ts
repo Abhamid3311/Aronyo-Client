@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { IOrder, IReview } from "@/lib/types";
+import { IOrder } from "@/lib/types";
 import {
   createOrder,
   getMyOrders,
@@ -9,11 +9,8 @@ import {
   cancelOrder,
   getSingleOrder,
   createReview,
-  getSingleReview,
-  updateReview,
   deleteReview,
   updateReviewStatus,
-  getActiveReviews,
   getAllReviewsAdmin,
 } from "@/lib/services/Order/orderApis";
 
@@ -89,44 +86,12 @@ export const useCancelOrder = () => {
 
 /******************* Review Hooks ************************/
 
-// Get single review
-export const useSingleReview = (reviewId: string) => {
-  return useQuery({
-    queryKey: ["review", reviewId],
-    queryFn: () => getSingleReview(reviewId),
-    enabled: !!reviewId,
-  });
-};
-
 // Create review
 export const useCreateReview = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createReview,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["activeReviews"] });
-      queryClient.invalidateQueries({ queryKey: ["myOrders"] });
-      queryClient.invalidateQueries({ queryKey: ["review"] });
-      queryClient.invalidateQueries({ queryKey: ["allReviews"] });
-    },
-  });
-};
-
-// Update review
-export const useUpdateReview = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({
-      reviewId,
-      data,
-    }: {
-      reviewId: string;
-      data: Partial<IReview>;
-    }) => updateReview(reviewId, data),
-    onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ["review", variables.reviewId],
-      });
       queryClient.invalidateQueries({ queryKey: ["activeReviews"] });
       queryClient.invalidateQueries({ queryKey: ["myOrders"] });
       queryClient.invalidateQueries({ queryKey: ["review"] });
@@ -163,14 +128,6 @@ export const useUpdateReviewStatus = () => {
       queryClient.invalidateQueries({ queryKey: ["allReviews"] });
       queryClient.invalidateQueries({ queryKey: ["activeReviews"] });
     },
-  });
-};
-
-// Get active reviews (Public)
-export const useActiveReviews = () => {
-  return useQuery({
-    queryKey: ["activeReviews"],
-    queryFn: () => getActiveReviews(),
   });
 };
 

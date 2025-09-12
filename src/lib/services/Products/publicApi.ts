@@ -69,6 +69,15 @@ export async function getBlogById(id: string) {
   return result.data;
 }
 
+// Get Active Reviews
+export async function getActiveReviews() {
+  const res = await fetch(`${BASE_API_URL}/review/active-reviews`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Failed to fetch Reviews");
+  return res.json();
+}
+
 // Get Current Logedin User From Cookie for middleware
 export const getLoggedInUser = async () => {
   const refreshToken = (await cookies()).get("refreshToken")?.value;

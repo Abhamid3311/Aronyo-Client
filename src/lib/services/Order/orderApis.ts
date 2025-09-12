@@ -53,21 +53,6 @@ export const createReview = async (data: Partial<IReview>) => {
   return res.data.data;
 };
 
-// GET single review by ID (User)
-export const getSingleReview = async (reviewId: string): Promise<IReview> => {
-  const res = await axiosInstance.get(`/review/view-review/${reviewId}`);
-  return res.data.data;
-};
-
-// UPDATE review (User)
-export const updateReview = async (
-  reviewId: string,
-  data: Partial<IReview>
-): Promise<IReview> => {
-  const res = await axiosInstance.put(`/review/edit-review/${reviewId}`, data);
-  return res.data.data;
-};
-
 // DELETE review (User)
 export const deleteReview = async (reviewId: string) => {
   const res = await axiosInstance.delete(`/review/delete-review/${reviewId}`);
@@ -82,12 +67,6 @@ export const updateReviewStatus = async (
   const res = await axiosInstance.put(`/review/update-status/${reviewId}`, {
     isActive,
   });
-  return res.data.data;
-};
-
-// GET random active reviews (Public)
-export const getActiveReviews = async (): Promise<IReview[]> => {
-  const res = await axiosInstance.get(`/review/active-reviews`);
   return res.data.data;
 };
 

@@ -230,11 +230,12 @@ export type OrderStatus =
 type userInfo = {
   name: string;
   email: string;
+  image: string;
 };
 
 export interface IReview {
   _id: string;
-  userId?: userInfo;
+  userId?: string | userInfo;
   orderId?: string;
   rating: number;
   comment: string;
