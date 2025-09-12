@@ -74,8 +74,8 @@ const PlantReviewCarousel: React.FC<PlantReviewCarouselProps> = ({
                         <div className="flex justify-center mb-4">
                           <div className="relative">
                             <Image
-                              src={review.userId?.image}
-                              alt={review.userId?.name}
+                              src={review.userId!.image}
+                              alt={review.userId!.name}
                               width={80}
                               height={80}
                               className="w-20 h-20 rounded-full object-cover border-4 border-green-100 group-hover:border-green-200 transition-colors duration-300"

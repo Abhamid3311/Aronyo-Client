@@ -235,7 +235,7 @@ type userInfo = {
 
 export interface IReview {
   _id: string;
-  userId?: string | userInfo;
+  userId?: userInfo;
   orderId?: string;
   rating: number;
   comment: string;
