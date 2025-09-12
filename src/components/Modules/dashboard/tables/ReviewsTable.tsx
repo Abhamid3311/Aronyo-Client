@@ -17,11 +17,11 @@ export function ReviewsTableAdmin() {
   const deleteMutation = useDeleteReview();
 
   const [viewOpen, setViewOpen] = useState(false);
-  const [selectedReview, setSelectedReview] = useState<string | null>(null);
+  const [selectedReview, setSelectedReview] = useState<IReview | null>(null);
 
   if (isLoading) return <DashboardSkeleton />;
 
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<IReview>[] = [
     {
       accessorKey: "userId.name",
       header: "User Name",
