@@ -227,13 +227,18 @@ export type OrderStatus =
   | "delivered"
   | "cancelled";
 
+type userInfo = {
+  name: string;
+  email: string;
+};
+
 export interface IReview {
-  _id?: string;
-  userId?: string;
+  _id: string;
+  userId?: userInfo;
   orderId?: string;
   rating: number;
   comment: string;
-  isActive?: boolean;
+  isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

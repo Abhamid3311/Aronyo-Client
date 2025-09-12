@@ -71,10 +71,10 @@ export async function getBlogById(id: string) {
 
 // Get Current Logedin User From Cookie for middleware
 export const getLoggedInUser = async () => {
-  const accesstoken = (await cookies()).get("accessToken")?.value;
+  const refreshToken = (await cookies()).get("refreshToken")?.value;
   let decodeData = null;
-  if (accesstoken) {
-    decodeData = await jwtDecode(accesstoken);
+  if (refreshToken) {
+    decodeData = await jwtDecode(refreshToken);
     return decodeData;
   } else {
     return null;
