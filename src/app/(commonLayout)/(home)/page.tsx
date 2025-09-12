@@ -5,6 +5,7 @@ import NewArrivals from "@/components/Modules/Home/NewArrivals";
 import PopularPlants from "@/components/Modules/Home/PopularPlants";
 import Category from "@/components/Modules/Home/Category";
 import {
+  getActiveReviews,
   getBlogsWithFilters,
   getCategories,
   getProductsWithFilters,
@@ -15,13 +16,14 @@ import { Suspense } from "react";
 import PlantReviewSlider from "@/components/Modules/Home/Reviews";
 
 export default async function Home() {
-  const [categories, popularPro, largePlant, newArrival, blogs] =
+  const [categories, popularPro, largePlant, newArrival, blogs, userReviews] =
     await Promise.all([
       getCategories(),
       getProductsWithFilters(),
       getProductsWithFilters({ category: "large-plants" }),
       getProductsWithFilters({ tag: "new-arrivals" }),
       getBlogsWithFilters(),
+      getActiveReviews(),
     ]);
 
   // console.log(popularPro);
@@ -52,7 +54,7 @@ export default async function Home() {
         <BlogSec blogs={blogs.data} />
       </Suspense>
 
-      <PlantReviewSlider className="bg-secondaryBG " />
+      <PlantReviewSlider className="bg-secondaryBG " reviews={userReviews.data} />
     </div>
   );
 }
