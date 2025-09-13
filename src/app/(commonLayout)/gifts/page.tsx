@@ -6,8 +6,10 @@ import React, { Suspense } from "react";
 
 const Gifts = async () => {
   const [giftProducts] = await Promise.all([
-    getProductsWithFilters({ tag: "gift" }),
+    getProductsWithFilters({ tags: "gift" }),
   ]);
+
+
   return (
     <div className="min-h-screen custom-container">
       <PageHeader

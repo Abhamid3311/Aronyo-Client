@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 
 // Get All Categories for User
-
 export async function getCategories() {
   const res = await fetch(`${BASE_API_URL}/category`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch categories");
