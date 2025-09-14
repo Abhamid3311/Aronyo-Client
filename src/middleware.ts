@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLoggedInUser } from "./lib/services/Products/publicApi";
-import { jwtDecode } from "jwt-decode";
+import * as jose from "jose";
 
 // Role Type
 type Role = keyof typeof roleBasedRoutes;
@@ -31,12 +31,12 @@ export const middleware = async (request: NextRequest) => {
 
   // const userInfo = await getLoggedInUser();
   const refreshToken = request.cookies.get("refreshToken")?.value;
+
   let userInfo = null;
 
   if (refreshToken) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      userInfo = jwtDecode(refreshToken) as any;
+      userInfo = jose.decodeJwt(refreshToken);
       console.log("User info:", userInfo);
     } catch (error) {
       console.log("Token decode error:", error);
