@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getLoggedInUser } from "./lib/services/Products/publicApi";
-import * as jose from "jose";
+import { jwtDecode } from "jwt-decode";
 
 // Role Type
 type Role = keyof typeof roleBasedRoutes;
@@ -28,19 +27,17 @@ export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
   // Get User Info
+  const token = request.cookies.get("refreshToken")?.value;
+  let userInfo = null; // ✅ Declare outside the if block
 
-  // const userInfo = await getLoggedInUser();
-  const refreshToken = request.cookies.get("refreshToken")?.value;
-  console.log(refreshToken);
-
-  let userInfo = null;
-
-  if (refreshToken) {
+  if (token) {
     try {
-      userInfo = jose.decodeJwt(refreshToken);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      userInfo = jwtDecode(token) as any; // ✅ Cast to any for role access
       console.log("User info:", userInfo);
     } catch (error) {
-      console.log("Token decode error:", error);
+      console.log("Invalid token:", error);
+      userInfo = null; // ✅ Explicitly set to null on error
     }
   }
 
@@ -62,10 +59,11 @@ export const middleware = async (request: NextRequest) => {
   }
 
   // Check Role
-  if (userInfo?.role && roleBasedRoutes[userInfo?.role as Role]) {
-    const routes = roleBasedRoutes[userInfo?.role as Role];
-    if (routes.some((route) => pathname.match(route)))
+  if (userInfo?.role && roleBasedRoutes[userInfo.role as Role]) {
+    const routes = roleBasedRoutes[userInfo.role as Role];
+    if (routes.some((route) => pathname.match(route))) {
       return NextResponse.next();
+    }
   }
 
   return NextResponse.redirect(new URL("/", request.url));
