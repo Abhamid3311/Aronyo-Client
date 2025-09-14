@@ -31,6 +31,7 @@ export const middleware = async (request: NextRequest) => {
 
   // const userInfo = await getLoggedInUser();
   const refreshToken = request.cookies.get("refreshToken")?.value;
+  console.log(refreshToken);
 
   let userInfo = null;
 
