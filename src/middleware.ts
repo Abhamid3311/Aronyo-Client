@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLoggedInUser } from "./lib/services/Products/publicApi";
+import { jwtDecode } from "jwt-decode";
 
 // Role Type
 type Role = keyof typeof roleBasedRoutes;
@@ -25,9 +26,22 @@ const roleBasedRoutes = {
 export const middleware = async (request: NextRequest) => {
   // Get Path Name
   const { pathname } = request.nextUrl;
+
   // Get User Info
-  const userInfo = await getLoggedInUser();
-  console.log(userInfo);
+
+  // const userInfo = await getLoggedInUser();
+  const refreshToken = request.cookies.get("refreshToken")?.value;
+  let userInfo = null;
+
+  if (refreshToken) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      userInfo = jwtDecode(refreshToken) as any;
+      console.log("User info:", userInfo);
+    } catch (error) {
+      console.log("Token decode error:", error);
+    }
+  }
 
   // Check Path and User Info
   if (!userInfo) {
