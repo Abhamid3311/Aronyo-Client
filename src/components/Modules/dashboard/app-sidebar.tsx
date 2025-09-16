@@ -20,10 +20,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   // build sidebar items based on role
   let navMain = [...roleMenus.common];
+  if (user?.role === "admin") navMain = [...navMain, ...roleMenus.admin];
   if (user?.role === "user") navMain = [...navMain, ...roleMenus.user];
   if (user?.role === "staff" || user?.role === "admin")
     navMain = [...navMain, ...roleMenus.staffAdmin];
-  if (user?.role === "admin") navMain = [...navMain, ...roleMenus.admin];
 
   return (
     <Sidebar collapsible="icon" {...props}>
