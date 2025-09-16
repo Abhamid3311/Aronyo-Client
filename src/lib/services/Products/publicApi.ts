@@ -80,7 +80,9 @@ export async function getActiveReviews() {
 // Get Current Logedin User From Cookie for middleware
 export const getLoggedInUser = async () => {
   const refreshToken = (await cookies()).get("refreshToken")?.value;
+
   let decodeData = null;
+  
   if (refreshToken) {
     decodeData = await jwtDecode(refreshToken);
     return decodeData;

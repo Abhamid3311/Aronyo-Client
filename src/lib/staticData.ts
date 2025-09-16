@@ -172,11 +172,6 @@ export const roleMenus = {
 
   staffAdmin: [
     {
-      title: "Overview",
-      url: "/dashboard/admin/overview",
-      icon: SquareTerminal,
-    },
-    {
       title: "Product Management",
       url: "/dashboard/admin/product-managment",
       icon: Boxes,
@@ -194,6 +189,11 @@ export const roleMenus = {
     },
   ],
   admin: [
+    {
+      title: "Overview",
+      url: "/dashboard/admin/overview",
+      icon: SquareTerminal,
+    },
     {
       title: "Category Management",
       url: "/dashboard/admin/category-managment",

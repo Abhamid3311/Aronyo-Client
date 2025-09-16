@@ -1,94 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtDecode } from "jwt-decode";
 
-// Role Type
-type Role = keyof typeof roleBasedRoutes;
-
-// Routes that don't require authentication
-const authRoutes = ["/login", "/register"];
-
-// Role-based protected routes
+// Define role-based allowed routes (matching your roleMenus)
 const roleBasedRoutes = {
-  user: [/^\/dashboard/, /^\/order-history/, /^\/cart/, /^\/wishlist/],
-  staff: [/^\/dashboard/],
-  admin: [/^\/dashboard/, /^\/order-history/],
+  user: [
+    /^\/dashboard$/, // Profile (common)
+    /^\/dashboard\/order-history/,
+    /^\/dashboard\/cart/,
+    /^\/dashboard\/wishlist/,
+    "/cart",
+    "/wishlist",
+  ],
+  staff: [
+    /^\/dashboard$/, // Profile (common)
+    /^\/dashboard\/order-history/,
+    /^\/dashboard\/cart/,
+    /^\/dashboard\/wishlist/,
+    /^\/dashboard\/admin\/product-managment/,
+    /^\/dashboard\/admin\/order-managment/,
+    /^\/dashboard\/admin\/blog-managment/,
+    "/cart",
+    "/wishlist",
+  ],
+  admin: [/.*/], // admin can access everything
 };
 
-export const middleware = async (request: NextRequest) => {
+// Public routes (no login required)
+const publicRoutes = ["/login", "/register"];
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log("=== Middleware Debug ===");
-  console.log("Pathname:", pathname);
-
-  // Skip middleware for auth routes
-  if (authRoutes.includes(pathname)) {
-    console.log("Auth route, allowing access");
+  // ✅ Allow public routes
+  if (publicRoutes.includes(pathname)) {
     return NextResponse.next();
   }
 
-  // Get token and user info
+  // ✅ Get token from cookies
   const token = request.cookies.get("refreshToken")?.value;
-  console.log("Token exists:", !!token);
-
-  let userInfo = null;
-
-  if (token) {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      userInfo = jwtDecode(token) as any;
-      console.log("User info:", userInfo);
-
-      // Check if token is expired
-      const currentTime = Date.now() / 1000;
-      if (userInfo.exp && userInfo.exp < currentTime) {
-        console.log("Token expired");
-        userInfo = null;
-      }
-    } catch (error) {
-      console.log("Invalid token:", error);
-      userInfo = null;
-    }
-  }
-
-  // If no valid user info, redirect to login
-  if (!userInfo) {
-    console.log("No valid user info, redirecting to login");
+  if (!token) {
     return NextResponse.redirect(
       new URL(`/login?redirectPath=${pathname}`, request.url)
     );
   }
 
-  // Check if user has access to the requested route
-  const userRole = userInfo.role as Role;
-  console.log("User role:", userRole);
-
-  if (userRole && roleBasedRoutes[userRole]) {
-    const allowedRoutes = roleBasedRoutes[userRole];
-    const hasAccess = allowedRoutes.some((route) => pathname.match(route));
-
-    console.log("Has access:", hasAccess);
-
-    if (hasAccess) {
-      console.log("Access granted, proceeding");
-      return NextResponse.next();
-    }
+  // ✅ Decode token
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let userInfo: any = null;
+  try {
+    userInfo = jwtDecode(token);
+  } catch {
+    return NextResponse.redirect(
+      new URL(`/login?redirectPath=${pathname}`, request.url)
+    );
   }
 
-  // If no access, redirect to home
-  console.log("No access, redirecting to home");
-  return NextResponse.redirect(new URL("/", request.url));
-};
+  if (!userInfo?.role) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
+  const role = userInfo.role as keyof typeof roleBasedRoutes;
+
+  // ✅ Admin = full access
+  if (role === "admin") {
+    return NextResponse.next();
+  }
+
+  // ✅ Check allowed routes for user/staff
+  const allowedRoutes = roleBasedRoutes[role] || [];
+  if (allowedRoutes.some((route) => pathname.match(route))) {
+    return NextResponse.next();
+  }
+
+  // ❌ Unauthorized → home
+  return NextResponse.redirect(new URL("/", request.url));
+}
+
+// ✅ Protect only required routes
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public files
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|public).*)",
-  ],
+  matcher: ["/login", "/register", "/dashboard/:path*", "/cart", "/wishlist"],
 };
