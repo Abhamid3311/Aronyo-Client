@@ -32,19 +32,18 @@ export async function middleware(request: NextRequest) {
   // ✅ Get token from cookies
   const token = cookieStore.get("refreshToken")?.value;
 
-  console.log({ token });
+  console.log("Token: ", { token });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let userInfo: any = null;
   if (token) {
     try {
       userInfo = jwtDecode(token);
+      console.log("UserInfo: ", { userInfo });
     } catch {
       userInfo = null;
     }
   }
-
-  console.log({ userInfo });
 
   //  Redirect logged-in users away from public routes
   if (publicRoutes.includes(pathname) && userInfo?.role) {
