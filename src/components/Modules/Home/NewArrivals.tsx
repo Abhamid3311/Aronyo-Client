@@ -8,7 +8,7 @@ const NewArrivals: React.FC<ProductsProps> = ({ popProducts }) => {
     <div className="py-10 custom-container my-10 px-5">
       <Headlines
         title={"New Arrivals"}
-        link={"#"}
+        link={"/new-arrivals"}
         buttonText={"Shop all New Arrivals"}
       />
 

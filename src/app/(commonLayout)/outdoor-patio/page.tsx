@@ -4,8 +4,8 @@ import { getProductsWithFilters } from "@/lib/services/Products/publicApi";
 import React from "react";
 
 const Outdoors = async () => {
-  const [largePlant, outdoorPlant, flower] = await Promise.all([
-    getProductsWithFilters({ category: "large-plants" }),
+  const [bonsaiPlant, outdoorPlant, flower] = await Promise.all([
+    getProductsWithFilters({ category: "bonsai-miniatures" }),
     getProductsWithFilters({ category: "outdoor-plants" }),
     getProductsWithFilters({ category: "flowering-plants" }),
   ]);
@@ -19,21 +19,21 @@ const Outdoors = async () => {
 
       <ProductSection
         title="Fruit Trees & Berry Bushes"
-        link="#"
+        link="/outdoor-patio/outdoor-plants"
         buttonText="Shop all Fruit"
         products={outdoorPlant.data}
       />
 
       <ProductSection
-        title="Patio Plants"
-        link="#"
-        buttonText="Shop all Indoor Plants"
-        products={largePlant.data}
+        title="Bonsai & Miniatures"
+        link="/outdoor-patio/bonsai-miniatures"
+        buttonText="Shop all Bonsai"
+        products={bonsaiPlant.data}
       />
 
       <ProductSection
         title="Flowering Trees & Shrubs"
-        link="#"
+        link="/outdoor-patio/flowering-plants"
         buttonText="Shop all Flowering Plants"
         products={flower.data}
       />

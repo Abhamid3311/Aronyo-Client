@@ -94,7 +94,7 @@ const OrchidProducts = async () => {
       <div className="py-10">
         <h1 className="px-5 text-textClr">Hand Selected Orchids</h1>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 lg:gap-5 my-5 px-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5 my-5 px-5">
           {orchids.data.map((item: IProduct) => (
             <ProductCard key={item._id} product={item} />
           ))}

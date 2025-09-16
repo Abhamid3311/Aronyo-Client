@@ -22,42 +22,42 @@ const HousePlants = async () => {
 
       <ProductSection
         title="Most Popular"
-        link="#"
+        link="/all-plants"
         buttonText="Shop all best sellers"
         products={popularPro.data}
       />
 
       <ProductSection
         title="Air Purifying Plants"
-        link="#"
+        link="/house-plants/air-purifying-plants"
         buttonText="Shop all Air Purifying Plants"
         products={airPurify.data}
       />
 
       <ProductSection
         title="Easy To Care Plants"
-        link="#"
+        link="/house-plants/easy-care-plants"
         buttonText="Shop all easy Care"
         products={easyCare.data}
       />
 
       <ProductSection
         title="Pet-Friendly Picks"
-        link="#"
+        link="/house-plants/pet-friendly-plants"
         buttonText="Shop all Pet-Friendly"
         products={petFriendly.data}
       />
 
       <ProductSection
         title="Indoor Plants"
-        link="#"
+        link="/house-plants/indoor-plants"
         buttonText="Shop all Indoor Plants"
         products={indoorPlant.data}
       />
 
       <ProductSection
         title="Low-light Plants"
-        link="#"
+        link="/house-plants/low-light-plants"
         buttonText="Shop all low-light Plants"
         products={lowLight.data}
       />
