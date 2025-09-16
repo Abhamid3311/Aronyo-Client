@@ -4,13 +4,14 @@ import { useState } from "react";
 import { ShoppingCart, Plus, Minus } from "lucide-react";
 import { useCart } from "@/Context/CartContext";
 import { IProduct } from "@/lib/types";
+import Link from "next/link";
 
 interface ProductActionsProps {
   product: IProduct;
 }
 
 export default function ProductActions({ product }: ProductActionsProps) {
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
   const [quantity, setQuantity] = useState(1);
 
   const increase = () => {
@@ -27,6 +28,11 @@ export default function ProductActions({ product }: ProductActionsProps) {
 
   const handleAddToCart = () => {
     addToCart(product._id!, quantity);
+    setQuantity(1);
+  };
+
+  const handleBuyNow = () => {
+    buyNow(product._id!, quantity);
     setQuantity(1);
   };
 
@@ -56,13 +62,16 @@ export default function ProductActions({ product }: ProductActionsProps) {
 
       {/* Action Buttons */}
       <div className="flex space-x-4">
-        <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700">
+        <button
+          onClick={handleBuyNow}
+          className="flex-1 bg-primaryGreen text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 cursor-pointer"
+        >
           Buy Now
         </button>
 
         <button
           onClick={handleAddToCart}
-          className="flex-1 border-2 border-green-600 text-green-600 py-3 px-6 rounded-lg font-medium hover:bg-green-50 flex items-center justify-center space-x-2"
+          className="flex-1 border-2 border-green-600 text-green-600 py-3 px-6 rounded-lg font-medium hover:bg-green-50 flex items-center justify-center space-x-2 cursor-pointer"
         >
           <ShoppingCart className="w-5 h-5" />
           <span>Add to Cart</span>

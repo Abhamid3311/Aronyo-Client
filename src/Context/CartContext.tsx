@@ -12,6 +12,7 @@ import {
 import { IProduct, CartItem, ICart } from "@/lib/types";
 import { errorAlert, successAlert } from "@/lib/alert";
 import { useAuth } from "./AuthContext";
+import { useRouter } from "next/navigation";
 
 interface CartContextType {
   cart: CartItem[];
@@ -19,7 +20,8 @@ interface CartContextType {
   addToCart: (productId: string, quantity?: number) => Promise<void>;
   removeFromCart: (productId: string | IProduct) => Promise<void>;
   updateQuantity: (productId: string | IProduct, quantity: number) => void;
-  clearCart: () => Promise<void>; // ✅ new
+  clearCart: () => Promise<void>;
+  buyNow: (productId: string, quantity?: number) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -28,6 +30,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const { get, post, delete: del, put } = useAxios();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const { isAuthenticated, loading: authLoading } = useAuth();
   const quantityTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
@@ -108,7 +111,47 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       await refreshCart();
     } catch (err) {
       setCart(previousCart); // rollback
-      console.error("❌ Add to cart failed:", err);
+      console.error(" Add to cart failed:", err);
+      errorAlert("Item add failed!");
+    }
+  };
+
+  // Buy Now
+  const buyNow = async (productId: string, quantity: number = 1) => {
+    if (!isAuthenticated) {
+      errorAlert("Please log in to buy now!");
+      return;
+    }
+
+    const previousCart = [...cart];
+    const id = getProductId(productId);
+
+    const existingItem = cart.find(
+      (item) => getProductId(item.productId) === id
+    );
+
+    if (existingItem) {
+      setCart((prev) =>
+        prev.map((item) =>
+          getProductId(item.productId) === id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        )
+      );
+    } else {
+      setCart((prev) => [
+        ...prev,
+        { productId: { _id: id }, quantity } as CartItem,
+      ]);
+    }
+
+    try {
+      await post("/cart/add", { productId: id, quantity });
+      router.push("/checkout");
+      await refreshCart();
+    } catch (err) {
+      setCart(previousCart); // rollback
+      console.error(" Add to cart failed:", err);
       errorAlert("Item add failed!");
     }
   };
@@ -183,6 +226,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         removeFromCart,
         updateQuantity,
         clearCart,
+        buyNow,
       }}
     >
       {children}

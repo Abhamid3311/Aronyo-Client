@@ -29,7 +29,7 @@ export default function WishlistCard({
             className="w-16 h-16 object-cover rounded-lg"
           />
           <div>
-            <Link href={`/all-plants/${product._id}`}>
+            <Link href={`/all-plants/${product.slug}`}>
               {" "}
               <h3 className="font-semibold hover:text-primaryGreen hover:underline">{product.title}</h3>
             </Link>

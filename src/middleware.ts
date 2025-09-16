@@ -8,8 +8,6 @@ const roleBasedRoutes = {
     /^\/dashboard\/order-history/,
     /^\/dashboard\/cart/,
     /^\/dashboard\/wishlist/,
-    "/cart",
-    "/wishlist",
   ],
   staff: [
     /^\/dashboard$/, // Profile (common)
@@ -19,8 +17,6 @@ const roleBasedRoutes = {
     /^\/dashboard\/admin\/product-managment/,
     /^\/dashboard\/admin\/order-managment/,
     /^\/dashboard\/admin\/blog-managment/,
-    "/cart",
-    "/wishlist",
   ],
   admin: [/.*/], // admin can access everything
 };
@@ -38,6 +34,7 @@ export async function middleware(request: NextRequest) {
 
   // ✅ Get token from cookies
   const token = request.cookies.get("refreshToken")?.value;
+  console.log(token);
   if (!token) {
     return NextResponse.redirect(
       new URL(`/login?redirectPath=${pathname}`, request.url)
@@ -49,6 +46,7 @@ export async function middleware(request: NextRequest) {
   let userInfo: any = null;
   try {
     userInfo = jwtDecode(token);
+    console.log(userInfo);
   } catch {
     return NextResponse.redirect(
       new URL(`/login?redirectPath=${pathname}`, request.url)
@@ -78,5 +76,5 @@ export async function middleware(request: NextRequest) {
 
 // ✅ Protect only required routes
 export const config = {
-  matcher: ["/login", "/register", "/dashboard/:path*", "/cart", "/wishlist"],
+  matcher: ["/login", "/register", "/dashboard/:path*"],
 };
