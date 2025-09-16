@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
 
 // Define role-based allowed routes
 const roleBasedRoutes = {
@@ -26,11 +27,12 @@ const publicRoutes = ["/login", "/register"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const cookieStore = await cookies();
 
   // ✅ Get token from cookies
-  const token = request.cookies.get("refreshToken")?.value;
+  const token = cookieStore.get("refreshToken")?.value;
 
-  console.log({token})
+  console.log({ token });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let userInfo: any = null;
@@ -42,8 +44,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  console.log({userInfo})
-  
+  console.log({ userInfo });
+
   //  Redirect logged-in users away from public routes
   if (publicRoutes.includes(pathname) && userInfo?.role) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
@@ -53,7 +55,6 @@ export async function middleware(request: NextRequest) {
   if (publicRoutes.includes(pathname) && !userInfo) {
     return NextResponse.next();
   }
-
 
   //  Not logged in → redirect to login
   if (!userInfo?.role) {
