@@ -12,6 +12,7 @@ import FilterDrawer from "./FilterDrawer";
 import SortSelect from "./SortSelect";
 import ProductGrid from "./ProductGrid";
 import { PRODUCT_SIZES, PRODUCT_TAGS } from "@/lib/staticData";
+import ProductsSkeleton from "../skeletons/ProductGridSkeleton";
 
 interface ProductExplorerProps {
   initialData: {
@@ -70,9 +71,8 @@ export default function ProductExplorer({
   useEffect(() => {
     const loadFilterOptions = async () => {
       try {
-        console.log("Loading filter options...");
         const filterData = await getFilterOptions();
-        console.log("Filter options loaded:", filterData);
+        // console.log("Filter options loaded:", filterData);
 
         // Handle different possible response structures
         if (filterData.data) {
@@ -183,16 +183,7 @@ export default function ProductExplorer({
 
   // Show loading state while filter options are being loaded
   if (!filterOptionsLoaded) {
-    return (
-      <div className="custom-container">
-        <div className="flex justify-center items-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-2"></div>
-            <p>Loading filters...</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <ProductsSkeleton />;
   }
 
   return (
