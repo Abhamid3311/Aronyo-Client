@@ -28,16 +28,16 @@ export const middleware = async (request: NextRequest) => {
 
   // Get User Info
   const token = request.cookies.get("refreshToken")?.value;
-  let userInfo = null; // ✅ Declare outside the if block
+  let userInfo = null;
 
   if (token) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      userInfo = jwtDecode(token) as any; // ✅ Cast to any for role access
+      userInfo = jwtDecode(token) as any;
       console.log("User info:", userInfo);
     } catch (error) {
       console.log("Invalid token:", error);
-      userInfo = null; // ✅ Explicitly set to null on error
+      userInfo = null;
     }
   }
 

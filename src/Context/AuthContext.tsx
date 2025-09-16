@@ -18,7 +18,6 @@ interface AuthContextType {
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   loading: boolean;
   isAuthenticated: boolean;
-  hydrated: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
   logout: () => Promise<void>;
@@ -30,25 +29,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [hydrated, setHydrated] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const initAuth = async () => {
-      setLoading(true);
       try {
         const refreshed = await refreshAccessToken(); // returns boolean
         if (refreshed) {
           const userData = await getCurrentUser();
           setUser(userData);
         } else {
-          setUser(null); // no valid token
+          setUser(null);
         }
-      } catch (err) {
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
-        setHydrated(true); // ✅ must set hydrated
       }
     };
     initAuth();
@@ -59,8 +55,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       const res = await apiLogin(credentials);
       setUser(res.data.user);
-      router.push("/dashboard");
       successAlert("Login successfully!");
+      router.push("/dashboard");
     } catch (err: any) {
       setUser(null);
       errorAlert(err.message || "Login failed!");
@@ -75,7 +71,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       const res = await apiRegister(credentials);
       setUser(res.data.user);
-      console.log(res.data.user);
       successAlert("Registered successfully!");
       router.push("/dashboard");
     } catch (err: any) {
@@ -89,19 +84,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     const confirmed = await confirmAlert("Are you sure you want to logout?");
+    if (!confirmed) return;
 
-    if (!confirmed) {
-      return;
-    }
-
-    setLoading(true);
     try {
+      setLoading(true);
       await apiLogout();
       setUser(null);
       successAlert("Logged out successfully!");
       router.push("/login");
-    } catch (err) {
-      console.error(err);
+    } catch {
       setUser(null);
       router.push("/login");
     } finally {
@@ -113,7 +104,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const userData = await getCurrentUser();
       setUser(userData);
-    } catch (err) {
+    } catch {
       setUser(null);
     }
   };
@@ -123,24 +114,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser,
     loading,
     isAuthenticated: !!user,
-    hydrated,
     login,
     register,
     logout,
     refreshUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {hydrated ? (
-        children
-      ) : (
-        <div className="flex h-screen items-center justify-center">
-          Loading...
-        </div>
-      )}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
@@ -148,8 +128,3 @@ export const useAuth = () => {
   if (!context) throw new Error("useAuth must be used within AuthProvider");
   return context;
 };
-
-/* Credential:
-Admin: admin@gmail.com | pass: 123456
-Staff: staff@gmail.com | pass: staff123
-User: user@gmail.com || pass: user123 */
