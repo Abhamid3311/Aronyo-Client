@@ -16,12 +16,18 @@ const nextConfig: NextConfig = {
         hostname: "i.ibb.co.com", // Corrected hostname
         pathname: "/**", // Allows all paths under ibb.co
       },
-      {
-        protocol: "https",
-        hostname: "cdn.example.com",
-        pathname: "/images/**",
-      },
     ],
+  },
+  async rewrites() {
+    if (process.env.NODE_ENV === "production") {
+      return [
+        {
+          source: "/api/v1/:path*",
+          destination: "https://aronyo-backend.onrender.com/api/v1/:path*",
+        },
+      ];
+    }
+    return [];
   },
 };
 
