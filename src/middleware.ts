@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 
 // Define role-based allowed routes
@@ -30,39 +29,28 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
 
   // ✅ Get token from cookies
-  const token = cookieStore.get("refreshToken")?.value;
+  const getUserRole = cookieStore.get("aronyo_role")?.value;
 
-  console.log("Token: ", { token });
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let userInfo: any = null;
-  if (token) {
-    try {
-      userInfo = jwtDecode(token);
-      console.log("UserInfo: ", { userInfo });
-    } catch {
-      userInfo = null;
-    }
-  }
+  console.log("getUser: ", { getUserRole });
 
   //  Redirect logged-in users away from public routes
-  if (publicRoutes.includes(pathname) && userInfo?.role) {
+  if (publicRoutes.includes(pathname) && getUserRole) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   //  Allow public routes if not logged in
-  if (publicRoutes.includes(pathname) && !userInfo) {
+  if (publicRoutes.includes(pathname) && !getUserRole) {
     return NextResponse.next();
   }
 
   //  Not logged in → redirect to login
-  if (!userInfo?.role) {
+  if (!getUserRole) {
     return NextResponse.redirect(
       new URL(`/login?redirectPath=${pathname}`, request.url)
     );
   }
 
-  const role = userInfo.role as keyof typeof roleBasedRoutes;
+  const role = getUserRole as keyof typeof roleBasedRoutes;
 
   //  Admin = full access
   if (role === "admin") {
