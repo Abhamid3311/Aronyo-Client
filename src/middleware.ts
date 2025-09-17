@@ -28,11 +28,13 @@ const publicRoutes = ["/login", "/register"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  console.log("Req",request);
+
   //  Get token from cookies
   // const getUserRole = request.cookies.get("aronyo_role")?.value;
-  const getUserRole = await getLoggedInUser()
+  const getUserRole = await getLoggedInUser();
 
-  console.log("getUser: ", { getUserRole });
+  // console.log("getUser: ", { getUserRole });
 
   //  Redirect logged-in users away from public routes
   if (publicRoutes.includes(pathname) && getUserRole) {
