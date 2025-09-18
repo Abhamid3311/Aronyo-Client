@@ -10,7 +10,7 @@ import {
 import { cookies } from "next/headers";
 
 // Login
-/* export const login = async (
+export const login = async (
   credentials: LoginCredentials
 ): Promise<AuthResponse> => {
   const response = await axiosInstance.post("/auth/login", credentials, {
@@ -18,7 +18,7 @@ import { cookies } from "next/headers";
   });
   return response.data; // backend sets access + refresh cookies
 };
- */
+
 
 
 

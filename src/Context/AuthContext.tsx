@@ -5,14 +5,14 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IUser, LoginCredentials, RegisterCredentials } from "@/lib/types";
 import {
-  // login as apiLogin,
+  login as apiLogin,
   register as apiRegister,
   logout as apiLogout,
   getCurrentUser,
   refreshAccessToken,
 } from "@/lib/services/Auth/auth";
 import { confirmAlert, errorAlert, successAlert } from "@/lib/alert";
-import { loginUser } from "@/lib/services/Products/publicApi";
+// import { loginUser } from "@/lib/services/Products/publicApi";
 
 interface AuthContextType {
   user: IUser | null;
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (credentials: LoginCredentials) => {
     try {
       setLoading(true);
-      const res = await loginUser(credentials);
+      const res = await apiLogin(credentials);
       setUser(res.data.user);
       successAlert("Login successfully!");
       router.push("/dashboard");

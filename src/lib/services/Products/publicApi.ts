@@ -79,7 +79,7 @@ export async function getActiveReviews() {
 }
 
 // Login User
-export const loginUser = async (credentials: LoginCredentials) => {
+/* export const loginUser = async (credentials: LoginCredentials) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
@@ -99,16 +99,10 @@ export const loginUser = async (credentials: LoginCredentials) => {
       // ✅ Store tokens in cookies
       (await cookies()).set("accessToken", result.data.accessToken, {
         httpOnly: true,
-        secure: true,
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000, // 15 minutes
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 15 * 60, // 15 minutes
       });
-
-      /* (await cookies()).set("refreshToken", result.data.refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict",
-      }); */
     }
 
     return result;
@@ -119,7 +113,7 @@ export const loginUser = async (credentials: LoginCredentials) => {
       message: error.message || "Login failed",
     };
   }
-};
+}; */
 
 // Get Current Logedin User From Cookie for middleware
 export const getLoggedInUser = async () => {
