@@ -116,7 +116,7 @@ export async function getActiveReviews() {
 }; */
 
 // Get Current Logedin User From Cookie for middleware
-/* export const getLoggedInUser = async () => {
+export const getLoggedInUser = async () => {
   const accessToken = (await cookies()).get("accessToken")?.value;
   let decodedData = null;
 
@@ -126,4 +126,4 @@ export async function getActiveReviews() {
   } else {
     return null;
   }
-}; */
+};

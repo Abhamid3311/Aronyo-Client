@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-// import { getLoggedInUser } from "./lib/services/Products/publicApi";
-import { getCurrentUser } from "./lib/services/Auth/auth";
+import { getLoggedInUser } from "./lib/services/Products/publicApi";
 
 // Define role-based allowed routes
 const roleBasedRoutes = {
@@ -33,7 +32,7 @@ export async function middleware(request: NextRequest) {
 
   //  Get token from cookies
   // const getUserRole = request.cookies.get("aronyo_role")?.value;
-  const getUserInfo = await getCurrentUser();
+  const getUserInfo = await getLoggedInUser();
 
   console.log("getUser: ", { getUserInfo });
 
