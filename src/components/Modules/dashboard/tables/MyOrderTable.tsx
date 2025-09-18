@@ -94,7 +94,7 @@ export function MyOrdersTableClient() {
     {
       icon: Eye,
       onClick: (order: IOrder) => {
-        router.push(`/dashboard/admin/order-managment/${order._id}`);
+        router.push(`/dashboard/order-history/${order._id}`);
       },
       variant: "outline" as const,
     },

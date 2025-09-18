@@ -1,5 +1,3 @@
-
-
 import axiosInstance from "@/lib/axios";
 import {
   AuthResponse,
@@ -14,13 +12,10 @@ export const login = async (
   credentials: LoginCredentials
 ): Promise<AuthResponse> => {
   const response = await axiosInstance.post("/auth/login", credentials, {
-    withCredentials: true, // send cookies automatically
+    withCredentials: true,
   });
-  return response.data; // backend sets access + refresh cookies
+  return response.data;
 };
-
-
-
 
 // Register
 export const register = async (
