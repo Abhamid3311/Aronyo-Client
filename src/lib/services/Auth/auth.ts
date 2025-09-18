@@ -1,3 +1,5 @@
+
+
 import axiosInstance from "@/lib/axios";
 import {
   AuthResponse,
@@ -5,10 +7,10 @@ import {
   RegisterCredentials,
   IUser,
 } from "@/lib/types";
-
+import { cookies } from "next/headers";
 
 // Login
-export const login = async (
+/* export const login = async (
   credentials: LoginCredentials
 ): Promise<AuthResponse> => {
   const response = await axiosInstance.post("/auth/login", credentials, {
@@ -16,6 +18,9 @@ export const login = async (
   });
   return response.data; // backend sets access + refresh cookies
 };
+ */
+
+
 
 // Register
 export const register = async (
@@ -58,5 +63,3 @@ export const refreshAccessToken = async (): Promise<boolean> => {
     return false;
   }
 };
-
-

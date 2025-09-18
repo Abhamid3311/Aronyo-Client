@@ -17,7 +17,7 @@ export function isProtectedRoute(path: string) {
 // Create axios instance
 const axiosInstance = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // ✅ send cookies automatically
+  withCredentials: true, //  send cookies automatically
   headers: {
     "Content-Type": "application/json",
   },

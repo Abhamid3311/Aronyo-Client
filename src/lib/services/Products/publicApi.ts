@@ -3,6 +3,7 @@
 import { BASE_API_URL } from "@/config/api";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
+import { LoginCredentials } from "@/lib/types";
 
 // Get All Categories for User
 export async function getCategories() {
@@ -77,13 +78,58 @@ export async function getActiveReviews() {
   return res.json();
 }
 
+// Login User
+export const loginUser = async (credentials: LoginCredentials) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      }
+    );
+
+    const result = await res.json();
+    console.log(result);
+
+    if (result.success && result.data) {
+      // ✅ Store tokens in cookies
+      (await cookies()).set("accessToken", result.data.accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 15 * 60 * 1000, // 15 minutes
+      });
+
+      /* (await cookies()).set("refreshToken", result.data.refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+      }); */
+    }
+
+    return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Login failed",
+    };
+  }
+};
+
 // Get Current Logedin User From Cookie for middleware
 export const getLoggedInUser = async () => {
-  const getUserRole = (await cookies()).get("aronyo_role")?.value;
+  const accessToken = (await cookies()).get("accessToken")?.value;
+  let decodedData = null;
 
-  if (!getUserRole) {
+  if (accessToken) {
+    decodedData = await jwtDecode(accessToken);
+    return decodedData;
+  } else {
     return null;
   }
-
-  return getUserRole;
 };

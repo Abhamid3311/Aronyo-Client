@@ -28,32 +28,32 @@ const publicRoutes = ["/login", "/register"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log("Req",request);
+  console.log("Req", request?.cookies);
 
   //  Get token from cookies
   // const getUserRole = request.cookies.get("aronyo_role")?.value;
-  const getUserRole = await getLoggedInUser();
+  const getUserInfo = await getLoggedInUser();
 
-  // console.log("getUser: ", { getUserRole });
+  console.log("getUser: ", { getUserInfo });
 
   //  Redirect logged-in users away from public routes
-  if (publicRoutes.includes(pathname) && getUserRole) {
+  if (publicRoutes.includes(pathname) && getUserInfo?.role) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   //  Allow public routes if not logged in
-  if (publicRoutes.includes(pathname) && !getUserRole) {
+  if (publicRoutes.includes(pathname) && !getUserInfo) {
     return NextResponse.next();
   }
 
   //  Not logged in → redirect to login
-  if (!getUserRole) {
+  if (!getUserInfo) {
     return NextResponse.redirect(
       new URL(`/login?redirectPath=${pathname}`, request.url)
     );
   }
 
-  const role = getUserRole as keyof typeof roleBasedRoutes;
+  const role = getUserInfo?.role as keyof typeof roleBasedRoutes;
 
   //  Admin = full access
   if (role === "admin") {
