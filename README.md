@@ -1,38 +1,96 @@
 # Aronyo: Class. Craft. Aronyo.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Aronyo:- Plant Selling E-Commerce Platform
 
-## Getting Started
+Aronyo is a **full-stack e-commerce web application** designed for selling plants online with a **modern user experience**, role-based dashboards, and secure order management.  
+Built with the latest **Next.js App Router (v15)**, **TypeScript**, and **TailwindCSS** on the frontend, and **Node.js, Express, MongoDB** on the backend.
 
-First, run the development server:
+---
+
+## Tech Stack
+
+### Frontend
+
+- **Next.js 15 (App Router)**
+- **TypeScript**
+- **TailwindCSS** + **ShadCN UI**
+- **TanStack Query (React Query)** for data fetching & caching
+- **JWT Authentication**
+- **Vercel Deployment**
+
+### Backend
+
+- **Node.js**
+- **Express.js**
+- **MongoDB** + **Mongoose**
+- **JWT Authentication**
+- **Zod**
+- **RESTful API Design**
+
+---
+
+## ✨ Features
+
+### 🌐 General Features
+
+- Fully responsive design (mobile-first, optimized for all devices)
+- SEO-friendly, blazing fast with Next.js optimizations
+- Secure authentication & authorization with JWT
+- Scalable modular architecture for maintainability
+
+### 🛍️ E-Commerce Features
+
+- Product listing with categories, filters, and search
+- Product details with image gallery
+- Add to Cart, Wishlist, and Checkout flow
+- Order management with Order traxking
+- payment integration with SSL Commerce
+- Real-time cart & stock updates
+- User order history & delivery tracking
+- Blog managment by Admin
+- Realtime Review from user after Order delivery done.
+
+### 📊 Role-Based Dashboards
+
+- **User Dashboard**
+  - Manage profile & addresses
+  - View wishlist, cart, and order history
+  - Track delivery status in real time
+- **Staff Dashboard**
+  - Manage products (CRUD operations)
+  - Handle orders and update delivery status
+  - Manage blogs & content
+- **Admin Dashboard**
+  - Full control over products, users, and orders
+  - Role management (promote/demote staff/users)
+  - Analytics & reporting (sales, user engagement)
+  - Content management (blogs, categories)
+
+### 📰 Blog System
+
+- Dynamic blog platform with CRUD operations
+- SEO-friendly blog posts
+- Admin & staff-managed content
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+
+- Node.js >= 18
+- MongoDB installed or MongoDB Atlas account
+- npm
+
+### 1️⃣ Clone the Repository
 
 ```bash
+
+git clone https://github.com/Abhamid3311/Aronyo-Client.git
+
+cd Aronyo
+
+npm install
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
