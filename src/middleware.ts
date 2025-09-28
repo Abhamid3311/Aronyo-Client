@@ -28,7 +28,8 @@ const publicRoutes = ["/login", "/register"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log("Req", request?.cookies);
+  console.log("Req", request);
+  console.log("pathName", pathname);
 
   //  Get token from cookies
   // const getUserRole = request.cookies.get("aronyo_role")?.value;
