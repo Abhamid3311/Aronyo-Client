@@ -6,6 +6,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import AuthGuard from "@/lib/services/Auth/AuthGuard";
+import { getLoggedInUser } from "@/lib/services/Products/publicApi";
+import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 export default async function DashboardLayout({
@@ -13,8 +15,15 @@ export default async function DashboardLayout({
 }: {
   children: ReactNode;
 }) {
+  const user = await getLoggedInUser(); // ✅ server-side, reads HttpOnly cookie
+
+  // Not logged in → redirect immediately
+  if (!user) {
+    return redirect(`/login?redirectPath=/dashboard`);
+  }
+
   return (
-    <AuthGuard>
+    <AuthGuard initialUser={user}>
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
