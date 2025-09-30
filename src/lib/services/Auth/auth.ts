@@ -5,7 +5,6 @@ import {
   RegisterCredentials,
   IUser,
 } from "@/lib/types";
-import { cookies } from "next/headers";
 
 // Login
 export const login = async (

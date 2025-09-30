@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/Context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 
 const roleBasedRoutes: Record<string, RegExp[]> = {
@@ -22,30 +23,39 @@ const roleBasedRoutes: Record<string, RegExp[]> = {
 
 const publicRoutes = ["/login", "/register"];
 
-export default function AuthGuard({
-  children,
-  initialUser,
-}: {
-  children: React.ReactNode;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  initialUser: any;
-}) {
+export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const user = initialUser; // user is already decoded server-side
 
-  // Client-side role-based route enforcement
+  // 👇 user is restored from cookies inside useAuth
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+      </div>
+    );
+  }
+
   if (user) {
-    const role = user.role as keyof typeof roleBasedRoutes | "admin";
+    const role = (user.role as keyof typeof roleBasedRoutes) || "user";
 
+    // prevent logged-in user from accessing /login or /register
     if (publicRoutes.includes(pathname)) {
       router.replace("/dashboard");
     }
 
+    // block unauthorized routes
     if (role !== "admin") {
       const allowedRoutes = roleBasedRoutes[role] ?? [];
       const isAllowed = allowedRoutes.some((r) => pathname.match(r));
       if (!isAllowed) router.replace("/");
+    }
+  } else {
+    // guest trying to access protected route → redirect to login
+    if (!publicRoutes.includes(pathname)) {
+      router.replace("/login");
     }
   }
 
